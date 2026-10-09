@@ -35,7 +35,7 @@ void Light::begin()
         channel.duty = 0;
         channel.hpoint = 0;
         ok_ = ok_ && ledc_channel_config(&channel) == ESP_OK;
-        // Each pin sources ~15-21 mA of base current.
+        // Each pin sources ~16-25 mA of base current.
         gpio_set_drive_capability((gpio_num_t)cfg::LED_PINS[i], GPIO_DRIVE_CAP_3);
     }
 }
