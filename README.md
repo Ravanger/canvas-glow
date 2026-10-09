@@ -3,6 +3,7 @@
 Backlit nightlight behind a stretched-canvas painting, with hover-to-brighten. ESP32-C3 SuperMini, 5 V COB strip, one 5 V 2 A adapter.
 
 - Build guide: [docs/GUIDE.md](docs/GUIDE.md)
+- Breadboard test, no soldering: [docs/BREADBOARD.md](docs/BREADBOARD.md)
 - Settings: [firmware/include/Config.h](firmware/include/Config.h)
 
 ```sh
