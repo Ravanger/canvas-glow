@@ -219,13 +219,13 @@ At every power-up the board calibrates the sensor for 0.2 s. Keep hands away whi
 ### Debug readout (`supermini-debug`)
 
 ```
-s0 base=22.4 v=22.6 ----  NIGHT knob=512mV level=33421 duty=578/2047
+s0 base=22.4 v=22.6 ----  NIGHT knob=512mV level=32901 duty=363/2047
 ```
 
 | Field | Meaning |
 |---|---|
 | `base` / `v` | sensor idle reference / current reading, µs |
-| `----` / `HOVER` / `FAULT` | sensor state; FAULT means a pad shorted to GND or not connected |
+| `----` / `HOVER` / `FAULT` | sensor state; FAULT means a pad shorted to GND or its 1 MΩ missing |
 | `knob` | wiper voltage; use it to set `KNOB_MAX_MV` |
 | `level` / `duty` | perceived brightness 0–65535 / PWM duty after gamma and the power cap |
 
@@ -263,7 +263,7 @@ The firmware also has a 60 s stuck-hover recovery and a loop watchdog. While the
 | Check | How | Pass |
 |---|---|---|
 | Strip current | wire one segment straight to 5 V with the meter (10 A jack) in series | about 1.6 A × length; enter the real A/m in `STRIP_AMPS_PER_M` |
-| Transistor drop | hover so it is at full; measure collector to emitter | under 0.4 V good; over 0.6 V → 68–82 Ω base resistor or Option B |
+| Transistor drop | hover so it is at full; measure collector to emitter | under 0.4 V good; over 0.6 V → 82 Ω base resistor (not lower: the GPIO limit is 40 mA) or Option B |
 | Strip voltage | at full, across the far segment's + and − | 4.5 V or more |
 | Total current | meter in series with the barrel + wire, everything at full | at most ~1.6 A |
 | PWM coupling | NIGHT, no hand near, turn the knob slowly min → max → min | no `HOVER` in the debug output |
@@ -278,7 +278,7 @@ The firmware also has a 60 s stuck-hover recovery and a loop watchdog. While the
 | Triggers by itself | tape down loose wires, move the lead away from strip wires, raise `TRIG_MARGIN_US`, add the grounded foil shield |
 | Triggers when the knob turns or the light changes | the PWM coupling check failed: more distance between pad/lead and the strips or their wires |
 | Stays bright ~60 s after a hover | the light at full raises the reading above the release level: same fix as above |
-| `FAULT` | pad wire broken (timeout) or shorted to GND; check the 1 MΩ |
+| `FAULT` | 1 MΩ open or missing (timeout), or pad shorted to GND (instant). A broken pad wire gives no FAULT, only a weak response |
 | One segment dark | transistor pin order, base resistor, the segment's +/− wires |
 | All dim | strip voltage under 4.5 V: thicker feed wire, Option B, check the adapter |
 | ESP32 resets at full | missing bulk capacitor, too much base current (Option B), feed wire too thin |
