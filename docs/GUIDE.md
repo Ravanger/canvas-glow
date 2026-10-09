@@ -57,6 +57,10 @@ Measure the strip once and enter the real figure in `STRIP_AMPS_PER_M` (see [Che
 
 ## 3. Circuit
 
+![Final wiring](img/wiring.svg)
+
+Pin positions vary between makers, so follow the silkscreen labels, not the drawing's positions. The sections below give each part in detail.
+
 ### Pins
 
 | GPIO | Use |

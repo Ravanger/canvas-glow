@@ -8,6 +8,10 @@ Bench steps 2 and 3 of the [build guide](GUIDE.md#8-build-order), on a breadboar
 - Place the SuperMini across the centre gap, USB-C towards the board edge. Pin names are on the silkscreen; check them rather than counting.
 - Breadboard contacts carry about 1 A. That covers the bench, not the finished light.
 
+![Breadboard wiring for steps 2 and 3](img/breadboard.svg)
+
+Step 2 uses only the green-highlighted part. Pin positions vary between makers, so follow the silkscreen labels, not the drawing's positions.
+
 ## Step 2: sensor only
 
 USB power, nothing else.
