@@ -8,6 +8,10 @@ Bench steps 2 and 3 of the [build guide](GUIDE.md#8-build-order), on a breadboar
 - Place the SuperMini across the centre gap, USB-C towards the board edge. Pin names are on the silkscreen; check them rather than counting.
 - Breadboard contacts carry about 1 A. That covers the bench, not the finished light.
 
+![Breadboard wiring for steps 2 and 3](img/breadboard.svg)
+
+Step 2 uses only the green-highlighted part. Pin positions vary between makers, so follow the silkscreen labels, not the drawing's positions.
+
 ## Step 2: sensor only
 
 USB power, nothing else.
@@ -27,23 +31,24 @@ Pass: `HOVER` appears at 2–4 cm and `v` sits steady at idle. If it only trigge
 | From | To |
 |---|---|
 | Barrel jack − | GND rail (the star point on the bench) |
-| Barrel jack + | + rail (strip only, **not** the SuperMini 5V pin) |
+| Barrel jack + | + rail (load only, **not** the SuperMini 5V pin) |
 | GPIO3 row | 100 Ω to the BC337 base row |
 | BC337 base row | 10 kΩ to the GND rail |
 | BC337 emitter | GND rail |
-| BC337 collector | strip − |
-| strip + | + rail |
+| BC337 collector | load −: strip −, or LED cathode |
+| load + | + rail: strip +, or LED anode through 220 Ω |
 | 470–1000 µF | across + rail and GND rail, stripe (−) to GND |
 | 3V3 | 1 MΩ to knob end A |
 | knob wiper | GPIO1, plus 100 nF to the GND rail |
 | knob end B | GND rail |
 | GPIO7 | switch common; the throw that closes when latched to the GND rail |
 
-- Keep the SuperMini on USB and leave its 5V pin unconnected. The adapter powers only the strip, and the shared GND rail is enough. No diode needed on the bench.
-- Use a **short strip piece**, cut at the marks (10–20 cm, 0.16–0.32 A). Never put the whole reel on one transistor: 4 m at full is over 6 A.
-- No solder on the strip: an 8 mm 2-pin COB clip connector, or a jumper pin laid flat on each copper pad at a cut mark and taped down hard (or crocodile clips).
+- Keep the SuperMini on USB and leave its 5V pin unconnected. The adapter powers only the load, and the shared GND rail is enough. No diode needed on the bench.
+- Load, pick one:
+  - **COB strip piece**, cut at the marks (10–20 cm, 0.16–0.32 A). Never put the whole reel on one transistor: 4 m at full is over 6 A. No solder: an 8 mm 2-pin COB clip connector, or a jumper pin laid flat on each copper pad at a cut mark and taped down hard (or crocodile clips). Tests the transistor at real current.
+  - **Plain LED** (any 3 or 5 mm), no strip cutting: + rail → 220 Ω → anode (long leg); cathode (short leg, flat side) → collector. About 13 mA, so it tests the switching, fades, knob and hover, but not the transistor drop under load.
 - Stranded wires (barrel pigtail, connector leads) bend in the breadboard holes. Twist them tight, or wrap them round a jumper pin and tape it.
 - If the switch does not fit the breadboard, use a jumper instead: GPIO7 to GND = NIGHT, open = hover.
 - Check the BC337 pin order first ([Transistors](GUIDE.md#4-transistors)).
 
-Pass: the switch changes mode, the knob dims the strip in NIGHT, and a hover fades it up and back.
+Pass: the switch changes mode, the knob dims the load in NIGHT, and a hover fades it up and back.
