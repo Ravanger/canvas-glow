@@ -82,7 +82,7 @@ GND (barrel −) = star point: all 4 emitters, SuperMini GND, all capacitor nega
 
 - The diode stops the adapter feeding the PC's USB port when you plug in USB to flash. The board then runs on about 4.7 V, which is fine. Without a diode, **unplug the barrel jack before connecting USB**.
 - Run the emitter ground wires straight back to the barrel jack, not through the SuperMini's GND pin. The strip current then stays off the sensor's ground reference.
-- No fuse is needed with a decent adapter: its own over-current protection trips before any fuse sized for this load would.
+- Fuse: optional. Most 2 A adapters shut down on a short, but some only cut out well above 2 A. If you have one, put a 2–2.5 A polyfuse (PTC) or fast fuse in the + lead right after the jack.
 - Cover the SuperMini's red power LED with a dab of black paint or tape, or it shows through the canvas.
 
 ### Which diode
