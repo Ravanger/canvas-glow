@@ -1,0 +1,1349 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <meta name="theme-color" content="#edf0ee" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#101412" media="(prefers-color-scheme: dark)" />
+  <link rel="icon" href="data:," />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <title>Canvas Glow</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #edf0ee;
+      --surface: #f8faf8;
+      --surface-2: #e1e6e3;
+      --ink: #15201b;
+      --muted: #526159;
+      --line: #b8c2bc;
+      --line-strong: #748079;
+      --accent: #087f73;
+      --accent-ink: #005149;
+      --accent-soft: #c7e8e2;
+      --warm: #d87732;
+      --warm-soft: #f5d6bd;
+      --danger: #a23f32;
+      --shadow: 0 18px 55px rgba(23, 37, 30, .10);
+      --radius-lg: 24px;
+      --radius-md: 14px;
+      --radius-sm: 8px;
+      --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
+      --sans: "Archivo", system-ui, sans-serif;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #101412;
+        --surface: #171d1a;
+        --surface-2: #232b27;
+        --ink: #edf4f0;
+        --muted: #acb9b2;
+        --line: #35413b;
+        --line-strong: #738078;
+        --accent: #64d9c9;
+        --accent-ink: #8be7db;
+        --accent-soft: #153c38;
+        --warm: #f1a063;
+        --warm-soft: #4a2b1b;
+        --danger: #f08c7f;
+        --shadow: 0 18px 55px rgba(0, 0, 0, .28);
+      }
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 24px; }
+    body {
+      margin: 0;
+      min-width: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.55;
+    }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    a { color: var(--accent-ink); text-underline-offset: 3px; }
+    code, pre { font-family: var(--mono); }
+    .shell {
+      width: min(1440px, 100%);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 230px minmax(0, 1fr);
+      min-height: 100vh;
+    }
+    .rail {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      padding: 34px 24px 24px;
+      border-right: 1px solid var(--line);
+      display: flex;
+      flex-direction: column;
+      gap: 26px;
+    }
+    .rail-mark {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      font: 500 12px/1.3 var(--mono);
+    }
+    .rail-mark::before {
+      content: "";
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--warm);
+      box-shadow: 0 0 0 7px var(--warm-soft);
+    }
+    .rail nav { display: grid; gap: 4px; }
+    .rail nav a {
+      text-decoration: none;
+      color: var(--muted);
+      padding: 8px 10px;
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      font-weight: 500;
+      border: 1px solid transparent;
+    }
+    .rail nav a:hover,
+    .rail nav a.active {
+      color: var(--ink);
+      background: var(--surface);
+      border-color: var(--line);
+    }
+    .rail .meta {
+      margin-top: auto;
+      color: var(--muted);
+      font: 400 11px/1.55 var(--mono);
+    }
+    .page {
+      width: min(1040px, 100%);
+      padding: 62px clamp(28px, 5vw, 72px) 90px;
+      min-width: 0;
+    }
+    .hero {
+      padding-bottom: 48px;
+      border-bottom: 1px solid var(--line-strong);
+    }
+    .eyebrow {
+      margin: 0 0 12px;
+      color: var(--accent-ink);
+      font: 500 12px/1.3 var(--mono);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    h1, h2, h3 { margin: 0; line-height: 1.08; }
+    h1 {
+      max-width: 760px;
+      font-size: clamp(40px, 7vw, 76px);
+      letter-spacing: -.055em;
+      font-weight: 600;
+    }
+    .lede {
+      max-width: 740px;
+      margin: 22px 0 0;
+      font-size: clamp(18px, 2.4vw, 23px);
+      line-height: 1.48;
+      color: var(--muted);
+    }
+    .stats {
+      margin-top: 36px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+    .stat {
+      padding: 18px 18px 16px 0;
+      min-width: 0;
+    }
+    .stat + .stat { border-left: 1px solid var(--line); padding-left: 18px; }
+    .stat strong { display: block; font: 500 24px/1 var(--mono); }
+    .stat span { display: block; margin-top: 7px; color: var(--muted); font-size: 13px; }
+    .behavior {
+      margin-top: 28px;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto 1fr;
+      align-items: center;
+      gap: 12px;
+    }
+    .beat {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      padding: 16px;
+      min-height: 94px;
+      border-radius: var(--radius-md);
+    }
+    .beat b { display: block; font-size: 15px; }
+    .beat span { display: block; color: var(--muted); font-size: 13px; margin-top: 4px; }
+    .arrow { color: var(--line-strong); font-family: var(--mono); }
+
+    section {
+      padding: 62px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .section-head {
+      display: grid;
+      grid-template-columns: 165px minmax(0, 1fr);
+      gap: 26px;
+      margin-bottom: 30px;
+    }
+    .section-num {
+      color: var(--accent-ink);
+      font: 500 13px/1.4 var(--mono);
+    }
+    h2 {
+      font-size: clamp(29px, 4.3vw, 46px);
+      letter-spacing: -.035em;
+      font-weight: 600;
+    }
+    .section-intro { margin: 12px 0 0; color: var(--muted); max-width: 690px; }
+    h3 { font-size: 19px; letter-spacing: -.015em; font-weight: 600; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 22px;
+      min-width: 0;
+    }
+    .card p { margin: 9px 0 0; color: var(--muted); }
+    .note {
+      background: var(--accent-soft);
+      border-radius: var(--radius-md);
+      padding: 20px 22px;
+      color: var(--ink);
+    }
+    .note.warm { background: var(--warm-soft); }
+    .note strong { display: block; margin-bottom: 5px; }
+    .checklist, .steps, .plain-list { margin: 0; padding: 0; list-style: none; }
+    .checklist { display: grid; gap: 1px; border-top: 1px solid var(--line); }
+    .checklist li {
+      position: relative;
+      padding: 14px 12px 14px 38px;
+      border-bottom: 1px solid var(--line);
+    }
+    .checklist li::before {
+      content: "";
+      position: absolute;
+      left: 10px;
+      top: 18px;
+      width: 12px;
+      height: 12px;
+      border: 1.5px solid var(--line-strong);
+      border-radius: 3px;
+    }
+    .steps { counter-reset: steps; display: grid; gap: 18px; }
+    .steps > li {
+      counter-increment: steps;
+      display: grid;
+      grid-template-columns: 44px minmax(0, 1fr);
+      gap: 14px;
+      align-items: start;
+    }
+    .steps > li::before {
+      content: counter(steps, decimal-leading-zero);
+      color: var(--accent-ink);
+      font: 500 13px/32px var(--mono);
+      text-align: center;
+      width: 34px;
+      height: 34px;
+      border: 1px solid var(--line-strong);
+      border-radius: 50%;
+    }
+    .steps p { margin: 5px 0 0; color: var(--muted); }
+    .parts-group + .parts-group { margin-top: 24px; }
+    .parts-group h3 { margin-bottom: 10px; }
+    .parts-group ul { margin: 0; padding-left: 20px; }
+    .parts-group li + li { margin-top: 7px; }
+    .diagram {
+      background: #0c1210;
+      color: #e7f1ec;
+      border-radius: var(--radius-lg);
+      padding: clamp(18px, 4vw, 32px);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .diagram-title {
+      color: #9aaba2;
+      font: 500 12px/1.3 var(--mono);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: 20px;
+    }
+    .diagram svg { width: 100%; height: auto; display: block; }
+    .wire {
+      margin: 16px 0 0;
+      background: var(--surface-2);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+      font: 400 13px/1.7 var(--mono);
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+    .pin-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    .pin-table th, .pin-table td { padding: 12px 10px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: top; }
+    .pin-table th { color: var(--muted); font: 500 11px/1.3 var(--mono); text-transform: uppercase; letter-spacing: .06em; }
+    .pin-table td:nth-child(2) { font-family: var(--mono); color: var(--accent-ink); font-weight: 500; }
+    .bom-group + .bom-group { margin-top: 32px; }
+    .bom-group h3 { margin: 0 0 12px; }
+    .bom-table td:nth-child(2) { white-space: nowrap; }
+    .bom-table td:last-child { min-width: 150px; }
+    .bom-table td:nth-child(3) { font-size: 13.5px; }
+    .flag { display: inline-block; font: 500 11px/1.3 var(--mono); padding: 4px 10px; border-radius: 999px; border: 1px solid var(--line-strong); color: var(--ink); white-space: nowrap; }
+    .flag.buy { background: var(--warm-soft); border-color: var(--warm); }
+    .src-list { margin: 8px 0 0; padding: 0; list-style: none; display: grid; gap: 3px; }
+    .src-list a { font-size: 12px; }
+    .open-qs { margin: 12px 0 0; padding-left: 20px; display: grid; gap: 10px; font-size: 14px; }
+    .phase {
+      display: grid;
+      grid-template-columns: 150px minmax(0, 1fr);
+      gap: 20px;
+      padding: 22px 0;
+      border-top: 1px solid var(--line);
+    }
+    .phase:last-child { border-bottom: 1px solid var(--line); }
+    .phase time { font: 500 13px/1.5 var(--mono); color: var(--accent-ink); }
+    .phase h3 { margin-bottom: 7px; }
+    .phase p { margin: 0; color: var(--muted); }
+    .phase .tag {
+      display: inline-block;
+      margin-top: 9px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: var(--surface-2);
+      font: 500 11px/1.3 var(--mono);
+      color: var(--muted);
+    }
+    .code-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+    .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .btn {
+      border: 1px solid var(--line-strong);
+      color: var(--ink);
+      background: var(--surface);
+      border-radius: var(--radius-sm);
+      padding: 9px 12px;
+      font: 500 13px/1 var(--sans);
+      cursor: pointer;
+    }
+    .btn:hover { background: var(--surface-2); }
+    .btn.primary { background: var(--accent); border-color: var(--accent); color: #071512; }
+    @media (prefers-color-scheme: light) { .btn.primary { color: white; } }
+    details.code-box, details.faq {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: var(--surface);
+      overflow: hidden;
+    }
+    details.code-box summary, details.faq summary {
+      cursor: pointer;
+      padding: 17px 20px;
+      font-weight: 600;
+      list-style: none;
+    }
+    details summary::-webkit-details-marker { display: none; }
+    details summary::after { content: "+"; float: right; font-family: var(--mono); color: var(--accent-ink); }
+    details[open] summary::after { content: "−"; }
+    .code-box pre {
+      margin: 0;
+      padding: 22px;
+      border-top: 1px solid var(--line);
+      background: #0c1210;
+      color: #e7f1ec;
+      font-size: 12px;
+      line-height: 1.65;
+      max-height: 620px;
+      overflow: auto;
+      tab-size: 2;
+    }
+    .tuning {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .tuning .card { padding: 17px; }
+    .tuning code { display: block; color: var(--accent-ink); font-size: 12px; margin-bottom: 7px; }
+    .tuning p { font-size: 13px; }
+    .faq-stack { display: grid; gap: 10px; }
+    details.faq .answer { padding: 0 20px 18px; color: var(--muted); }
+    .reference {
+      margin-top: 28px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .closing {
+      padding: 52px 0 0;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      align-items: end;
+    }
+    .closing strong { display: block; font-size: 24px; letter-spacing: -.02em; }
+    .closing p { margin: 7px 0 0; color: var(--muted); }
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 24px;
+      transform: translate(-50%, 18px);
+      opacity: 0;
+      pointer-events: none;
+      background: var(--ink);
+      color: var(--bg);
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      transition: .2s ease;
+      z-index: 20;
+    }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+    .mobile-nav { display: none; }
+
+    @media (max-width: 820px) {
+      html { scroll-padding-top: 64px; }
+      .shell { display: block; }
+      .rail { display: none; }
+      .mobile-nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        gap: 3px;
+        padding: 8px 10px;
+        border-bottom: 1px solid var(--line);
+        background: color-mix(in srgb, var(--bg) 94%, transparent);
+        backdrop-filter: blur(12px);
+      }
+      .mobile-nav a {
+        white-space: nowrap;
+        text-decoration: none;
+        color: var(--muted);
+        padding: 6px 7px;
+        border-radius: 7px;
+        font-size: 11px;
+        font-weight: 500;
+      }
+      .code-box pre {
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+        overflow-x: hidden;
+      }
+      .mobile-nav a.active { background: var(--surface-2); color: var(--ink); }
+      .page { padding: 42px 20px 70px; }
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .stat:nth-child(3) { border-left: 0; border-top: 1px solid var(--line); }
+      .stat:nth-child(4) { border-top: 1px solid var(--line); }
+      .behavior { grid-template-columns: 1fr; }
+      .arrow { transform: rotate(90deg); justify-self: center; }
+      .section-head { grid-template-columns: 1fr; gap: 8px; }
+      .grid-2 { grid-template-columns: 1fr; }
+      .phase { grid-template-columns: 1fr; gap: 8px; }
+      .tuning { grid-template-columns: 1fr; }
+      .closing { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 480px) {
+      .page { padding-inline: 16px; }
+      .stats { margin-inline: -2px; }
+      .stat { padding-right: 10px; }
+      .stat + .stat { padding-left: 12px; }
+      .card, .note { padding: 18px; }
+      .pin-table { display: block; }
+      .pin-table thead { display: none; }
+      .pin-table tbody, .pin-table tr, .pin-table td { display: block; width: 100%; }
+      .pin-table tr { padding: 12px 0; border-bottom: 1px solid var(--line); }
+      .pin-table td { padding: 3px 0; border: 0; }
+      .pin-table td::before { content: attr(data-label) ": "; color: var(--muted); font: 500 10px var(--mono); text-transform: uppercase; letter-spacing: .05em; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="mobile-nav" aria-label="Guide sections">
+    <a href="#overview">Concept</a><a href="#bom">BOM</a><a href="#prototype">Prototype</a><a href="#final">Final build</a><a href="#wiring">Wiring</a><a href="#firmware">Firmware</a><a href="#schedule">Schedule</a><a href="#troubleshoot">Fixes</a>
+  </nav>
+  <div class="shell">
+    <aside class="rail">
+      <div class="rail-mark">BUILD MANUAL / V5 · 2026-10-07</div>
+      <nav aria-label="Guide sections">
+        <a href="#overview">Concept</a>
+        <a href="#bom">Bill of materials</a>
+        <a href="#prototype">Bench prototype</a>
+        <a href="#final">Panel-free build</a>
+        <a href="#wiring">Wiring & pins</a>
+        <a href="#firmware">Firmware</a>
+        <a href="#schedule">Build schedule</a>
+        <a href="#troubleshoot">Troubleshooting</a>
+      </nav>
+      <div class="meta">ESP32-C3 SuperMini<br>4 sensing zones<br>USB-powered</div>
+    </aside>
+
+    <main class="page">
+      <header class="hero" id="overview">
+        <p class="eyebrow">Hidden electronics / build manual · v5 · 2026-10-07</p>
+        <h1>Build a hover-lit anniversary canvas.</h1>
+        <p class="lede">Four foil sensors hide behind the painting. Bring a hand near a quadrant and its backlight fades up, stays lit for three seconds after release, then fades away. A hidden latching button selects either hover response or an always-on night-light mode.</p>
+
+        <div class="stats" aria-label="Project summary">
+          <div class="stat"><strong>4</strong><span>independent hover zones</span></div>
+          <div class="stat"><strong>4</strong><span>COB strip segments</span></div>
+          <div class="stat"><strong>3 s</strong><span>afterglow after release</span></div>
+          <div class="stat"><strong>5 V</strong><span>USB power</span></div>
+        </div>
+
+        <div class="behavior" aria-label="Interaction sequence">
+          <div class="beat"><b>Hand approaches</b><span>Foil pad capacitance rises.</span></div>
+          <div class="arrow">→</div>
+          <div class="beat"><b>Zone fades up</b><span>About 0.4 seconds to full.</span></div>
+          <div class="arrow">→</div>
+          <div class="beat"><b>Hand releases</b><span>3-second afterglow; then about a 0.9-second fade.</span></div>
+        </div>
+        <p class="section-intro" style="margin-top:14px"><b>Stuck-zone recovery:</b> after 60 seconds of continuous hover, the firmware re-baselines to the present reading and releases the zone automatically.</p>
+      </header>
+
+      <section aria-labelledby="concept-title">
+        <div class="section-head">
+          <div class="section-num">01 / CONCEPT</div>
+          <div><h2 id="concept-title">What sits behind the painting</h2><p class="section-intro">No mounting panel is required. Foil pads tape directly to the canvas back, while four cut-to-length COB strips, the controller, and the exposed wire harness attach to the wooden stretcher bars.</p></div>
+        </div>
+        <div class="grid-2">
+          <div class="diagram">
+            <div class="diagram-title">Rear frame layout / no insert</div>
+            <svg viewBox="0 0 620 430" role="img" aria-labelledby="zoneTitle zoneDesc">
+              <title id="zoneTitle">Four-zone panel-free canvas layout</title>
+              <desc id="zoneDesc">The open back of a canvas split into four quadrants, each with a foil pad taped to the canvas and one COB strip segment fixed to a stretcher bar, plus an ESP32 board and mode pushbutton at the bottom.</desc>
+              <rect x="10" y="10" width="600" height="410" rx="12" fill="#131b18" stroke="#53645b" stroke-width="2"/>
+              <path d="M310 10V420M10 215H610" stroke="#34443c" stroke-width="2" stroke-dasharray="8 8"/>
+              <g fill="#1d3934" stroke="#64d9c9" stroke-width="2">
+                <rect x="92" y="73" width="120" height="92" rx="6"/><rect x="408" y="73" width="120" height="92" rx="6"/>
+                <rect x="92" y="268" width="120" height="92" rx="6"/><rect x="408" y="268" width="120" height="92" rx="6"/>
+              </g>
+              <g fill="#f1a063">
+                <rect x="43" y="58" width="14" height="108" rx="7"/>
+                <rect x="563" y="58" width="14" height="108" rx="7"/>
+                <rect x="43" y="260" width="14" height="108" rx="7"/>
+                <rect x="563" y="260" width="14" height="108" rx="7"/>
+              </g>
+              <rect x="260" y="376" width="100" height="30" rx="5" fill="#2e3c35" stroke="#9aaba2"/>
+              <path d="M360 391H390" stroke="#9aaba2" stroke-width="2"/>
+              <circle cx="402" cy="391" r="12" fill="#2e3c35" stroke="#f1a063" stroke-width="2"/>
+              <g fill="#e7f1ec" font-family="IBM Plex Mono, monospace" font-size="13">
+                <text x="115" y="125">PAD 0</text><text x="431" y="125">PAD 1</text>
+                <text x="115" y="320">PAD 2</text><text x="431" y="320">PAD 3</text>
+                <text x="277" y="396">ESP32-C3</text><text x="422" y="396">MODE</text>
+              </g>
+            </svg>
+          </div>
+          <div>
+            <div class="card">
+              <h3>Why foil sensing</h3>
+              <p>The ESP32-C3 has no built-in capacitive-touch peripheral. Each pad uses one GPIO and a 1MΩ resistor. Firmware charges the foil, releases it, and measures how long the voltage takes to fall. A nearby hand adds capacitance and stretches that time.</p>
+            </div>
+            <div class="note warm" style="margin-top:18px">
+              <strong>Why COB is the recommended light</strong>
+              Chip-on-board strips mount many bare LED chips beneath one continuous phosphor coating, creating a seamless line instead of visible dots. That spreads light more evenly behind thin paint; discrete 5 mm LEDs tend to show hotspots. Heavy-body acrylic will still read mostly as a halo, and metallic-flake paint can reduce sensing range.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="bom" aria-labelledby="bom-title">
+        <div class="section-head">
+          <div class="section-num">02 / BILL OF MATERIALS</div>
+          <div><h2 id="bom-title">Every part, with verified or explicitly qualified values</h2><p class="section-intro">Quantities for one finished build, plus bench-prototype extras, a no-COB fallback, and tools. The electrical values were reviewed against datasheets and reference guides through 2026-10-07; sources are linked on their rows, hedges and caveats sit with their values, and what could not be verified is listed plainly at the end.</p></div>
+        </div>
+
+        <div class="bom-group">
+          <h3>Controller &amp; drivers</h3>
+          <table class="pin-table bom-table" aria-label="Controller and driver parts">
+            <thead><tr><th>Part</th><th>Qty</th><th>Spec / qualification</th><th>Get / source</th></tr></thead>
+            <tbody>
+              <tr><td data-label="Part">ESP32-C3 SuperMini</td><td data-label="Qty">1</td><td data-label="Spec / qualification">This build uses GPIO 0, 3, 4, 5, 6, 7, 10, 20, 21 — all confirmed plain, usable GPIOs (20/21 default to UART0 RX/TX and can be used as ordinary GPIOs when UART0 is not assigned to them; USB CDC on GPIO18/19 is the console here). Keep clear of GPIO2 (boot strapping, must read HIGH during the ~3 ms window after reset), GPIO8 (strapping + onboard LED), GPIO9 (BOOT strapping), GPIO11–17 (in-package flash bus), and GPIO18/19 (native USB). GPIO10 is exposed on common SuperMini boards, but clones vary — confirm the printed pinout. Board-level running current ~80 mA with Wi-Fi off. The firmware drives four LEDC PWM outputs directly at 20 kHz and 11-bit resolution, using the appropriate Arduino-ESP32 2.x or 3.x API branch; Serial over USB CDC requires “USB CDC On Boot” enabled in the IDE.</td><td data-label="Get / source"><span class="flag">On hand</span><ul class="src-list"><li><a href="https://www.digikey.com/en/htmldatasheets/production/7687031/0/0/1/esp32-c3-devkitm-1" target="_blank" rel="noopener noreferrer">ESP32-C3 DevKitM-1 reference (DigiKey)</a></li><li><a href="https://github.com/alexex1993/mcu-skills/blob/HEAD/skills/esp32/esp32c3-oled042/reference/esp32c3-soc.md" target="_blank" rel="noopener noreferrer">mcu-skills esp32c3-soc</a></li><li><a href="https://github.com/artkeller/esp32c3_supermini_plus_led_manager" target="_blank" rel="noopener noreferrer">SuperMini LED manager</a></li><li><a href="https://docs.espressif.com/projects/arduino-esp32/en/latest/api/ledc.html" target="_blank" rel="noopener noreferrer">Arduino-ESP32 LEDC docs</a></li></ul></td></tr>
+              <tr><td data-label="Part">2N2222-family NPN transistor, TO-92</td><td data-label="Qty">4</td><td data-label="Spec / qualification">Confirm the full body marking and manufacturer before wiring because 2N2222-family TO-92 pinouts vary. The cited P2N2222A is rated for 600 mA max continuous collector current, with the roughly 320 mA zone load inside its characterized saturation region. At the roughly 320 mA zone load, 150 Ω gives about 16.7 mA of base drive (forced β ≈ 19.2) and 180 Ω gives about 14 mA (forced β ≈ 22.9). The cited 0.3 V and 1.0 V VCE(sat) limits are specified at forced β = 10, so expect somewhat more drop here; verify the actual voltage drop and transistor temperature on the assembled channel at full brightness. If the drop is excessive, 120 Ω is a middle ground at about 21 mA of base drive (forced β ≈ 15.4). Wire the emitter to ground and the collector to the strip’s negative lead only after verifying B/C/E from the exact datasheet or with a meter.</td><td data-label="Get / source"><span class="flag">On hand — verify marking</span><ul class="src-list"><li><a href="https://sjsu.edu/people/burford.furman/docs/me106/2N2222_datasheet.pdf" target="_blank" rel="noopener noreferrer">P2N2222A datasheet mirror (SJSU)</a></li><li><a href="https://www.micrus.ru/pdfbase/2n2222a.pdf" target="_blank" rel="noopener noreferrer">Philips 2N2222/2N2222A spec</a></li></ul></td></tr>
+              <tr><td data-label="Part">150 Ω or 180 Ω resistor</td><td data-label="Qty">4</td><td data-label="Spec / qualification">150 Ω recommended starting value; 180 Ω reduces GPIO current. At a roughly 320 mA load, 150 Ω gives forced β ≈ 19.2 and 180 Ω gives forced β ≈ 22.9, while the cited VCE(sat) limits use β = 10; expect somewhat more voltage drop and verify VCE(sat) and GPIO voltage under full load. If the measured drop is excessive, 120 Ω gives about 21 mA of base drive and forced β ≈ 15.4.</td><td data-label="Get / source"><span class="flag">On hand</span><ul class="src-list"><li><a href="https://www.digikey.com/en/htmldatasheets/production/7687031/0/0/1/esp32-c3-devkitm-1" target="_blank" rel="noopener noreferrer">ESP32-C3 DevKitM-1 reference (DigiKey)</a></li></ul></td></tr>
+              <tr><td data-label="Part">10 kΩ resistor</td><td data-label="Qty">4</td><td data-label="Spec / qualification">Base-to-GND pulldown, one per 2N2222, so each strip stays off while its GPIO floats during reset and boot.</td><td data-label="Get / source"><span class="flag">On hand</span></td></tr>
+              <tr><td data-label="Part">1 MΩ resistor</td><td data-label="Qty">4</td><td data-label="Spec / qualification">Sense-pad bleed to GND. A baseline near 22 µs and hand readings around 50–300 µs are empirical prototype examples, not design specifications; foil size, canvas construction, wire length and routing, environment, grounding, nearby wiring, and the individual board can shift them substantially. Input leakage ≤ 50 nA (≤50 mV effect on the decay curve) and ~2 pF pin capacitance are small compared with the intended RC network. Do not pair this bleed with GPIO2 — a 1 MΩ pulldown there can hold the strapping pin low through the ~3 ms boot window and prevent startup.</td><td data-label="Get / source"><span class="flag">On hand</span><ul class="src-list"><li><a href="https://www.digikey.com/en/htmldatasheets/production/7687031/0/0/1/esp32-c3-devkitm-1" target="_blank" rel="noopener noreferrer">ESP32-C3 DevKitM-1 reference (DigiKey)</a></li><li><a href="https://www.instructables.com/Touchless-Keypad-DIY-Capacitive-Proximity-Sensors-/" target="_blank" rel="noopener noreferrer">Instructables: Touchless Keypad</a></li></ul></td></tr>
+              <tr><td data-label="Part">Perfboard or stripboard</td><td data-label="Qty">1</td><td data-label="Spec / qualification">Hosts the four low-side 2N2222 driver channels; tape-insulate the underside before mounting so no joint presses into the canvas.</td><td data-label="Get / source"><span class="flag">On hand</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="note" style="margin-top:24px">
+          <strong>BC337 substitution</strong>
+          A BC337 can perform the same low-side switching role with the same 150 Ω or 180 Ω base resistor, but it is not pin-compatible with the cited P2N2222A. The cited P2N2222A is E-B-C while the cited BC337 arrangement is C-B-E; verify the exact body marking and manufacturer datasheet, or meter-test B/C/E, before orienting either device.
+        </div>
+
+        <div class="bom-group">
+          <h3>Light</h3>
+          <table class="pin-table bom-table" aria-label="LED strip parts">
+            <thead><tr><th>Part</th><th>Qty</th><th>Spec / qualification</th><th>Get / source</th></tr></thead>
+            <tbody>
+              <tr><td data-label="Part">5 V COB LED strip, warm white 3000 K, 320 LEDs/m</td><td data-label="Qty">1 reel (1–2 m)</td><td data-label="Spec / qualification">~8 W/m is the value reported by the selected listing; other 5 V 320/m listings quote 6–11 W/m, so measure the actual reel before finalizing the power supply. At 8 W/m, 4 × ~20 cm segments are ≈0.32 A / 1.6 W each (≈6.4 W total). The selected strip is specified by the seller as having its own current limiting; do not add a series resistor unless the strip’s construction requires it. Operates down to 4.5 V, slightly dimmer with a barely warmer tint (4.5–5.5 V is the accepted band for 5 V strips).</td><td data-label="Get / source"><span class="flag buy">Buy</span><ul class="src-list"><li><a href="https://www.amazon.ca/dp/B0F4KGXVG6/" target="_blank" rel="noopener noreferrer">Clearhill 5V COB listing (8 W/m)</a></li><li><a href="https://www.amazon.com/dp/B0CRH13QHV" target="_blank" rel="noopener noreferrer">GXILEE: cut lines, solder pads</a></li><li><a href="https://www.amazon.com/dp/B09XDHNKV3" target="_blank" rel="noopener noreferrer">KXZM: cut lines, solder pads</a></li><li><a href="https://www.eevblog.com/forum/beginners/when-current-limiting-resistors-are-needed-with-led/" target="_blank" rel="noopener noreferrer">EEVblog: built-in resistors</a></li><li><a href="https://github.com/fastled/fastled/blob/HEAD/cookbook/troubleshooting/hardware.md" target="_blank" rel="noopener noreferrer">FastLED: 4.5–5.5 V band</a></li></ul></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="bom-group">
+          <h3>Sensing &amp; frame</h3>
+          <table class="pin-table bom-table" aria-label="Sensor and mounting parts">
+            <thead><tr><th>Part</th><th>Qty</th><th>Spec / qualification</th><th>Get / source</th></tr></thead>
+            <tbody>
+              <tr><td data-label="Part">Kitchen aluminum foil</td><td data-label="Qty">4 sheets</td><td data-label="Spec / qualification">Four smooth pads ~6 × 6 cm taped flat to the canvas back, plus one optional rear ground sheet across the frame opening (improves grounding and repeatability when needed). Strip 1 cm of wire and tape it firmly to the foil — or solder it to a folded foil tab. Note: the Instructables guide’s numeric threshold (200) is in two-pin library counts and does not transfer to this build’s µs timings.</td><td data-label="Get / source"><span class="flag">On hand</span><ul class="src-list"><li><a href="https://www.instructables.com/Touchless-Keypad-DIY-Capacitive-Proximity-Sensors-/" target="_blank" rel="noopener noreferrer">Instructables: Touchless Keypad</a></li></ul></td></tr>
+              <tr><td data-label="Part">Latching on-off pushbutton, 6-pin DPDT</td><td data-label="Qty">1</td><td data-label="Spec / qualification">Use one pole between GPIO7 and GND with the ESP32’s internal <code>INPUT_PULLUP</code>; the other pole is unused. Identify the common and a throw that are shorted in the latched-in position. LOW selects always-on night-light mode; HIGH selects hover mode. The switch position itself survives power cycles, so no mode state is stored in flash.</td><td data-label="Get / source"><span class="flag">On hand</span></td></tr>
+              <tr><td data-label="Part">Baking parchment</td><td data-label="Qty">1 sheet</td><td data-label="Spec / qualification">Diffuser taped across the frame opening between the pads and the strips; leave air around the LEDs and don’t cover the phosphor surface with opaque tape.</td><td data-label="Get / source"><span class="flag">On hand</span></td></tr>
+              <tr><td data-label="Part">22–24 AWG multi-colour silicone hookup wire</td><td data-label="Qty">1 set</td><td data-label="Spec / qualification">Sensor leads plus the LED/driver harness routed along the stretcher bars.</td><td data-label="Get / source"><span class="flag buy">Buy</span></td></tr>
+              <tr><td data-label="Part">Heat-shrink tubing or electrical tape</td><td data-label="Qty">1</td><td data-label="Spec / qualification">Insulate every exposed joint before the final install.</td><td data-label="Get / source"><span class="flag">On hand</span></td></tr>
+              <tr><td data-label="Part">Masking / painter’s tape</td><td data-label="Qty">1 roll</td><td data-label="Spec / qualification">Mechanical fixing for pads, diffuser, and wire runs.</td><td data-label="Get / source"><span class="flag">On hand</span></td></tr>
+              <tr><td data-label="Part">Solder</td><td data-label="Qty">—</td><td data-label="Spec / qualification">Pad tabs, strip pads, and the perfboard driver joints.</td><td data-label="Get / source"><span class="flag">On hand</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="bom-group">
+          <h3>Power</h3>
+          <table class="pin-table bom-table" aria-label="Power parts">
+            <thead><tr><th>Part</th><th>Qty</th><th>Spec / qualification</th><th>Get / source</th></tr></thead>
+            <tbody>
+              <tr><td data-label="Part">USB wall power, 5 V / 2 A or higher for strips</td><td data-label="Qty">1 multi-port charger or 2 supplies</td><td data-label="Spec / qualification">At the selected listing’s 8 W/m figure, the four strips draw about 1.28 A. The ESP32-C3 is powered through its own USB cable, so its roughly 0.1 A load is not carried by the strip supply. A confirmed ~1.3 A strip load fits a 2 A output; prefer a 5 V / 3 A strip output if the price and availability difference is trivial. One multi-port charger may power both isolated USB runs if its per-port and total ratings are sufficient; otherwise use two supplies. Meter the real strip draw before sizing. The measured steady-state strip current is the primary sizing value; verify the supply remains at approximately 5 V at startup and full brightness.</td><td data-label="Get / source"><span class="flag">On hand — verify ratings</span><ul class="src-list"><li><a href="https://37c876eca982a2a0.en.made-in-china.com/product/cPKYBgkHgnhr/China-Esp32-C3-Supermini-WiFi-Development-Board-for-Smart-Projects-Price.html" target="_blank" rel="noopener noreferrer">SuperMini vendor spec (~80 mA)</a></li><li><a href="https://www.digikey.com/en/htmldatasheets/production/7687031/0/0/1/esp32-c3-devkitm-1" target="_blank" rel="noopener noreferrer">ESP32-C3 DevKitM-1 reference (DigiKey)</a></li></ul></td></tr>
+              <tr><td data-label="Part">USB cables</td><td data-label="Qty">2</td><td data-label="Spec / qualification">One data-capable USB-C cable for the board (flashing + power), one cable feeding the strip rail. Keep the C3 on its own USB run; join only the grounds. If full brightness matters, use a short, decent-gauge cable.</td><td data-label="Get / source"><span class="flag">On hand</span></td></tr>
+              <tr><td data-label="Part">USB breakout board or sacrificial USB cable</td><td data-label="Qty">1</td><td data-label="Spec / qualification">Provides accessible +5 V and GND for the bare strip rail. If using a cut cable, identify the conductors with a meter before connecting the strip.</td><td data-label="Get / source"><span class="flag buy">Check / buy</span></td></tr>
+              <tr><td data-label="Part">PTC resettable fuse / polyfuse, I<sub>hold</sub> ≥ 2.0 A at 25 °C</td><td data-label="Qty">1</td><td data-label="Spec / qualification">Choose by hold current, not trip current. A 2.0 A hold rating at 25 °C suits a confirmed ~1.28 A strip load, but PTC hold current typically derates 20–30% around 50–60 °C. If the reel measures near 11 W/m (~1.76 A total), choose a higher hold-current part whose warm derated rating remains above the load. Install it in series with the strip branch’s +5 V feed and test it warm.</td><td data-label="Get / source"><span class="flag buy">Buy</span></td></tr>
+              <tr><td data-label="Part">470–1000 µF electrolytic capacitor, ≥10 V</td><td data-label="Qty">1</td><td data-label="Spec / qualification">Place across +5 V and GND at the strip power entry; observe polarity.</td><td data-label="Get / source"><span class="flag buy">Buy</span></td></tr>
+              <tr><td data-label="Part">100 nF ceramic capacitor</td><td data-label="Qty">1–2</td><td data-label="Spec / qualification">Local decoupling across supply and ground near the transistor/logic board.</td><td data-label="Get / source"><span class="flag">On hand</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="bom-group">
+          <h3>Bench prototype extras</h3>
+          <table class="pin-table bom-table" aria-label="Prototype extras">
+            <thead><tr><th>Part</th><th>Qty</th><th>Spec / qualification</th><th>Get / source</th></tr></thead>
+            <tbody>
+              <tr><td data-label="Part">Breadboard + jumper wires</td><td data-label="Qty">1</td><td data-label="Spec / qualification">Single-pad proof on the breadboard before anything mounts to the canvas.</td><td data-label="Get / source"><span class="flag">On hand</span></td></tr>
+              <tr><td data-label="Part">White or warm-white LED</td><td data-label="Qty">1</td><td data-label="Spec / qualification">Direct-drive hover indicator for the bench prototype. A white or warm-white LED needs a 47–100 Ω series resistor on the 3.3 V GPIO; 220 Ω leaves only about 1 mA and may be nearly dark.</td><td data-label="Get / source"><span class="flag">On hand</span></td></tr>
+              <tr><td data-label="Part">47–100 Ω resistor</td><td data-label="Qty">1</td><td data-label="Spec / qualification">Series resistor for a white or warm-white prototype LED. Alternatively, use a red or green LED with 220 Ω. The final build switches strips through 2N2222s with 150 Ω or 180 Ω base resistors.</td><td data-label="Get / source"><span class="flag">On hand</span></td></tr>
+              <tr><td data-label="Part">Cardboard ~20 × 20 cm</td><td data-label="Qty">1</td><td data-label="Spec / qualification">Canvas stand-in for the prototype go/no-go hover test.</td><td data-label="Get / source"><span class="flag">On hand</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="bom-group">
+          <h3>Fallback — only if COB strip cannot be sourced</h3>
+          <table class="pin-table bom-table" aria-label="Fallback LED parts">
+            <thead><tr><th>Part</th><th>Qty</th><th>Spec / qualification</th><th>Get / source</th></tr></thead>
+            <tbody>
+              <tr><td data-label="Part">5 mm warm-white LEDs</td><td data-label="Qty">8</td><td data-label="Spec / qualification">Two per zone in place of a COB segment; expect more visible hotspots through thin paint.</td><td data-label="Get / source"><span class="flag">On hand</span></td></tr>
+              <tr><td data-label="Part">220 Ω resistors</td><td data-label="Qty">8</td><td data-label="Spec / qualification">Fallback: 220 Ω per LED recommended; 150 Ω is acceptable if brightness is insufficient. This applies only to the 5 V bare-LED fallback. The selected COB strip has its own current limiting.</td><td data-label="Get / source"><span class="flag">On hand</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="bom-group">
+          <h3>Tools</h3>
+          <table class="pin-table bom-table" aria-label="Tools">
+            <thead><tr><th>Part</th><th>Qty</th><th>Spec / qualification</th><th>Get / source</th></tr></thead>
+            <tbody>
+              <tr><td data-label="Part">Multimeter</td><td data-label="Qty">1</td><td data-label="Spec / qualification">Check strip-pad polarity, transistor pin order, the 150 Ω or 180 Ω bases, and the strip rail voltage under load.</td><td data-label="Get / source"><span class="flag">On hand</span></td></tr>
+              <tr><td data-label="Part">Soldering iron + tools</td><td data-label="Qty">1</td><td data-label="Spec / qualification">Pad tabs, strip pads, and the perfboard driver joints.</td><td data-label="Get / source"><span class="flag">On hand</span></td></tr>
+              <tr><td data-label="Part">Arduino IDE 2.x + ESP32 core</td><td data-label="Qty">—</td><td data-label="Spec / qualification">Board: ESP32C3 Dev Module; <b>USB CDC On Boot: Enabled</b> (required — otherwise Serial output goes nowhere on this native-USB board); 115200 baud. The sketch supports Arduino-ESP32 2.x and 3.x LEDC APIs. With <code>DEBUG 1</code>, it waits up to 2 seconds for USB CDC before calibration; with debug off it does not block, so an unattached or slow Serial Monitor may miss the early banner.</td><td data-label="Get / source"><span class="flag">Free</span><ul class="src-list"><li><a href="https://docs.espressif.com/projects/arduino-esp32/en/latest/tutorials/cdc_dfu_flash.html" target="_blank" rel="noopener noreferrer">Arduino-ESP32 CDC/DFU tutorial</a></li></ul></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="note warm" style="margin-top:30px">
+          <strong>Open questions — marked plainly</strong>
+          <ol class="open-qs">
+            <li><b>Exact digital-input switching threshold of the specific C3 unit:</b> not specified anywhere. The datasheet only guarantees VIL ≤ 0.825 V and VIH ≥ 2.475 V; the ~1.6 V figure behind the decay-time estimate is inferred from CMOS mid-rail behavior. The build calibrates thresholds empirically at boot, so this stays a calibration parameter, not a spec.</li>
+            <li><b>Exact per-unit VCE(sat) at 320 mA:</b> not characterized; the datasheet only gives max at 150 mA (0.3 V) and 500 mA (1.0 V) plus typical curves. The design carries the conservative bound.</li>
+                      </ol>
+        </div>
+      </section>
+
+      <section id="prototype" aria-labelledby="prototype-title">
+        <div class="section-head">
+          <div class="section-num">03 / PROVE IT FIRST</div>
+          <div><h2 id="prototype-title">One-zone bench prototype</h2><p class="section-intro">Do this before mounting anything to the painting. It proves the sensor, validates the target distance, and makes threshold tuning painless.</p></div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card parts-group">
+            <h3>Prototype parts</h3>
+            <ul>
+              <li>ESP32-C3 SuperMini, USB-C data cable, Arduino IDE</li>
+              <li>Breadboard and jumper wires</li>
+              <li>One flat foil square, about 6 × 6 cm</li>
+              <li>One 1MΩ resistor</li>
+              <li>One white or warm-white LED and one 47–100Ω resistor</li>
+              <li>Cardboard, about 20 × 20 cm, as the canvas stand-in</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>IDE setup</h3>
+            <p><b>Board:</b> ESP32C3 Dev Module<br><b>USB CDC On Boot:</b> Enabled<br><b>Serial:</b> 115200 baud<br><b>Firmware:</b> set <code>DEBUG 1</code> and leave <code>WHOLE_CANVAS_MODE</code> false.</p>
+            <p>With <code>DEBUG 1</code>, the sketch waits up to two seconds for USB CDC before calibration so the first tuning lines are not lost. With debug off it starts immediately and does not block on an absent Serial Monitor.</p><p>Only pad 0 is wired for this prototype. Zones 1–3 may print <code>FAULT</code> or show erratic readings: a completely floating pin can decay through leakage within the 1 ms timeout and resemble a valid reading. Ignore those zones until their pads and 1 MΩ bleeds are connected.</p>
+          </div>
+        </div>
+
+        <div class="wire">GPIO0 ──┬── foil pad
+        └──[1MΩ]── GND
+
+GPIO3 ──[47–100Ω]── white LED anode ── LED cathode ── GND</div>
+
+        <ol class="steps" style="margin-top:28px">
+          <li><div><h3>Make the pad</h3><p>Tape the foil flat to the cardboard. Strip about 1 cm of a jumper, lay the bare end on the foil, and tape it firmly. A wire soldered to a folded foil tab is the sturdier final method.</p></div></li>
+          <li><div><h3>Wire one sensor and one LED</h3><p>Put the 1MΩ resistor close to the C3. The prototype LED is direct-drive only; the final four-zone harness uses an NPN transistor per zone.</p></div></li>
+          <li><div><h3>Calibrate with hands away</h3><p>Flash the firmware. The board prints a baseline and sweeps the LED once. Open Serial Monitor and note the idle value.</p></div></li>
+          <li><div><h3>Test fast and slow approaches</h3><p>Move a hand to 2–4 cm from the foil both quickly and gradually over 1–2 seconds. The reading should rise above baseline, the state should become <code>HOVER</code>, and the LED should fade up without the baseline following the hand.</p></div></li>
+          <li><div><h3>Simulate the canvas</h3><p>Place the cardboard between hand and foil. Pull away: the three-second afterglow begins when the sensor stops seeing the hand, then the light fades out over about 0.9 seconds.</p></div></li>
+        </ol>
+
+        <div class="note" style="margin-top:28px">
+          <strong>Go / no-go gate</strong>
+          Do not mount the final four-zone build until idle is stable, a hand triggers reliably through cardboard at the intended distance, and the rear side does not false-trigger. If it is flaky, fix pad size, wire length, or thresholds here.
+        </div>
+      </section>
+
+      <section id="final" aria-labelledby="final-title">
+        <div class="section-head">
+          <div class="section-num">04 / PANEL-FREE BUILD</div>
+          <div><h2 id="final-title">Mount it directly to the frame</h2><p class="section-intro">Use the canvas and wooden stretcher bars as the structure. The foil pads tape flat to the canvas back; COB segments, controller, and exposed wires stay on the bars so no hard part presses into the painting.</p></div>
+        </div>
+
+        <div class="grid-2">
+          <div>
+            <div class="card">
+              <h3>Parts</h3>
+              <p>Everything needed is in the <a href="#bom">bill of materials</a>, with quantities, qualified electrical values, and buy-versus-own status. Buy only the COB reel and the hookup wire.</p>
+
+            </div>
+          </div>
+          <div>
+            <div class="note">
+              <strong>COB strip preparation</strong>
+              Cut only at the reel’s marked cut lines. Make one segment per quadrant, roughly 20 cm each, then solder hookup wire to the exposed copper pads. Keep one spare segment while fitting the frame.
+            </div>
+            <div class="note warm" style="margin-top:18px">
+              <strong>Power budget</strong>
+At the selected listing’s roughly 8 W/m figure, four 20 cm segments total about 6.4 W—or 1.28 A from 5 V—when every zone is fully lit. A confirmed load at that level fits a 2 A output; prefer 5 V / 3 A if the cost difference is trivial, and do not use a laptop USB port. Meter the actual reel before final sizing.
+            </div>
+            <div class="card" style="margin-top:18px">
+              <h3>Fallback: the 5 mm LEDs</h3>
+              <p>If the COB strip cannot be sourced, two 5 mm LEDs per zone can work. Use 220 Ω per LED by default; 150 Ω is acceptable if brightness is insufficient. Expect more visible hotspots through thin paint.</p>
+            </div>
+          </div>
+        </div>
+
+        <ol class="steps" style="margin-top:34px">
+          <li><div><h3>Mark four zones</h3><p>Lay the canvas face-down on a clean towel. Mark four quadrants lightly on the canvas back. Keep clear of stretcher hardware and leave a gap between pads.</p></div></li>
+          <li><div><h3>Tape four foil pads to the canvas</h3><p>Make four smooth foil squares. Tape each one flat directly to the canvas back. Tape a stripped wire end firmly onto each pad, or solder the wire to a folded foil tab before attaching it.</p></div></li>
+          <li><div><h3>Route the sensor wires</h3><p>Run each pad wire straight to the nearest stretcher bar, then along the wood to the C3. Tape it down every few centimetres and keep it away from LED power wires. Put each 1MΩ resistor near the board.</p></div></li>
+          <li><div><h3>Mount the mode button</h3><p>Put the 6-pin DPDT latching button where it can be reached from behind or below the frame. With a continuity meter, identify one pole’s common and the throw that closes when the button is latched in. Wire those two pins between GPIO7 and GND; leave the other pole unused. No external resistor is required.</p></div></li>
+          <li><div><h3>Cut and wire four COB segments</h3><p>Cut only on the strip’s marked lines, making one roughly 20 cm segment per quadrant. Feed the strip rail through the hold-current-rated PTC fuse. Solder each positive pad to that +5 V rail and each negative pad to its 2N2222 collector; each transistor switches one segment on the low side. Add a 10 kΩ base-to-GND pulldown per transistor, place the 470–1000 µF electrolytic across the strip power entry, and add 100 nF near the transistor/logic board. Build the four channels on perfboard, insulate every bare joint, and secure the harness to a stretcher bar.</p></div></li>
+          <li><div><h3>Prototype the optics, then mount</h3><p>Before committing, temporarily position one COB segment and test it through the painted canvas. COB light is directional; distance from the canvas, paint thickness, strip orientation, bar depth, and diffuser placement all change the result. Once the arrangement works, fix each segment to a stretcher bar and tape parchment across the frame opening, leaving air around the LEDs and keeping opaque tape off the phosphor surface.</p></div></li>
+          <li><div><h3>Add an optional rear shield</h3><p>If rear-side false triggers are a problem, tape one large foil sheet across the back opening and connect it to GND. Keep it fully separated from every pad, joint, and wire. Skip it if sensing is already stable.</p></div></li>
+          <li><div><h3>Calibrate in final position</h3><p>With the painting upright and hands away, power-cycle the C3 so it learns the installed baseline. Trigger every quadrant, check for crosstalk, and add tape anywhere a wire can move.</p></div></li>
+        </ol>
+      </section>
+
+      <section id="wiring" aria-labelledby="wiring-title">
+        <div class="section-head">
+          <div class="section-num">05 / WIRING</div>
+          <div><h2 id="wiring-title">Pins, drivers, and power</h2><p class="section-intro">Keep sensor wiring short and separate from strip wiring. Power the C3 from its own USB-C cable and the COB strips from a 5V / 2A-or-higher USB supply; join their grounds, not their positive rails.</p></div>
+        </div>
+
+        <table class="pin-table" aria-label="ESP32-C3 pin map">
+          <thead><tr><th>Function</th><th>GPIO</th><th>Connection</th></tr></thead>
+          <tbody>
+            <tr><td data-label="Function">Zone 0 COB driver</td><td data-label="GPIO">3</td><td data-label="Connection">through 150Ω or 180Ω to 2N2222 base; 10kΩ base to GND</td></tr>
+            <tr><td data-label="Function">Zone 1 COB driver</td><td data-label="GPIO">4</td><td data-label="Connection">through 150Ω or 180Ω to 2N2222 base; 10kΩ base to GND</td></tr>
+            <tr><td data-label="Function">Zone 2 COB driver</td><td data-label="GPIO">5</td><td data-label="Connection">through 150Ω or 180Ω to 2N2222 base; 10kΩ base to GND</td></tr>
+            <tr><td data-label="Function">Zone 3 COB driver</td><td data-label="GPIO">10</td><td data-label="Connection">through 150Ω or 180Ω to 2N2222 base; 10kΩ base to GND</td></tr>
+            <tr><td data-label="Function">Capacitive pad 0</td><td data-label="GPIO">0</td><td data-label="Connection">foil pad + 1MΩ to GND</td></tr>
+            <tr><td data-label="Function">Capacitive pad 1</td><td data-label="GPIO">6</td><td data-label="Connection">foil pad + 1MΩ to GND</td></tr>
+            <tr><td data-label="Function">Capacitive pad 2</td><td data-label="GPIO">20</td><td data-label="Connection">foil pad + 1MΩ to GND</td></tr>
+            <tr><td data-label="Function">Capacitive pad 3</td><td data-label="GPIO">21</td><td data-label="Connection">foil pad + 1MΩ to GND</td></tr>
+            <tr><td data-label="Function">Mode pushbutton</td><td data-label="GPIO">7</td><td data-label="Connection">one pole of 6-pin DPDT latching button to GND; <code>INPUT_PULLUP</code>, LOW = night-light on</td></tr>
+          </tbody>
+        </table>
+
+        <div class="grid-2" style="margin-top:28px">
+          <div class="card">
+            <h3>Per-zone COB driver</h3>
+            <div class="wire">STRIP SUPPLY +5V ── COB segment +
+COB segment − ── 2N2222 collector
+GPIO ──[150Ω or 180Ω]── 2N2222 base
+                         └──[10kΩ]── GND
+2N2222 emitter ── COMMON GND</div>
+            <p>The selected strip is specified by its seller as including current limiting. Switch its negative lead through the NPN; do not add a series resistor unless the exact strip’s construction requires it. Bare 5 mm LEDs are different and each need their own series resistor.</p>
+            <p>A 1 kΩ base resistor supplies only about 2.5 mA, too little to saturate a 2N2222 at the segment’s roughly 320 mA load. Use 150 Ω for about 16.7 mA of base drive (forced β ≈ 19.2), or 180 Ω for about 14 mA (forced β ≈ 22.9). The datasheet’s 0.3 V and 1.0 V VCE(sat) limits are specified at forced β = 10, so expect somewhat more drop here and meter the assembled channel. If the drop is excessive, 120 Ω is a middle ground at about 21 mA and forced β ≈ 15.4. Add a 10 kΩ base-to-GND pulldown so the strip stays off while the GPIO floats during reset and boot.</p>
+          </div>
+          <div class="card">
+            <h3>Per-zone hover pad</h3>
+            <div class="wire">GPIO0  ──┬── pad 0
+         └──[1MΩ]── GND
+GPIO6  ──┬── pad 1
+         └──[1MΩ]── GND
+GPIO20 ──┬── pad 2
+         └──[1MΩ]── GND
+GPIO21 ──┬── pad 3
+         └──[1MΩ]── GND
+
+GPIO7 ─── one pole of latching DPDT ─── GND
+          INPUT_PULLUP; LOW = night-light on</div>
+            <p>Place each 1MΩ resistor near the board, not at the foil. Flat foil and short wire reduce noise. Use one pole of the six-pin DPDT button; identify the common and the throw that close in the latched-in position, and leave the second pole unused.</p>
+          </div>
+        </div>
+
+        <div class="grid-2" style="margin-top:18px">
+          <div class="note">
+            <strong>Two USB runs, one ground</strong>
+            Keep the ESP32-C3 on its own USB-C cable. Feed the strip’s +5 V rail from a separate 2 A-or-higher output through the hold-current-rated PTC fuse, then connect that output’s ground to ESP32 GND. A multi-port charger is fine only when its per-port and total ratings cover both runs.
+          </div>
+          <div class="note warm">
+            <strong>Protect and stabilize the strip branch</strong>
+            Put the 470–1000 µF electrolytic across +5 V and GND at the strip power entry, observing polarity, and place 100 nF near the transistor/logic board. The PTC may drop roughly 0.1–0.15 V, the 2N2222 roughly 0.3–0.5 V at this forced β, and the cable adds more loss, potentially leaving the strip near 4.3 V—below its quoted 4.5–5.5 V band. Meter the strip rail at startup and with all four zones fully lit. If it sags, replace each NPN channel with a logic-level N-MOSFET whose RDS(on) is low at 3.3 V VGS; that removes the NPN saturation drop and its roughly 15–17 mA GPIO base load per channel.
+          </div>
+        </div>
+
+        <div class="note" style="margin-top:18px">
+          <strong>Board-variant check before soldering</strong>
+          GPIO10 is exposed on common ESP32-C3 SuperMini boards and is used by the supplied sketch, but board clones vary. Confirm your board’s printed pinout. This map deliberately avoids GPIO2 (a boot-strapping pin that must read HIGH during the roughly 3 ms strapping window after reset), GPIO8 (onboard LED and strapping), GPIO9 (BOOT strapping), GPIO11–17 (in-package flash bus), and GPIO18/19 (native USB). GPIO6, GPIO7, and GPIO10 are ordinary GPIOs; pad 1 therefore uses GPIO6 instead of GPIO2, where its 1MΩ resistor to GND could prevent boot.
+        </div>
+      </section>
+
+      <section id="firmware" aria-labelledby="firmware-title">
+        <div class="section-head">
+          <div class="section-num">06 / FIRMWARE</div>
+          <div><h2 id="firmware-title">Flash, tune, then leave it alone</h2><p class="section-intro">The sketch charges all four pads together, measures decay in CPU cycles, and uses a 17-sample boxcar to average over approximately one 60 Hz mains period, reducing periodic mains-related variation. Asymmetric baseline tracking and hysteresis stabilize detection. Four 20 kHz, 11-bit LEDC channels use gamma-corrected fades. Faulted pads are skipped and retried once per second. The latching switch directly selects the lighting mode; nothing is stored in flash.</p></div>
+        </div>
+
+        <div class="code-toolbar">
+          <div><b>canvas-glow.ino</b><div style="color:var(--muted);font-size:13px">ESP32 Arduino sketch</div></div>
+          <div class="actions"><button class="btn" type="button" id="copyCode">Copy code</button><button class="btn primary" type="button" id="downloadCode">Download .ino</button></div>
+        </div>
+
+        <details class="code-box">
+          <summary>View complete firmware</summary>
+          <pre><code id="firmwareCode">/*
+ * Canvas Glow — hover-activated backlight for a stretched-canvas painting
+ *
+ * 4 hover zones behind the canvas. A hand hovering near a zone fades that
+ * zone's LEDs up to a steady, diffuse glow; it stays lit for a few seconds
+ * after the hand leaves, then fades back out.
+ * Set WHOLE_CANVAS_MODE to true and any hover lights the whole painting.
+ *
+ * Night-light mode: a latching on-off pushbutton (6-pin DPDT, one pole wired
+ * GPIO 7 to GND) selects the mode mechanically — latched in is always-on
+ * night light (all zones at full brightness), latched out is hover mode.
+ * The firmware reads the pin directly every loop (INPUT_PULLUP, closed = LOW
+ * = night-light on), so there is no toggle logic and nothing is stored in
+ * flash: the mode is always whatever the switch is set to, which naturally
+ * survives power cycles.
+ *
+ * Sensing: single-pin RC capacitive sensing. Each foil pad hangs off its own
+ * GPIO with a 1M bleed resistor to GND. All four pads are charged together,
+ * released, and each pad's decay is timed in CPU cycles: a nearby hand adds
+ * capacitance and slows the fall. Readings are boxcar-filtered over ~17 ms
+ * to average over approximately one 60 Hz mains period (Toronto), reducing
+ * periodic mains-related variation. Faulted pads are skipped and retried
+ * once per second.
+ *
+ * LEDs: 11-bit LEDC PWM at 20 kHz with gamma 2.2 correction. If the NPN
+ * smears the low end of fades, drop PWM_FREQ to ~5000.
+ *
+ * Board: ESP32-C3 SuperMini (PlatformIO: esp32-c3-devkitm-1, USB CDC on boot,
+ * 160 MHz, -O2)
+ *
+ * Wiring:
+ *   LED zones (via NPN transistor per zone): GPIO 3, 4, 5, 10
+ *   Hover pads (pad + 1M to GND each):       GPIO 0, 6, 20, 21
+ *   Mode pushbutton (latching, 6-pin DPDT):  GPIO 7 (INPUT_PULLUP,
+ *     one pole GPIO 7-GND, closed = LOW = night-light on)
+ *   Avoid GPIO 2 (boot strap), 8 (onboard LED/strap), 9 (BOOT strap),
+ *   11-17 (in-package flash bus), 18/19 (USB).
+ *
+ * Design: simultaneous pad sampling timed in CPU cycles, 17-sample boxcar
+ * filter, 11-bit gamma-corrected LEDC, fault retry with shorted-pad
+ * detection, 60 s stuck-zone recovery; latching mode button read directly
+ * each loop (no NVS, no toggle/debounce). Baseline is Q12 fixed-point in
+ * int32_t (worst case 160k cycles &lt;&lt; 12 ≈ 655M, safely under 2.1G).
+ */
+
+#include "soc/gpio_reg.h"
+#include &lt;Arduino.h&gt;
+#include &lt;esp_arduino_version.h&gt;
+
+// ---------------- Pin map ----------------
+const uint8_t LED_PINS[4] = { 3, 4, 5, 10 };
+const uint8_t PAD_PINS[4] = { 0, 6, 20, 21 };
+const uint8_t BUTTON_PIN = 7; // latching pushbutton: closed = LOW = night-light on
+
+// ---------------- Tuning ----------------
+const uint16_t TICK_MS = 1; // sense + fade period
+const uint8_t FILTER_LEN = 17; // samples averaged (17 ms ≈ one 60 Hz cycle)
+const uint16_t TRIG_PCT = 135; // trigger when v &gt; baseline * 1.35
+const float TRIG_MARGIN_US = 12.0; //   AND v &gt; baseline + this (µs)
+const uint16_t REL_PCT = 115; // release when v &lt; baseline * 1.15
+const uint8_t BASE_UP_SHIFT = 12; // baseline rise tracking, tau ~4 s
+const uint8_t BASE_DOWN_SHIFT = 6; // baseline fall tracking, tau ~64 ms
+const uint16_t FADE_UP_MS = 400;
+const uint16_t FADE_DOWN_MS = 900;
+const uint16_t HOLD_MS = 3000; // stay lit this long after hand leaves
+const uint16_t PAD_CHARGE_US = 2;
+const uint16_t PAD_TIMEOUT_US = 1000; // pad decay timeout (fault detection)
+const uint16_t PAD_RETRY_MS = 1000; // faulted pad is skipped this long
+const float FAULT_MIN_BASELINE_US = 2.0; // baselines below this count as a shorted pad -&gt; FAULT
+const uint16_t HOVER_RESET_MS = 60000; // re-baseline after 60 s continuous hover (stuck-zone recovery)
+
+const uint32_t PWM_FREQ = 20000; // drop to ~5000 if the NPN smears low levels
+const uint8_t PWM_BITS = 11;
+const float GAMMA = 2.2; // 1.0 = linear fade
+
+const bool WHOLE_CANVAS_MODE = false;
+
+#define DEBUG 0 // 1: print zone readings (µs) every 500 ms for tuning
+#define SELF_TEST 1 // 1: sweep each zone once at boot (~2.4 s)
+
+const uint8_t BASE_Q = 12;
+const uint16_t FADE_UP_STEP = 65535UL * TICK_MS / FADE_UP_MS;
+const uint16_t FADE_DOWN_STEP = 65535UL * TICK_MS / FADE_DOWN_MS;
+
+DRAM_ATTR uint32_t padBit[4];
+DRAM_ATTR uint32_t chargeCycles;
+DRAM_ATTR uint32_t timeoutCycles;
+uint32_t allPadsMask = 0;
+int32_t trigMarginCycles;
+int32_t faultMinCycles;
+uint32_t cpuMhz;
+portMUX_TYPE padMux = portMUX_INITIALIZER_UNLOCKED;
+
+int32_t ring[4][FILTER_LEN];
+int32_t ringSum[4];
+uint8_t ringIdx[4];
+int32_t baseQ[4]; // baseline in cycles, Q12 fixed point (worst case 160k&lt;&lt;12 ≈ 655M &lt; 2.1G)
+int32_t lastV[4];
+bool padFaulted[4];
+unsigned long padFaultMs[4];
+
+uint16_t brightness[4]; // 0..65535 perceptual level
+uint16_t duty[4];
+uint16_t gammaLut[256];
+
+bool hovering[4];
+bool inHold[4];
+bool everTriggered[4];
+unsigned long lastTriggerMs[4];
+unsigned long hoverStartMs[4];
+
+// Charge all pads in mask, release, timestamp each pad's fall in CPU cycles.
+// out[z] = decay cycles, or -1 if not measured / never fell (fault).
+// The critical section lasts only until the slowest pad falls (typically
+// 20-100 µs); the full timeout applies only to faulted pads, which are then
+// skipped and retried once per PAD_RETRY_MS.
+void IRAM_ATTR readPads(uint32_t mask, int32_t out[4])
+{
+    uint32_t fallAt[4] = { 0, 0, 0, 0 };
+    uint32_t pending = mask;
+
+    portENTER_CRITICAL(&amp;padMux);
+    REG_WRITE(GPIO_OUT_W1TS_REG, mask);
+    REG_WRITE(GPIO_ENABLE_W1TS_REG, mask);
+    uint32_t t0 = ESP.getCycleCount();
+    while (ESP.getCycleCount() - t0 &lt; chargeCycles) { }
+    REG_WRITE(GPIO_ENABLE_W1TC_REG, mask);
+    t0 = ESP.getCycleCount();
+    uint32_t dt;
+    do {
+        uint32_t fell = pending &amp; ~REG_READ(GPIO_IN_REG);
+        dt = ESP.getCycleCount() - t0;
+        if (fell) {
+            for (uint8_t z = 0; z &lt; 4; ++z)
+                if (fell &amp; padBit[z])
+                    fallAt[z] = dt;
+            pending &amp;= ~fell;
+        }
+    } while (pending &amp;&amp; dt &lt; timeoutCycles);
+    portEXIT_CRITICAL(&amp;padMux);
+
+    for (uint8_t z = 0; z &lt; 4; ++z)
+        out[z] = ((mask &amp; ~pending) &amp; padBit[z]) ? (int32_t)fallAt[z] : -1;
+}
+
+int32_t filterPush(uint8_t z, int32_t s)
+{
+    int32_t&amp; slot = ring[z][ringIdx[z]];
+    ringSum[z] += s - slot;
+    slot = s;
+    if (++ringIdx[z] == FILTER_LEN)
+        ringIdx[z] = 0;
+    return ringSum[z] / FILTER_LEN;
+}
+
+void ledInit(uint8_t z)
+{
+#if ESP_ARDUINO_VERSION_MAJOR &gt;= 3
+    bool ok = ledcAttach(LED_PINS[z], PWM_FREQ, PWM_BITS);
+#else
+    bool ok = ledcSetup(z, PWM_FREQ, PWM_BITS) != 0;
+#endif
+    if (!ok)
+        Serial.printf("ERROR: LEDC setup failed for zone %d (GPIO %d)\n", z, LED_PINS[z]);
+#if ESP_ARDUINO_VERSION_MAJOR &gt;= 3
+    ledcWrite(LED_PINS[z], 0);
+#else
+    ledcAttachPin(LED_PINS[z], z);
+    ledcWrite(z, 0);
+#endif
+}
+
+void ledWrite(uint8_t z, uint32_t d)
+{
+#if ESP_ARDUINO_VERSION_MAJOR &gt;= 3
+    ledcWrite(LED_PINS[z], d);
+#else
+    ledcWrite(z, d);
+#endif
+}
+
+long cyclesToTenthsUs(int32_t c)
+{
+    return (long)c * 10 / (long)cpuMhz;
+}
+
+void setup()
+{
+    Serial.begin(115200);
+#if ARDUINO_USB_MODE &amp;&amp; ARDUINO_USB_CDC_ON_BOOT
+    Serial.setTxTimeoutMs(0); // never block when no USB host is reading
+#endif
+#if DEBUG
+    while (!Serial &amp;&amp; millis() &lt; 2000) { }
+#endif
+
+    cpuMhz = getCpuFrequencyMhz();
+    chargeCycles = PAD_CHARGE_US * cpuMhz;
+    timeoutCycles = PAD_TIMEOUT_US * cpuMhz;
+    trigMarginCycles = (int32_t)(TRIG_MARGIN_US * cpuMhz);
+    faultMinCycles = (int32_t)(FAULT_MIN_BASELINE_US * cpuMhz);
+
+    pinMode(BUTTON_PIN, INPUT_PULLUP);
+    bool startOn = (digitalRead(BUTTON_PIN) == LOW); // latching switch position
+
+    const float maxDuty = (float)((1 &lt;&lt; PWM_BITS) - 1);
+    for (uint16_t i = 0; i &lt; 256; ++i)
+        gammaLut[i] = (uint16_t)lroundf(powf(i / 255.0f, GAMMA) * maxDuty);
+
+    for (uint8_t z = 0; z &lt; 4; ++z) {
+        ledInit(z);
+        // OUTPUT first routes the GPIO matrix to plain GPIO; INPUT leaves it high-Z, no pulls
+        pinMode(PAD_PINS[z], OUTPUT);
+        pinMode(PAD_PINS[z], INPUT);
+        padBit[z] = 1UL &lt;&lt; PAD_PINS[z];
+        allPadsMask |= padBit[z];
+    }
+
+    Serial.println("Canvas Glow — calibrating (keep hands away from pads)...");
+    int32_t sum[4] = { 0, 0, 0, 0 };
+    uint16_t n[4] = { 0, 0, 0, 0 };
+    for (uint16_t i = 0; i &lt; 200; ++i) {
+        int32_t s[4];
+        readPads(allPadsMask, s);
+        for (uint8_t z = 0; z &lt; 4; ++z) {
+            if (s[z] &gt;= 0) {
+                sum[z] += s[z];
+                ++n[z];
+            }
+        }
+        delay(1);
+    }
+    for (uint8_t z = 0; z &lt; 4; ++z) {
+        int32_t base = n[z] ? sum[z] / n[z] : (int32_t)(50 * cpuMhz);
+        baseQ[z] = base &lt;&lt; BASE_Q;
+        lastV[z] = base;
+        for (uint8_t i = 0; i &lt; FILTER_LEN; ++i)
+            ring[z][i] = base;
+        ringSum[z] = base * FILTER_LEN;
+        // No reading at all, or a baseline under ~2 µs (shorted pad): fault.
+        padFaulted[z] = (n[z] == 0) || (base &lt; faultMinCycles);
+        padFaultMs[z] = millis();
+        long b = cyclesToTenthsUs(base);
+        Serial.printf("  zone %d baseline: %ld.%ld us%s\n", z, b / 10, b % 10,
+            padFaulted[z] ? " (FAULT)" : "");
+    }
+
+    Serial.printf("Mode: %s (latching button on GPIO %d)\n",
+        startOn ? "ALWAYS-ON night light" : "hover", BUTTON_PIN);
+
+#if SELF_TEST
+    Serial.println("Self-test: sweeping zones...");
+    for (uint8_t z = 0; z &lt; 4; ++z) {
+        ledWrite(z, (1 &lt;&lt; PWM_BITS) - 1);
+        delay(400);
+        ledWrite(z, 0);
+        delay(200);
+    }
+#endif
+    Serial.println("Ready — hover a hand over a pad.");
+}
+
+void loop()
+{
+    static TickType_t lastWake = xTaskGetTickCount();
+    vTaskDelayUntil(&amp;lastWake, pdMS_TO_TICKS(TICK_MS));
+    const unsigned long now = millis();
+
+    // ---- Mode: latching pushbutton, read directly every loop ----
+    // Switch closed (GPIO 7 = LOW) = always-on night light; open = hover.
+    // No toggle state, no debounce, nothing in flash — the mode is the switch.
+    bool alwaysOn = (digitalRead(BUTTON_PIN) == LOW);
+
+    // ---- Sense ----
+    uint32_t mask = 0;
+    for (uint8_t z = 0; z &lt; 4; ++z) {
+        if (padFaulted[z] &amp;&amp; now - padFaultMs[z] &gt;= PAD_RETRY_MS)
+            padFaulted[z] = false;
+        if (!padFaulted[z])
+            mask |= padBit[z];
+    }
+    int32_t s[4];
+    readPads(mask, s);
+
+    bool anyHeld = false;
+    for (uint8_t z = 0; z &lt; 4; ++z) {
+        if (s[z] &gt;= 0 &amp;&amp; s[z] &lt; faultMinCycles) {
+            // Shorted pad reads ~0: fault, not a valid reading.
+            padFaulted[z] = true;
+            padFaultMs[z] = now;
+        } else if (s[z] &gt;= 0) {
+            int32_t v = filterPush(z, s[z]);
+            lastV[z] = v;
+            int32_t base = baseQ[z] &gt;&gt; BASE_Q;
+            if (!hovering[z]) {
+                // Asymmetric Q12 baseline tracking: fast down (64 ms), slow up
+                // (~4 s), frozen while hovering, so a slow hand approach can't
+                // drag the baseline up with it.
+                int32_t vq = v &lt;&lt; BASE_Q;
+                baseQ[z] += (vq - baseQ[z]) &gt;&gt; (vq &lt; baseQ[z] ? BASE_DOWN_SHIFT : BASE_UP_SHIFT);
+                base = baseQ[z] &gt;&gt; BASE_Q;
+                hovering[z] = v * 100 &gt; base * TRIG_PCT &amp;&amp; v &gt; base + trigMarginCycles;
+                if (hovering[z])
+                    hoverStartMs[z] = now;
+            } else if (v * 100 &lt; base * REL_PCT) {
+                hovering[z] = false;
+            }
+            if (hovering[z]) {
+                lastTriggerMs[z] = now;
+                everTriggered[z] = true;
+                if (now - hoverStartMs[z] &gt;= HOVER_RESET_MS) {
+                    // Stuck-zone recovery for unattended operation: re-baseline
+                    // to the present reading instead of latching until reboot.
+                    baseQ[z] = lastV[z] &lt;&lt; BASE_Q;
+                    hovering[z] = false;
+                }
+            }
+        } else if (mask &amp; padBit[z]) {
+            padFaulted[z] = true;
+            padFaultMs[z] = now;
+        }
+        inHold[z] = everTriggered[z] &amp;&amp; now - lastTriggerMs[z] &lt; HOLD_MS;
+        if (inHold[z])
+            anyHeld = true;
+    }
+
+    // ---- Glow ----
+    for (uint8_t z = 0; z &lt; 4; ++z) {
+        bool lit = alwaysOn || (WHOLE_CANVAS_MODE ? anyHeld : inHold[z]);
+        uint16_t b = brightness[z];
+        if (lit)
+            b = (b &gt; 65535 - FADE_UP_STEP) ? 65535 : b + FADE_UP_STEP;
+        else
+            b = (b &lt; FADE_DOWN_STEP) ? 0 : b - FADE_DOWN_STEP;
+        brightness[z] = b;
+        uint16_t d = gammaLut[b &gt;&gt; 8];
+        if (d != duty[z]) {
+            duty[z] = d;
+            ledWrite(z, d);
+        }
+    }
+
+#if DEBUG
+    static unsigned long lastDbg = 0;
+    if (now - lastDbg &gt;= 500) {
+        lastDbg = now;
+        char buf[256];
+        int n = 0;
+        for (uint8_t z = 0; z &lt; 4; ++z) {
+            long b = cyclesToTenthsUs(baseQ[z] &gt;&gt; BASE_Q);
+            long v = cyclesToTenthsUs(lastV[z]);
+            n += snprintf(buf + n, sizeof(buf) - n, "z%d base=%ld.%ld v=%ld.%ld %s  ",
+                z, b / 10, b % 10, v / 10, v % 10,
+                padFaulted[z] ? "FAULT" : hovering[z] ? "HOVER"
+                    : inHold[z]                       ? "HOLD "
+                                                      : "----");
+        }
+        snprintf(buf + n, sizeof(buf) - n, "mode=%s\n", alwaysOn ? "ALWAYS-ON" : "hover");
+        Serial.print(buf);
+    }
+#endif
+}
+</code></pre>
+        </details>
+
+        <div class="tuning">
+          <div class="card"><code>TRIG_PCT</code><h3>Reach</h3><p>Lower from 135 toward 125 if a real hover does not trigger. Too low can cause false positives.</p></div>
+          <div class="card"><code>TRIG_MARGIN_US</code><h3>Noise floor</h3><p>Raise above 12 if the zone flickers near idle. This requires an absolute rise as well as a ratio rise.</p></div>
+          <div class="card"><code>HOLD_MS</code><h3>Afterglow</h3><p>3000 means three seconds at full brightness after the hand leaves. Change to taste.</p></div>
+        </div>
+
+        <div class="grid-2" style="margin-top:18px">
+          <div class="note warm">
+            <strong>Always-on night light</strong>
+            Latch the GPIO7 button in to connect the pin to GND: LOW selects always-on mode and all four zones fade to full brightness. Unlatch it to open the circuit: HIGH returns to hover mode. The firmware reads the switch directly every loop, with no toggle logic, debounce state, or flash storage. After any power cycle, the mode follows the physical switch position.
+          </div>
+          <div class="note">
+            <strong>Timing and baseline limits</strong>
+            The configured fade-up takes about 0.4 seconds and fade-down about 0.9 seconds at the nominal 1 ms task cadence; a pad timeout can stretch them slightly. Baseline adaptation falls quickly but rises with a roughly four-second time constant so a gradual approach is less likely to drag it upward. While hovering, adaptation freezes; after 60 seconds of continuous hover, the firmware re-baselines to the present reading and releases the zone so an unattended installation cannot stay latched indefinitely.
+          </div>
+        </div>
+      </section>
+
+      <section id="schedule" aria-labelledby="schedule-title">
+        <div class="section-head">
+          <div class="section-num">07 / SCHEDULE</div>
+          <div><h2 id="schedule-title">Four private build windows</h2><p class="section-intro">The working order is deliberate: validate sensing first, assemble the frame-mounted harness second, preserve a repair buffer, then attach it only after the painting is dry.</p></div>
+        </div>
+
+        <div class="phase"><time datetime="2026-10-02">FRI · OCT 2</time><div><h3>Bench prototype</h3><p>Breadboard one pad and one LED. Flash with debug enabled, tune the thresholds, and prove a reliable 2–4 cm trigger through cardboard.</p><span class="tag">GOAL: sensing proven</span></div></div>
+        <div class="phase"><time datetime="2026-10-04">SUN · OCT 4</time><div><h3>Panel-free harness</h3><p>Solder four zones, prepare the pads and diffuser, then lay out the taped wire harness on the stretcher bars and test every quadrant.</p><span class="tag">GOAL: harness complete</span></div></div>
+        <div class="phase"><time datetime="2026-10-07">WED · OCT 7</time><div><h3>Buffer and tuning</h3><p>Fix crosstalk, adjust thresholds, and rehearse cable routing. The painting should be dry to the touch by Thursday, October 8.</p><span class="tag">GOAL: install-ready</span></div></div>
+        <div class="phase"><time datetime="2026-10-11">SUN · OCT 11</time><div><h3>Final install</h3><p>Tape the pads, LEDs, and harness onto the dry painting and frame, route USB, power-cycle to calibrate, hover-test, and wrap it.</p><span class="tag">GOAL: finished for Oct 12</span></div></div>
+      </section>
+
+      <section id="troubleshoot" aria-labelledby="troubleshoot-title">
+        <div class="section-head">
+          <div class="section-num">08 / DIAGNOSE</div>
+          <div><h2 id="troubleshoot-title">Fast fixes at the bench</h2><p class="section-intro">Use serial output to separate sensing problems from LED or mechanical problems.</p></div>
+        </div>
+
+        <div class="faq-stack">
+          <details class="faq"><summary>Zone never triggers</summary><div class="answer">Make the pad larger, shorten the pad lead, confirm the 1MΩ resistor, or lower <code>TRIG_PCT</code> toward 125. Test both fast and slow approaches at the known-good prototype distance.</div></details>
+          <details class="faq"><summary>Zone flickers or false-triggers</summary><div class="answer">Tape loose pad wires firmly to the stretcher bars, raise <code>TRIG_MARGIN_US</code>, route sensor wires away from LED wiring, and smooth the foil. If needed, add the optional grounded rear shield without letting it touch a pad or joint.</div></details>
+          <details class="faq"><summary>Zone stays on</summary><div class="answer">Inspect for moved foil or wiring. Baseline adaptation freezes during hover, but after 60 seconds of continuous hover the firmware re-baselines to the present reading and releases the zone automatically. If it repeats, reboot with all hands away so startup calibration is clean. A missing 1 MΩ resistor instead causes the zone never to trigger.</div></details>
+          <details class="faq"><summary>Zone reports FAULT or stops updating</summary><div class="answer">Inspect the pad lead and 1 MΩ resistor. A pad shorted to GND produces a near-zero reading; any baseline under about 2 µs is marked <code>FAULT</code> during calibration and retry. A disconnected or excessively capacitive pad instead times out: <code>readPads()</code> returns −1, marks it <code>FAULT</code>, skips it, and retries once per second. A timeout can hold the simultaneous read for up to 1 ms before the pad is skipped.</div></details>
+          <details class="faq"><summary>More than one quadrant triggers</summary><div class="answer">Increase spacing between foil pads, reduce pad size, shorten and secure the leads, and add the optional grounded rear shield if necessary. Tune each quadrant through the same canvas stand-in used in the prototype.</div></details>
+          <details class="faq"><summary>COB zone is dim or dead</summary><div class="answer">Check the segment’s +/− pads, transistor pin order, the 150 Ω or 180 Ω base resistor, its 10 kΩ pulldown, and the shared ground between the C3 and strip supply. Meter the strip rail at startup and under full load; if all zones sag, verify the strip output is rated for at least 2 A, preferably 3 A. For the 5 mm LED fallback, also check each 220 Ω series resistor.</div></details>
+          <details class="faq"><summary>Mode button does not switch modes</summary><div class="answer">Confirm the latched-in position connects GPIO7 to GND and the released position opens it. If the behavior is reversed, move the wire from one throw to the other on the same DPDT pole. The second pole remains unused.</div></details>
+          <details class="faq"><summary>Board will not boot</summary><div class="answer">Disconnect the external wiring, boot bare, then reconnect one zone at a time. Verify the actual SuperMini pinout and keep boot-strapping GPIO2/8/9 clear; pad 1 belongs on GPIO6. A pad or driver on the wrong board pin can interfere with startup.</div></details>
+        </div>
+
+        <div style="margin-top:32px">
+          <h3 style="margin-bottom:14px">Final install check</h3>
+          <ul class="checklist">
+            <li>Each quadrant triggers only its own COB segment.</li>
+            <li>Hover through the painted canvas works at the proven distance.</li>
+            <li>Fade-up, three-second afterglow after release, and fade-out are smooth with no idle flicker.</li>
+            <li>The latching button selects all-on night-light mode, and after a USB power cycle the mode follows the switch position.</li>
+            <li>No hard component or bare joint touches or presses against the canvas.</li>
+            <li>The PTC fuse is in the strip’s +5 V feed, its warm derated hold current exceeds the measured normal load, and it has been tested warm; the bulk electrolytic is correctly polarized at the power entry; 100 nF local decoupling is fitted near the driver board.</li>
+            <li>Pads, COB segments, controller, and exposed insulated wires stay secure when the frame tilts.</li>
+            <li>Both USB cables exit cleanly; the strip supply is rated 2A or higher and all grounds are common.</li>
+          </ul>
+        </div>
+
+        <div class="reference">
+          Practical foil construction and grounded-shield technique adapted from <a href="https://www.instructables.com/Touchless-Keypad-DIY-Capacitive-Proximity-Sensors-/" target="_blank" rel="noopener noreferrer">Touchless Keypad: DIY Capacitive Proximity Sensors With Aluminium Foil</a>. That guide uses a two-pin CapacitiveSensor-library method; this ESP32-C3 build uses single-pin RC decay timing instead.
+        </div>
+      </section>
+
+      <footer class="closing">
+        <div><strong>Prototype first. Install once.</strong><p>Keep hands away during every boot calibration.</p></div>
+        <button class="btn" type="button" id="backTop">Back to top</button>
+      </footer>
+    </main>
+  </div>
+
+  <div class="toast" role="status" aria-live="polite" id="toast">Copied</div>
+
+  <script>
+    (function () {
+      var code = document.getElementById('firmwareCode');
+      var toast = document.getElementById('toast');
+      var timer;
+      function say(message) {
+        toast.textContent = message;
+        toast.classList.add('show');
+        clearTimeout(timer);
+        timer = setTimeout(function () { toast.classList.remove('show'); }, 1800);
+      }
+      function copyText(text) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          return navigator.clipboard.writeText(text);
+        }
+        var box = document.createElement('textarea');
+        box.value = text;
+        box.style.position = 'fixed';
+        box.style.opacity = '0';
+        document.body.appendChild(box);
+        box.select();
+        document.execCommand('copy');
+        box.remove();
+        return Promise.resolve();
+      }
+      document.getElementById('copyCode').addEventListener('click', function () {
+        copyText(code.textContent).then(function () { say('Firmware copied'); }).catch(function () { say('Copy failed — select the code manually'); });
+      });
+      document.getElementById('downloadCode').addEventListener('click', function () {
+        var blob = new Blob([code.textContent], { type: 'text/plain;charset=utf-8' });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = 'canvas-glow.ino';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+        say('Firmware downloaded');
+      });
+      document.getElementById('backTop').addEventListener('click', function () {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+
+      var links = Array.prototype.slice.call(document.querySelectorAll('nav a'));
+      var sections = Array.prototype.slice.call(document.querySelectorAll('header[id], section[id]'));
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            links.forEach(function (link) {
+              link.classList.toggle('active', link.getAttribute('href') === '#' + entry.target.id);
+            });
+          });
+        }, { rootMargin: '-15% 0px -72% 0px', threshold: 0 });
+        sections.forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+</body>
+</html>
