@@ -7,7 +7,7 @@ A backlit nightlight behind a stretched-canvas painting. A latching switch picks
 | Latched in (NIGHT) | glows at the knob level (knob fully down = off) | fades to full, holds 3 s, fades back to the knob level |
 | Released (HOVER) | dark | fades to full, holds 3 s, fades out |
 
-Everything runs from one 5 V 2 A adapter. Firmware is in [`../firmware`](../firmware), settings in [`Config.h`](../firmware/include/Config.h).
+Bench-test on a breadboard first: [BREADBOARD.md](BREADBOARD.md). Everything runs from one 5 V 2 A adapter. Firmware is in [`../firmware`](../firmware), settings in [`Config.h`](../firmware/include/Config.h).
 
 Contents: [Parts](#1-parts) · [Power budget](#2-power-budget) · [Circuit](#3-circuit) · [Transistors](#4-transistors) · [Light layout](#5-light-layout) · [Hover sensor](#6-hover-sensor) · [Firmware](#7-firmware) · [Build order](#8-build-order) · [Checks](#9-checks) · [Troubleshooting](#10-troubleshooting) · [3D prints](#11-3d-prints-bonus) · [Ideas](#12-ideas) · [Changes from v5](#13-changes-from-the-v5-guide)
 
@@ -33,7 +33,7 @@ Contents: [Parts](#1-parts) · [Power budget](#2-power-budget) · [Circuit](#3-c
 | Electrolytic 470–1000 µF ≥ 10 V | 1 | at the strip power entry | have |
 | Electrolytic 100 µF ≥ 10 V | 1 | at the ESP32 5V pin | have |
 | Perfboard, 22–24 AWG silicone wire, heat-shrink, solder | — | 20–22 AWG for the main 5 V / GND feed | have |
-| Breadboard, jumper wires | — | bench tests without soldering, see [Breadboard](#breadboard-no-soldering) | have |
+| Breadboard, jumper wires | — | bench tests without soldering, see [BREADBOARD.md](BREADBOARD.md) | have |
 | Crocodile-clip leads | 2 | handy on the bench, not essential | optional |
 | White foam board or thick white card | 1 | optional back reflector, see [Light layout](#5-light-layout) | optional |
 
@@ -251,54 +251,12 @@ The firmware also has a 60 s stuck-hover recovery and a loop watchdog. While the
 ## 8. Build order
 
 1. **Torch test** (done): foil blocks the light, so start with the antenna.
-2. **Bench, sensor only** ([breadboard](#breadboard-no-soldering)): SuperMini on USB, sensor and 1 MΩ on GPIO0, cardboard between hand and pad. Flash `supermini-debug` and check that `HOVER` appears at 2–4 cm and that `v` sits steady at idle.
-3. **Bench, one channel** ([breadboard](#breadboard-no-soldering)): one transistor, one short strip piece, the barrel supply. Check the switch, the knob and the hover fade.
+2. **Bench, sensor only** ([breadboard](BREADBOARD.md)): SuperMini on USB, sensor and 1 MΩ on GPIO0, cardboard between hand and pad. Flash `supermini-debug` and check that `HOVER` appears at 2–4 cm and that `v` sits steady at idle.
+3. **Bench, one channel** ([breadboard](BREADBOARD.md)): one transistor, one short strip piece, the barrel supply. Check the switch, the knob and the hover fade.
 4. **Light layout test**: tape segments in place temporarily and try angles and the reflector with the painting upright in a dark room.
 5. **Build the harness**: 4 channels on perfboard (tape-insulate the underside), the power entry, the knob and switch. Mount everything on the stretcher bars.
 6. **Install the sensor** and route its lead away from strip wires.
 7. Run every check in section 9.
-
-### Breadboard (no soldering)
-
-Steps 2 and 3 work on a breadboard with jumper wires. Crocodile leads help but are not needed.
-
-- **SuperMini headers**: if they came loose, push the header strips into the breadboard (long pins down), set the board on top and press it down with a rubber band or tape. Contact is unreliable this way, so if readings jump, press the board and see if they settle. Soldering the two headers is the one joint worth doing early.
-- Place the SuperMini across the centre gap, USB-C towards the board edge. Pin names are on the silkscreen; check them rather than counting.
-- Breadboard contacts carry about 1 A. That covers the bench, not the finished light.
-
-**Step 2, sensor only (USB power, nothing else):**
-
-| From | To |
-|---|---|
-| GPIO0 row | 1 MΩ to the GND rail |
-| GPIO0 row | jumper to the antenna's base lug (antenna collapsed): pin through the lug hole, bent over and taped, or a crocodile lead |
-| SuperMini GND | GND rail |
-
-Leave GPIO7 open: the internal pull-up puts it in hover mode, so the unconnected knob is ignored. Lay the antenna flat on the table, away from the USB cable, with cardboard over it. Flash `supermini-debug`, open the monitor, then read `v` with the hand away and at 2–4 cm.
-
-**Step 3, add one channel, the knob and the switch:**
-
-| From | To |
-|---|---|
-| Barrel jack − | GND rail (the star point on the bench) |
-| Barrel jack + | + rail (strip only, **not** the SuperMini 5V pin) |
-| GPIO3 row | 100 Ω to the BC337 base row |
-| BC337 base row | 10 kΩ to the GND rail |
-| BC337 emitter | GND rail |
-| BC337 collector | strip − |
-| strip + | + rail |
-| 470–1000 µF | across + rail and GND rail, stripe (−) to GND |
-| 3V3 | 1 MΩ to knob end A |
-| knob wiper | GPIO1, plus 100 nF to the GND rail |
-| knob end B | GND rail |
-| GPIO7 | switch common; the throw that closes when latched to the GND rail |
-
-- Keep the SuperMini on USB and leave its 5V pin unconnected. The adapter powers only the strip, and the shared GND rail is enough. No diode needed on the bench.
-- Use a **short strip piece**, cut at the marks (10–20 cm, 0.16–0.32 A). Never put the whole reel on one transistor: 4 m at full is over 6 A.
-- No solder on the strip: an 8 mm 2-pin COB clip connector, or a jumper pin laid flat on each copper pad at a cut mark and taped down hard (or crocodile clips).
-- Stranded wires (barrel pigtail, connector leads) bend in the breadboard holes. Twist them tight, or wrap them round a jumper pin and tape it.
-- If the switch does not fit the breadboard, use a jumper instead: GPIO7 to GND = NIGHT, open = hover.
-- Check the BC337 pin order first ([Transistors](#4-transistors)).
 
 ## 9. Checks
 
