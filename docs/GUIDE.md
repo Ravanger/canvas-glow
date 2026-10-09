@@ -22,16 +22,16 @@ Contents: [Parts](#1-parts) · [Power budget](#2-power-budget) · [Circuit](#3-c
 | Barrel jack pigtail (+/− wires) | 1 | the power entry on the frame | have |
 | 5 V COB strip, 320 LEDs/m, 8 W/m, 3000 K (4 m reel) | ~1.2 m | cut only on the printed cut marks | have |
 | NPN driver transistor | 4 | BC337 first choice, see [Transistors](#4-transistors) | have |
-| Base resistor 100 Ω / 150 Ω | 2 + 2 | 100 Ω on the long sides, 150 Ω on the short sides | have (check 100 Ω) |
+| Base resistor 100 Ω / 150 Ω | 2 + 2 | 100 Ω on the long sides, 150 Ω on the short sides | have |
 | 10 kΩ resistor | 4 | base-to-GND pulldown, keeps the strip off during boot | have |
 | 1 MΩ resistor | 2 | sensor bleed + knob series resistor | have |
 | B500K potentiometer | 1 | brightness knob (A500K works, B is smoother) | have |
 | Latching push switch (6-pin DPDT) | 1 | mode switch, one pole used | have |
 | 100 nF ceramic capacitor | 2 | knob filter + ESP32 supply | have |
-| Aluminium foil or copper tape | 1 sheet | sensor pad; copper tape can be soldered | have / buy |
-| Schottky diode SS14 / 1N5817 / 1N5819 | 1 | stops the adapter backfeeding the PC when USB is plugged in; a 1N4001 also works | ? |
-| Electrolytic 470–1000 µF ≥ 10 V | 1 | at the strip power entry | ? |
-| Electrolytic 100 µF ≥ 10 V | 1 | at the ESP32 5V pin | ? |
+| Sensor: telescopic antenna, thin wire, or foil / copper tape | 1 | see [Hover sensor](#6-hover-sensor) | have |
+| Schottky diode 1N5819 (or 1N5822) | 1 | stops the adapter backfeeding the PC when USB is plugged in; see [Which diode](#which-diode) | have |
+| Electrolytic 470–1000 µF ≥ 10 V | 1 | at the strip power entry | have |
+| Electrolytic 100 µF ≥ 10 V | 1 | at the ESP32 5V pin | have |
 | Perfboard, 22–24 AWG silicone wire, heat-shrink, solder | — | 20–22 AWG for the main 5 V / GND feed | have |
 | White foam board or thick white card | 1 | optional back reflector, see [Light layout](#5-light-layout) | optional |
 
@@ -84,6 +84,20 @@ GND (barrel −) = star point: all 4 emitters, SuperMini GND, all capacitor nega
 - Run the emitter ground wires straight back to the barrel jack, not through the SuperMini's GND pin. The strip current then stays off the sensor's ground reference.
 - No fuse is needed with a decent adapter: its own over-current protection trips before any fuse sized for this load would.
 - Cover the SuperMini's red power LED with a dab of black paint or tape, or it shows through the canvas.
+
+### Which diode
+
+Read the print on the body (phone camera zoomed in, light at a low angle). If it is worn off, use size plus the meter's diode test (red on the plain end, black on the striped end):
+
+| Diode | Body | Diode test | Use here |
+|---|---|---|---|
+| **1N5819** | small black (DO-41) | **~0.15–0.3 V** | **first choice** |
+| 1N5822 | large black (DO-201, ~5 mm thick) | ~0.15–0.3 V | fine, just bulky |
+| 1N4007, FR107 | small black (DO-41) | ~0.5–0.7 V | works; the board runs on ~4.2 V |
+| 1N5399, FR207 / 1N5408 | medium / large black | ~0.5–0.7 V | works, bulky |
+| 1N4148 | small orange glass | ~0.6 V | no, too small for the supply |
+
+The low reading is what marks a Schottky: among the small black ones, the ~0.2 V diode is the 1N5819. The stripe goes towards the SuperMini.
 
 ### One driver channel (build 4)
 
@@ -166,13 +180,15 @@ Inner opening: 36 × 25.8 cm.
 
 The sensor is a conductive pad behind the canvas. A hand in front adds capacitance, which the firmware measures as a slower RC decay on GPIO0.
 
-**Solid foil casts a shadow** on a backlit canvas. Do the torch test: in a dark room, hold the foil against the back with a phone torch behind it and look at the front. Then pick a sensor:
+**Torch test result: solid foil blocks the light completely**, so a foil pad shows as a dark patch unless the paint in front of it is already dark. Pick a sensor:
 
 | Sensor | Sensitivity | Shadow | Notes |
 |---|---|---|---|
-| Foil / copper tape pad, ~8 × 8 cm, behind a dark-painted area | best | hidden by the paint | simplest; copper tape lets you solder the wire |
-| Thin-wire grid, 1–1.5 cm pitch, ~10 × 10 cm | nearly as good | almost none | thin bare or enamelled wire, scrape the enamel at the joint |
-| Telescopic antenna along the inner bottom bar | weakest, edge only | none | "wave near the bottom edge"; solder to the base lug, keep it collapsed (sliding sections give jumpy readings) |
+| Telescopic antenna along the inner bottom bar | weakest, edge only | none | **start here**: "wave near the bottom edge"; solder to the base lug, keep it collapsed (sliding sections give jumpy readings) |
+| Thin-wire grid, 1–1.5 cm pitch, ~10 × 10 cm | good | faint lines | thin bare or enamelled wire, scrape the enamel at the joint; torch-test it before fixing |
+| Foil / copper tape pad, ~8 × 8 cm | best | dark patch | only behind an area that is dark in the painting anyway |
+
+Bench-test the antenna first (build order step 2). If it only triggers when you nearly touch the frame, add a grid on GPIO6 as a second sensor.
 
 You can run two sensors: put the second one on GPIO6 with its own 1 MΩ and add `6` to `SENSE_PINS`. Either one triggers.
 
@@ -232,8 +248,8 @@ The firmware also has a 60 s stuck-hover recovery and a loop watchdog. While the
 
 ## 8. Build order
 
-1. **Torch test**: where does the paint let light through, and where would a pad's shadow hide?
-2. **Bench, sensor only**: SuperMini on USB, pad and 1 MΩ on GPIO0, cardboard between hand and pad. Flash `supermini-debug` and check that `HOVER` appears at 2–4 cm and that `v` sits steady at idle.
+1. **Torch test** (done): foil blocks the light, so start with the antenna.
+2. **Bench, sensor only**: SuperMini on USB, sensor and 1 MΩ on GPIO0, cardboard between hand and pad. Flash `supermini-debug` and check that `HOVER` appears at 2–4 cm and that `v` sits steady at idle.
 3. **Bench, one channel**: one transistor, one short strip piece, the barrel supply. Check the switch, the knob and the hover fade.
 4. **Light layout test**: tape segments in place temporarily and try angles and the reflector with the painting upright in a dark room.
 5. **Build the harness**: 4 channels on perfboard (tape-insulate the underside), the power entry, the knob and switch. Mount everything on the stretcher bars.
@@ -268,6 +284,7 @@ The firmware also has a 60 s stuck-hover recovery and a loop watchdog. While the
 | Knob does nothing for the last part of the turn | lower `KNOB_MAX_MV` to the debug reading |
 | Won't boot | disconnect everything, boot bare, reconnect one item at a time; nothing on GPIO 2/8/9 |
 | Upload fails | BOOT + RESET (section 7), use a data USB cable |
+| PlatformIO `HTTPClientError` or `CERTIFICATE_VERIFY_FAILED` on first build | a work network inspects HTTPS; build once from a home network, or export the Windows root certificates to a `.pem` and set `REQUESTS_CA_BUNDLE` and `SSL_CERT_FILE` to it |
 
 ## 11. 3D prints (bonus)
 
