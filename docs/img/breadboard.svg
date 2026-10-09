@@ -11,7 +11,7 @@
   <line x1="20" y1="70" x2="980" y2="70" stroke="#1d4ed8" stroke-width="5"/>
   <line x1="20" y1="710" x2="980" y2="710" stroke="#1d4ed8" stroke-width="5"/>
   <path d="M976 70 V710" stroke="#1d4ed8" stroke-width="3" stroke-dasharray="8 6" fill="none"/>
-  <text x="44" y="30" fill="#d62828" font-weight="bold">+5 V rail (strip only)</text>
+  <text x="44" y="30" fill="#d62828" font-weight="bold">+5 V rail (load only)</text>
   <text x="44" y="90" fill="#1d4ed8" font-weight="bold">GND rail</text>
   <text x="44" y="734" fill="#1d4ed8" font-weight="bold">GND rail</text>
   <text x="966" y="400" fill="#1d4ed8" text-anchor="middle" transform="rotate(-90 966 400)">jumper: join both GND rails</text>
@@ -110,6 +110,21 @@
   <text x="182" y="286" font-weight="bold">−</text>
   <text x="112" y="324" text-anchor="middle" font-size="12">COB strip piece, 10–20 cm</text>
 
+  <rect x="40" y="118" width="300" height="146" rx="8" fill="#f7f7f9" stroke="#ccc"/>
+  <text x="54" y="140" font-weight="bold">or a plain LED instead of the strip</text>
+  <text x="54" y="204" fill="#d62828" font-weight="bold">+ rail</text>
+  <g fill="none" stroke-width="2.5">
+    <path d="M100 200 H150" stroke="#d62828"/>
+    <path d="M200 200 H240 M262 200 H292" stroke="#222"/>
+    <line x1="262" y1="188" x2="262" y2="212" stroke="#222" stroke-width="3"/>
+    <path d="M246 182 L254 172 M256 186 L264 176" stroke="#e0a000" stroke-width="2"/>
+  </g>
+  <rect x="150" y="193" width="50" height="14" fill="#fff" stroke="#222" stroke-width="2"/>
+  <text x="175" y="186" text-anchor="middle">220 Ω</text>
+  <polygon points="240,188 240,212 262,200" fill="#222"/>
+  <text x="298" y="204">to C</text>
+  <text x="190" y="234" text-anchor="middle" font-size="12">anode = long leg, cathode = short leg</text>
+  <text x="190" y="250" text-anchor="middle" font-size="12">(flat side) towards C · about 13 mA</text>
   <circle cx="640" cy="286" r="4" fill="#0f8b8d"/><circle cx="700" cy="286" r="4" fill="#0f8b8d"/>
   <text x="670" y="258" text-anchor="middle">mode switch</text>
   <text x="670" y="308" text-anchor="middle" font-size="12">latched = NIGHT</text>
