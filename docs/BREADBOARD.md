@@ -28,8 +28,9 @@ Bench steps 1 and 2 of the [build guide](GUIDE.md#7-build-order), on a breadboar
 | + rail | 220 Ω to LED anode (long leg) |
 | LED cathode (short leg, flat side) | Q3 drain |
 | 100 µF | across + rail and GND rail near Q1/Q2, stripe (−) to GND |
+| 100 nF | across + rail and GND rail next to the 100 µF |
 
-Pass: the knob dims the LED from almost off to bright, with no flicker. If it works backwards, swap the pot's end legs. If it is stuck on or off, the oscillator is not running: recheck the pin orders and C1/C2.
+Pass: the knob dims the LED from off (or a faint glow) to bright, with no flicker. If it works backwards, swap the pot's end legs. If it is stuck on or off, the oscillator is not running: recheck the pin orders and C1/C2.
 
 ## Step 2: power stage
 

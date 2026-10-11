@@ -55,7 +55,7 @@ The strip is 8 W/m at 5 V, so **1.6 A per metre** at full brightness.
 
 Q1 and Q2 form an astable multivibrator: each one's collector charges a capacitor that turns the other on. The pot sits in the timing resistors, so turning it changes how long Q2 stays off while the total period stays near 1 ms (~1 kHz). The strip is on while Q2 is off, so the pot sets the duty cycle. Q3 buffers Q2's collector without loading the oscillator, and pulls Q4 on. Q4 puts nearly 5 V on the drive rail, which feeds the four BC337 bases through 180 / 270 Ω. Each BC337 switches one strip segment.
 
-The bottom of the turn is a faint glow, not off (about 0.75% duty). Unplug the adapter to switch off. The pot is linear, so most of the visible change happens in the first third of the turn.
+The bottom of the turn is fully off or a faint glow, depending on the parts: the shortest pulse (~7 µs) is shorter than Q3 needs to switch on (~10 µs). Unplug the adapter to switch off. The pot is linear, so most of the visible change happens in the first third of the turn.
 
 ## 4. Circuit
 
@@ -92,7 +92,7 @@ Q1 E, Q2 E ── GND
 ```
 
 - C1 goes from Q1's collector to Q2's base. C2 goes from Q2's collector to Q1's base.
-- Total timing resistance stays about 625 kΩ whatever the knob does, so the period is ~0.95 ms. Q2's off-time is 0.693 × C1 × (Ra + the pot's A-side), which gives about 0.75% duty with the pot at end A and about 81% at end B (Rb sets this top).
+- Total timing resistance stays about 625 kΩ whatever the knob does, so the period is ~0.95 ms. Q2's off-time is 0.693 × C1 × (Ra + the pot's A-side), which gives about 0.75% duty in theory with the pot at end A (in practice ~0, see above) and about 81% at end B (Rb sets this top).
 - C1 = C2 can be any matched pair from 1 to 4.7 nF: 1 nF is ~2.3 kHz, 4.7 nF ~500 Hz. Never 100 nF: ~20 Hz flickers.
 - If the knob works backwards, swap the pot's two end legs.
 
@@ -178,7 +178,7 @@ Inner opening: 36 × 25.8 cm.
 | Check | How | Pass |
 |---|---|---|
 | Strip current | wire one segment straight to 5 V with the meter (10 A jack) in series | about 1.6 A × length |
-| Duty | multimeter, DC volts on the DRIVE RAIL, knob at bottom and at top | average ≈ duty × 4.8 V: about 0.05 V at the bottom, about 3.9 V at full |
+| Duty | multimeter, DC volts on the DRIVE RAIL, knob at bottom and at top | average ≈ duty × 4.8 V: 0 to 0.05 V at the bottom, about 3.9 V at full |
 | Transistor drop | knob at full; measure collector to emitter of a BC337 | under 0.4 V good; over 0.6 V → lower that base resistor to 150 Ω (long) or 220 Ω (short) |
 | Strip voltage | at full, across the far segment's + and − | 4.5 V or more |
 | Total current | meter in series with the barrel + wire, everything at full | at most ~1.6 A; if higher, raise Rb to 150k |
@@ -195,7 +195,8 @@ Inner opening: 36 × 25.8 cm.
 | One segment dark | that BC337's pin order, base resistor, the segment's +/− wires |
 | All dim | strip voltage under 4.5 V: thicker feed wire, check the adapter; check Q4 saturates (drive rail 4.6 V or more at full) |
 | Max too dim | lower Rb to 100k, only after checking total current |
-| Faint glow at the bottom of the turn | expected: unplug the adapter to switch off |
+| Faint glow at the bottom of the turn | expected on some parts: unplug the adapter to switch off |
+| Jumps to full, knob does nothing | pot wiper lost contact: both bases float and the light goes full on. Reseat or replace the pot |
 
 ## 10. 3D prints (bonus)
 
