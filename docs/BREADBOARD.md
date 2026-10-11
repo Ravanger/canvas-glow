@@ -1,6 +1,6 @@
 # Canvas Glow breadboard test
 
-Bench steps 2 and 3 of the [build guide](GUIDE.md#8-build-order), on a breadboard with jumper wires and no soldering. Crocodile leads help but are not needed. The finished light is built as in the [build guide](GUIDE.md).
+Bench steps 1 and 2 of the [build guide](GUIDE.md#7-build-order), on a breadboard with jumper wires and no soldering. Crocodile leads help but are not needed. The finished light is built as in the [build guide](GUIDE.md).
 
 ## Setup
 
@@ -8,25 +8,26 @@ Bench steps 2 and 3 of the [build guide](GUIDE.md#8-build-order), on a breadboar
 - Place the SuperMini across the centre gap, USB-C towards the board edge. Pin names are on the silkscreen; check them rather than counting.
 - Breadboard contacts carry about 1 A. That covers the bench, not the finished light.
 
-![Breadboard wiring for steps 2 and 3](img/breadboard.svg)
+![Breadboard wiring](img/breadboard.svg)
 
-Step 2 uses only the green-highlighted part. Pin positions vary between makers, so follow the silkscreen labels, not the drawing's positions.
+Pin positions vary between makers, so follow the silkscreen labels, not the drawing's positions.
 
-## Step 2: sensor only
+## Step A: knob only
 
 USB power, nothing else.
 
 | From | To |
 |---|---|
-| GPIO0 row | 1 MΩ to the GND rail |
-| GPIO0 row | jumper to the antenna's base lug (antenna collapsed): pin through the lug hole, bent over and taped, or a crocodile lead |
+| 3V3 | 1 MΩ to knob end A |
+| knob wiper | GPIO1, plus 100 nF to the GND rail |
+| knob end B | GND rail |
 | SuperMini GND | GND rail |
 
-Leave GPIO7 open: the internal pull-up puts it in hover mode, so the unconnected knob is ignored. Lay the antenna flat on the table, away from the USB cable, with cardboard over it. Flash `supermini-debug` ([Flash](GUIDE.md#flash)), open the monitor, then read `v` ([Debug readout](GUIDE.md#debug-readout-supermini-debug)) with the hand away and at 2–4 cm.
+Flash `supermini-debug` ([Flash](GUIDE.md#flash)), open the monitor and turn the knob ([Debug readout](GUIDE.md#debug-readout-supermini-debug)). Note `knob=` at full turn and set `KNOB_MAX_MV` to about 95% of it.
 
-Pass: `HOVER` appears at 2–4 cm and `v` sits steady at idle. If it only triggers when you nearly touch the antenna, try a wire grid ([Hover sensor](GUIDE.md#6-hover-sensor)).
+Pass: `knob=` and `level=` change smoothly with the knob and read 0 at the bottom of the turn.
 
-## Step 3: one channel, knob and switch
+## Step B: add one channel
 
 | From | To |
 |---|---|
@@ -38,17 +39,12 @@ Pass: `HOVER` appears at 2–4 cm and `v` sits steady at idle. If it only trigge
 | BC337 collector | load −: strip −, or LED cathode |
 | load + | + rail: strip +, or LED anode through 220 Ω |
 | 470–1000 µF | across + rail and GND rail, stripe (−) to GND |
-| 3V3 | 1 MΩ to knob end A |
-| knob wiper | GPIO1, plus 100 nF to the GND rail |
-| knob end B | GND rail |
-| GPIO7 | switch common; the throw that closes when latched to the GND rail |
 
 - Keep the SuperMini on USB and leave its 5V pin unconnected. The adapter powers only the load, and the shared GND rail is enough. No diode needed on the bench.
 - Load, pick one:
   - **COB strip piece**, cut at the marks (10–20 cm, 0.16–0.32 A). Never put the whole reel on one transistor: 4 m at full is over 6 A. No solder: an 8 mm 2-pin COB clip connector, or a jumper pin laid flat on each copper pad at a cut mark and taped down hard (or crocodile clips). Tests the transistor at real current.
-  - **Plain LED** (any 3 or 5 mm), no strip cutting: + rail → 220 Ω → anode (long leg); cathode (short leg, flat side) → collector. About 13 mA, so it tests the switching, fades, knob and hover, but not the transistor drop under load.
+  - **Plain LED** (any 3 or 5 mm), no strip cutting: + rail → 220 Ω → anode (long leg); cathode (short leg, flat side) → collector. About 13 mA, so it tests the switching, fades and knob, but not the transistor drop under load.
 - Stranded wires (barrel pigtail, connector leads) bend in the breadboard holes. Twist them tight, or wrap them round a jumper pin and tape it.
-- If the switch does not fit the breadboard, use a jumper instead: GPIO7 to GND = NIGHT, open = hover.
 - Check the BC337 pin order first ([Transistors](GUIDE.md#4-transistors)).
 
-Pass: the switch changes mode, the knob dims the load in NIGHT, and a hover fades it up and back.
+Pass: the knob dims the load smoothly from off to full.
