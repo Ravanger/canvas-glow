@@ -1,18 +1,8 @@
 # Canvas Glow
 
-Backlit nightlight behind a stretched-canvas painting, a dimmable halo with a brightness knob. ESP32-C3 SuperMini, 5 V COB strip, one 5 V 2 A adapter.
+Backlit nightlight behind a stretched-canvas painting, a dimmable halo with a brightness knob. Discrete transistor PWM dimmer (no microcontroller), 5 V COB strip, one 5 V 2 A adapter.
 
 - Build guide: [docs/GUIDE.md](docs/GUIDE.md)
 - Breadboard test, no soldering: [docs/BREADBOARD.md](docs/BREADBOARD.md)
-- Settings: [firmware/include/Config.h](firmware/include/Config.h)
 
-```sh
-pio run -e supermini -t upload        # normal
-pio run -e supermini-debug -t upload  # serial readout + boot sweep
-pio device monitor                    # 115200
-```
-
-| GPIO | Use |
-|---|---|
-| 3, 4, 5, 10 | strip drivers |
-| 1 | brightness knob |
+A two-transistor oscillator makes ~1 kHz PWM, the knob sets the duty, and a 2N7000 and a BC327 drive four BC337 transistors that switch the four strip segments.
