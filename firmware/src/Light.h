@@ -9,7 +9,6 @@ public:
     void tick();
     void flash(uint16_t level);
 
-    bool settling() const { return level_ != target_; }
     uint16_t level() const { return level_; }
     uint16_t duty() const { return duty_; }
     float cap() const { return cap_; }

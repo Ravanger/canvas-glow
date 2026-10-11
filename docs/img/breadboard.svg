@@ -1,12 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 750" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13">
   <rect width="1000" height="750" fill="#ffffff"/>
 
-  <g stroke="#9be89b" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.8">
-    <path d="M442 248 H405 V70"/>
-    <path d="M442 476 H418 V530 H950"/>
-    <path d="M760 530 V70"/>
-  </g>
-
   <line x1="20" y1="40" x2="980" y2="40" stroke="#d62828" stroke-width="5"/>
   <line x1="20" y1="70" x2="980" y2="70" stroke="#1d4ed8" stroke-width="5"/>
   <line x1="20" y1="710" x2="980" y2="710" stroke="#1d4ed8" stroke-width="5"/>
@@ -64,15 +58,11 @@
     <path d="M395 665 V710" stroke="#222"/>
     <path d="M442 438 H330 V625 H371" stroke="#7b2cbf"/>
     <path d="M350 625 V660 M350 666 V710" stroke="#222"/>
-    <path d="M442 476 H418 V530 H800" stroke="#2a9d3a"/>
-    <path d="M760 530 V440 M760 394 V70" stroke="#2a9d3a"/>
     <path d="M442 362 H350 M300 362 H215" stroke="#e07a00"/>
     <path d="M260 362 V440 M260 486 V710" stroke="#222"/>
     <path d="M215 354 L195 338 V306" stroke="#222"/>
     <path d="M215 370 L195 386 V710" stroke="#222"/>
     <path d="M40 299 H28 V40" stroke="#d62828"/>
-    <path d="M558 286 H640 M700 286 H740 V70" stroke="#0f8b8d"/>
-    <path d="M640 286 L694 270" stroke="#0f8b8d"/>
   </g>
 
   <rect x="388" y="520" width="14" height="46" fill="#fff" stroke="#222" stroke-width="2"/>
@@ -85,14 +75,6 @@
   <text x="414" y="629" font-size="12">wiper → GPIO1</text>
   <g stroke="#222" stroke-width="3"><line x1="338" y1="660" x2="362" y2="660"/><line x1="338" y1="666" x2="362" y2="666"/></g>
   <text x="332" y="668" text-anchor="end">100 nF</text>
-
-  <rect x="753" y="394" width="14" height="46" fill="#fff" stroke="#222" stroke-width="2"/>
-  <text x="774" y="422">1 MΩ</text>
-  <circle cx="806" cy="530" r="6" fill="#fff" stroke="#555" stroke-width="2.5"/>
-  <rect x="812" y="526" width="132" height="8" rx="3" fill="#c0c4cc" stroke="#888"/>
-  <circle cx="946" cy="530" r="5" fill="#c0c4cc" stroke="#888"/>
-  <text x="878" y="512" text-anchor="middle">telescopic antenna, collapsed</text>
-  <text x="878" y="556" text-anchor="middle" font-size="12">jumper to the base lug</text>
 
   <rect x="300" y="355" width="50" height="14" fill="#fff" stroke="#222" stroke-width="2"/>
   <text x="325" y="348" text-anchor="middle">100 Ω</text>
@@ -125,14 +107,11 @@
   <text x="298" y="204">to C</text>
   <text x="190" y="234" text-anchor="middle" font-size="12">anode = long leg, cathode = short leg</text>
   <text x="190" y="250" text-anchor="middle" font-size="12">(flat side) towards C · about 13 mA</text>
-  <circle cx="640" cy="286" r="4" fill="#0f8b8d"/><circle cx="700" cy="286" r="4" fill="#0f8b8d"/>
-  <text x="670" y="258" text-anchor="middle">mode switch</text>
-  <text x="670" y="308" text-anchor="middle" font-size="12">latched = NIGHT</text>
 
   <g fill="#222">
     <circle cx="405" cy="70" r="4"/><circle cx="28" cy="40" r="4"/><circle cx="890" cy="40" r="4"/><circle cx="946" cy="70" r="4"/>
-    <circle cx="820" cy="40" r="4"/><circle cx="820" cy="70" r="4"/><circle cx="760" cy="70" r="4"/><circle cx="740" cy="70" r="4"/>
-    <circle cx="760" cy="530" r="4"/><circle cx="260" cy="362" r="4"/><circle cx="350" cy="625" r="4"/>
+    <circle cx="820" cy="40" r="4"/><circle cx="820" cy="70" r="4"/>
+    <circle cx="260" cy="362" r="4"/><circle cx="350" cy="625" r="4"/>
     <circle cx="395" cy="710" r="4"/><circle cx="350" cy="710" r="4"/><circle cx="260" cy="710" r="4"/><circle cx="195" cy="710" r="4"/>
     <circle cx="976" cy="70" r="4"/><circle cx="976" cy="710" r="4"/>
   </g>
@@ -140,8 +119,7 @@
   <g font-size="12" fill="#333">
     <text x="560" y="600">● = joined · crossing without ● = not joined</text>
     <text x="560" y="620">✕ = leave unconnected (5V pin: board runs on USB)</text>
-    <text x="560" y="640"><tspan fill="#2a9d3a" font-weight="bold">green glow</tspan> = step 2 (sensor only, USB power)</text>
-    <text x="560" y="660">grey pins: avoid (boot pins)</text>
-    <text x="560" y="680">pin positions vary: go by the silkscreen labels</text>
+    <text x="560" y="640">grey pins: avoid (boot pins)</text>
+    <text x="560" y="660">pin positions vary: go by the silkscreen labels</text>
   </g>
 </svg>
