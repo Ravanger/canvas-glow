@@ -5,7 +5,7 @@ Bench steps 1 and 2 of the [build guide](GUIDE.md#7-build-order), on a breadboar
 ## Setup
 
 - Barrel jack + to the + rail, barrel jack − to the GND rail.
-- Check the pin order of every transistor first ([Transistors](GUIDE.md#5-transistors)): 2N3904 E-B-C, 2N7000 S-G-D, BC337 and BC327 C-B-E.
+- Check the pin order of every transistor first ([Transistors](GUIDE.md#5-transistors)): 2N3904 E-B-C, BC337 and BC327 C-B-E.
 - Breadboard contacts carry about 1 A. That covers the bench, not the finished light.
 - Stranded wires (barrel pigtail, connector leads) bend in the breadboard holes. Twist them tight, or wrap them round a jumper pin and tape it.
 
@@ -19,18 +19,18 @@ Bench steps 1 and 2 of the [build guide](GUIDE.md#7-build-order), on a breadboar
 | + rail | RC2 10 kΩ to Q2 C |
 | + rail | pot wiper (middle leg) |
 | pot end A | 4.7 kΩ to Q2 B |
-| pot end B | 120 kΩ to Q1 B |
+| pot end B | 100 kΩ to Q1 B |
 | Q1 C | C1 2.2 nF to Q2 B |
 | Q2 C | C2 2.2 nF to Q1 B |
 | Q1 E, Q2 E | GND rail |
-| Q2 C | Q3 gate |
-| Q3 source | GND rail |
-| + rail | 220 Ω to LED anode (long leg) |
-| LED cathode (short leg, flat side) | Q3 drain |
+| Q2 C | 47 kΩ to Q3 B |
+| Q3 E | GND rail |
+| + rail | 470 Ω to LED anode (long leg) |
+| LED cathode (short leg, flat side) | Q3 C |
 | 100 µF | across + rail and GND rail near Q1/Q2, stripe (−) to GND |
 | 100 nF | across + rail and GND rail next to the 100 µF |
 
-Pass: the knob dims the LED from off (or a faint glow) to bright, with no flicker. If it works backwards, swap the pot's end legs. If it is stuck on or off, the oscillator is not running: recheck the pin orders and C1/C2.
+Pass: the knob dims the LED from off (or a faint glow) to bright, with no flicker. If it works backwards, swap the pot's end legs. If it is stuck on or off, the oscillator is not running: recheck the pin orders and C1/C2. Then unplug and replug about 20 times: it should start every time.
 
 ## Step 2: power stage
 
@@ -38,7 +38,7 @@ Remove the LED from Q3, then add:
 
 | From | To |
 |---|---|
-| Q3 drain | 1 kΩ to Q4 B |
+| Q3 C | 1 kΩ to Q4 B |
 | Q4 B | 10 kΩ to + rail |
 | Q4 E | + rail |
 | Q4 C | DRIVE RAIL |
