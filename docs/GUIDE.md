@@ -167,7 +167,7 @@ Inner opening: 36 × 25.8 cm.
 ## 7. Build order
 
 1. **Bench, oscillator + LED** ([breadboard](BREADBOARD.md)): Q1–Q3 and an LED on the adapter. Check that the knob dims the LED from almost off to bright, with no flicker.
-2. **Bench, power stage** ([breadboard](BREADBOARD.md)): Q4, one BC337, one short strip piece. Check that the knob dims the load smoothly.
+2. **Bench, power stage** ([breadboard](BREADBOARD.md)): Q4, one BC337, an LED. Check that the knob dims the LED smoothly.
 3. **Light layout test**: tape segments in place temporarily and try angles and the reflector with the painting upright in a dark room.
 4. **Build the harness**: oscillator, driver and 4 channels on perfboard (tape-insulate the underside), the power entry and the knob. Mount everything on the stretcher bars.
 5. Run every check in section 8.
