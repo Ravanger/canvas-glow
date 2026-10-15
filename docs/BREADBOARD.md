@@ -6,7 +6,6 @@ Bench steps 1 and 2 of the [build guide](GUIDE.md#7-build-order), on a breadboar
 
 - Barrel jack + to the + rail, barrel jack − to the GND rail.
 - Check the pin order of every transistor first ([Transistors](GUIDE.md#5-transistors)): 2N3904 E-B-C, BC337 and BC327 C-B-E.
-- Breadboard contacts carry about 1 A. That covers the bench, not the finished light.
 - Stranded wires (barrel pigtail, connector leads) bend in the breadboard holes. Twist them tight, or wrap them round a jumper pin and tape it.
 
 ![Breadboard wiring](img/breadboard.svg)
@@ -45,12 +44,9 @@ Remove the LED from Q3, then add:
 | DRIVE RAIL | 180 Ω to BC337 base |
 | BC337 base | 10 kΩ to GND rail |
 | BC337 E | GND rail |
-| BC337 C | load −: strip −, or LED cathode |
-| load + | + rail: strip +, or LED anode through 220 Ω |
-| 470–1000 µF | across + rail and GND rail, stripe (−) to GND |
+| BC337 C | LED cathode (short leg, flat side) |
+| + rail | 220 Ω to LED anode (long leg) |
 
-- Load, pick one:
-  - **COB strip piece**, cut at the marks (10–20 cm, 0.16–0.32 A). Never put the whole reel on one transistor: 4 m at full is over 6 A. No solder: an 8 mm 2-pin COB clip connector, or a jumper pin laid flat on each copper pad at a cut mark and taped down hard (or crocodile clips). Tests the transistor at real current.
-  - **Plain LED** (any 3 or 5 mm), no strip cutting: + rail → 220 Ω → anode (long leg); cathode (short leg, flat side) → collector. About 13 mA, so it tests the switching and the knob, but not the transistor drop under load.
+Any 3 or 5 mm LED, about 13 mA. It tests the switching and the knob. The BC337 drop at real strip current is checked on the finished light ([Checks](GUIDE.md#8-checks)).
 
-Pass: the load dims smoothly, BC337 and BC327 stay cool, and the DC voltage on the DRIVE RAIL tracks the knob.
+Pass: the LED dims smoothly, and the DC voltage on the DRIVE RAIL tracks the knob.
