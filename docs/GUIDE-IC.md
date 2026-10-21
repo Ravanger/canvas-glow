@@ -26,7 +26,7 @@ Contents: [Parts](#1-parts) · [Power budget](#2-power-budget) · [How it works]
 | 2.2 nF capacitor (marked 222) | 1 | timing |
 | 100 nF ceramic capacitor | 2 | pin 5 + supply decoupling |
 | Electrolytic 470–1000 µF ≥ 10 V | 1 | at the strip power entry |
-| Electrolytic 10–47 µF ≥ 10 V | 1 | across +5V/GND right at pins 8/1 |
+| Electrolytic 10–47 µF ≥ 10 V | 1 | across +5V/GND right at pins 8/1, + lead to +5V |
 | Polyfuse 2–2.5 A | 1 | optional, right after the jack |
 | Perfboard, 22–24 AWG silicone wire, heat-shrink, solder | — | 20–22 AWG for the main 5 V / GND feed |
 | Breadboard, jumper wires | — | bench tests without soldering, see [BREADBOARD-IC.md](BREADBOARD-IC.md) |
@@ -50,7 +50,7 @@ The strip is 8 W/m at 5 V, so **1.6 A per metre** at full brightness.
 
 ## 3. How it works
 
-The 555 has two internal thresholds, 1/3 and 2/3 of the supply. Its output flips high when the timing capacitor falls to 1/3 and low when it rises to 2/3. Two diodes steer the capacitor's charge and discharge through opposite halves of the pot. The wiper goes to pin 7, and a 10 kΩ pull-up holds pin 7 at +5 V while the output is high: charging goes 5 V → 10 kΩ → pin 7 → wiper → upper pot half → D1 → capacitor. While the output is low, the chip pulls pin 7 to ground: discharging goes capacitor → D2 → 100 kΩ → lower pot half → wiper → pin 7. Turning the knob shifts resistance from one path to the other, so the total stays about 610 kΩ and the frequency stays near 0.9 kHz — only the duty changes. Duty = charge resistance (10 kΩ + upper half) ÷ total resistance. The pot ends never touch +5V: that is what keeps the discharge path clean. An earlier version of this guide tied pot end 1 to +5V, which put a divider on the discharge path and killed oscillation for most of the knob's travel — do not wire it that way.
+The 555 has two internal thresholds, 1/3 and 2/3 of the supply. Its output flips high when the timing capacitor falls to 1/3 and low when it rises to 2/3. Two diodes steer the capacitor's charge and discharge through opposite halves of the pot. The wiper goes to pin 7, and a 10 kΩ pull-up holds pin 7 at +5 V while the output is high: charging goes 5 V → 10 kΩ → pin 7 → wiper → upper pot half → D1 → capacitor. While the output is low, the chip pulls pin 7 to ground: discharging goes capacitor → D2 → 100 kΩ → lower pot half → wiper → pin 7. Turning the knob shifts resistance from one path to the other, so the total stays about 610 kΩ and the frequency stays near 0.9 kHz — only the duty changes. Duty = charge resistance (10 kΩ + upper half) ÷ total resistance. The pot ends never touch +5V: that is what keeps the discharge path clean.
 
 Pin 3 drives the four BC337 bases directly through 100 / 150 Ω. The 555's output swings to about 3.3 V under that load, which is plenty of base drive, and it pulls the bases low when off, so no pulldowns are needed. The bottom of the turn is a faint glow, not off: the 10 kΩ sets a minimum duty of a few percent. Unplug the adapter to switch off (or the RESET switch in Troubleshooting). The pot is linear, so most of the visible change happens in the first third of the turn.
 
@@ -102,7 +102,7 @@ NE555 pinout, DIP-8, notch at the top, pins counted counter-clockwise from the t
 
 - Total timing resistance stays about 610 kΩ whatever the knob does (10 kΩ pull-up + 500 kΩ pot + 100 kΩ), so the period is ~1.1 ms (~0.9 kHz). The diode drops stretch it past the ideal 0.93 ms; the duty barely moves, because charge and discharge stretch by nearly the same factor. Duty is the charge resistance (10 kΩ + upper half) over the total: about 3.5% at end A (a faint glow, not off), about 83% at end B (the 100 kΩ sets this top).
 - The timing capacitor can be 1 to 4.7 nF: 1 nF is ~2 kHz, 4.7 nF ~400 Hz. Never 100 nF: ~20 Hz flickers.
-- If the knob works backwards, swap the pot's two end legs (swap the D1 side and the 100 kΩ/D2 side).
+- End A is the counter-clockwise end, end B the clockwise end, so turning clockwise brightens. If it runs backwards, swap the two end legs.
 
 ### One strip channel (build 4)
 
@@ -183,11 +183,10 @@ Inner opening: 36 × 25.8 cm.
 
 | Symptom | Try |
 |---|---|
-| Light stuck fully on or off | the 555 is not oscillating: check the DIP-8 pinout (pins 2 + 6 tied, pin 4 to +5V, pin 5 cap), the wiper goes to pin 7 with the 10 kΩ pull-up, the diodes are not swapped, the 2.2 nF is on pins 2 + 6 |
+| Light stuck fully on or off | the 555 is not oscillating: check the DIP-8 pinout (pins 2 + 6 tied, pin 4 to +5V, pin 5 cap), the wiper goes to pin 7 with the 10 kΩ pull-up and good contact, the diodes are not swapped, the 2.2 nF is on pins 2 + 6 (a floating wiper freezes it fully on or off) |
 | Output flips at random | pin 4 floating: tie it to +5V |
 | Visible flicker | timing cap too big: use 2.2 nF or smaller |
 | Works backwards | swap the pot's two end legs (swap the D1 side and the 100 kΩ/D2 side) |
-| Knob does nothing, stuck at one brightness | pot wiper lost contact: both charge and discharge go through the wiper, so the 555 freezes. Reseat or replace the pot |
 | One segment dark | that BC337's pin order, base resistor, the segment's +/− wires |
 | All dim | strip voltage under 4.5 V: thicker feed wire, check the adapter; check pin 3 reads ~2.7 V DC at full (peak ~3.3 V) |
 | Max too dim | lower the 100 kΩ to 82 kΩ, only after checking total current |

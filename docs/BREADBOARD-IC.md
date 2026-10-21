@@ -26,11 +26,11 @@ Bench steps 1 and 2 of the [IC build guide](GUIDE-IC.md#7-build-order), on a bre
 | D1 cathode | pins 2 + 6 |
 | pot end B | 100 kΩ to D2 cathode |
 | D2 anode | pins 2 + 6 |
-| + rail | 10–47 µF to GND rail next to the chip |
+| + rail | 10–47 µF to GND rail next to the chip, + lead to + rail |
 | pin 3 (OUT) | 220 Ω to LED anode (long leg) |
 | LED cathode (short leg, flat side) | GND rail |
 
-Pass: the knob dims the LED from a faint glow to bright, with no flicker and no dead zone — it must brighten continuously through the whole travel. If it works backwards, swap the pot's end legs (swap the D1 side and the 100 kΩ/D2 side). If it is stuck on or off, the 555 is not oscillating: recheck the pinout (pins 2 + 6 tied, pin 4 to +5V, wiper to pin 7 with the 10 kΩ pull-up), the diodes are not swapped, and the 2.2 nF is on pins 2 + 6. If the LED is dark for most of the travel and only lights near one end, the pot and diodes are wired in the old (broken) arrangement — rewire to the table above.
+Pass: the knob dims the LED from a faint glow to bright, with no flicker and no dead zone — it must brighten continuously through the whole travel. End A is the counter-clockwise end, end B the clockwise end, so clockwise brightens. If it works backwards, swap the pot's end legs. If it is stuck on or off, the 555 is not oscillating: recheck the pinout (pins 2 + 6 tied, pin 4 to +5V, wiper to pin 7 with the 10 kΩ pull-up and good contact), the diodes are not swapped, and the 2.2 nF is on pins 2 + 6. If the LED is dark for most of the travel and only lights near one end, the pot ends or diodes are miswired — rewire to the table above.
 
 ## Step 2: power stage
 
