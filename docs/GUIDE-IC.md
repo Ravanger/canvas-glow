@@ -48,7 +48,7 @@ The strip is 8 W/m at 5 V, so **1.6 A per metre** at full brightness.
 
 ## 3. How it works
 
-The 555 has two internal thresholds, 1/3 and 2/3 of the supply. Its output flips high when the timing capacitor falls to 1/3 and low when it rises to 2/3. Two diodes steer the capacitor's charge and discharge through opposite halves of the pot: charging goes 5 V → upper pot half → D1 → capacitor, discharging goes capacitor → D2 → lower pot half → 100 kΩ → pin 7 (which the chip pulls to ground while the output is low). Turning the knob shifts resistance from one path to the other, so the total stays about 600 kΩ and the frequency stays near 1.1 kHz — only the duty changes. Duty = upper-half resistance ÷ total resistance.
+The 555 has two internal thresholds, 1/3 and 2/3 of the supply. Its output flips high when the timing capacitor falls to 1/3 and low when it rises to 2/3. Two diodes steer the capacitor's charge and discharge through opposite halves of the pot: charging goes 5 V → upper pot half → D1 → capacitor, discharging goes capacitor → D2 → lower pot half → 100 kΩ → pin 7 (which the chip pulls to ground while the output is low). Turning the knob shifts resistance from one path to the other, so the total stays about 600 kΩ and the frequency stays near 0.9 kHz — only the duty changes. Duty = upper-half resistance ÷ total resistance.
 
 Pin 3 drives the four BC337 bases directly through 100 / 150 Ω. The 555's output swings to about 3.3 V under that load, which is plenty of base drive, and it pulls the bases low when off, so no pulldowns are needed. The bottom of the turn is effectively off: the diode drops keep the shortest pulse tiny. Unplug the adapter to switch off. The pot is linear, so most of the visible change happens in the first third of the turn.
 
@@ -100,8 +100,8 @@ NE555 pinout, DIP-8, notch at the top, pins counted counter-clockwise from the t
 | 7 | DISCH | 100 kΩ to pot end 2 |
 | 8 | VCC | +5V |
 
-- Total timing resistance stays about 600 kΩ whatever the knob does, so the period is ~0.91 ms (~1.1 kHz). Duty is the upper-half resistance over the total: about 0% at end 1, about 83% at end 2 (the 100 kΩ sets this top).
-- The timing capacitor can be 1 to 4.7 nF: 1 nF is ~2.4 kHz, 4.7 nF ~500 Hz. Never 100 nF: ~20 Hz flickers.
+- Total timing resistance stays about 600 kΩ whatever the knob does, so the period is ~1.1 ms (~0.9 kHz). The diode drops stretch it past the ideal 0.91 ms; the duty barely moves, because charge and discharge stretch by nearly the same factor. Duty is the upper-half resistance over the total: about 0% at end 1, about 83% at end 2 (the 100 kΩ sets this top).
+- The timing capacitor can be 1 to 4.7 nF: 1 nF is ~2 kHz, 4.7 nF ~400 Hz. Never 100 nF: ~20 Hz flickers.
 - If the knob works backwards, swap the pot's two end legs (B pot only — see below).
 
 ### One strip channel (build 4)
@@ -136,6 +136,8 @@ Each strip channel needs an NPN that saturates at up to 0.54 A from a ~3.3 V dri
 | JFETs (J201, 2N38xx, 2N54xx...) | mA range | no |
 
 No other transistors are needed: the 555 drives the BC337 bases directly.
+
+Maker check on the BC337: onsemi rates it 800 mA, but Philips/NXP rates it 500 mA DC (1 A peak). Either is fine here: the long sides peak at 0.54 A and average 0.45 A at the 83% cap, under both ratings.
 
 **Short of transistors?** Use fewer segments. Two long sides only (2 × 0.34 m) need two BC337s, draw 1.09 A at full, well within the adapter.
 
@@ -190,7 +192,7 @@ Inner opening: 36 × 25.8 cm.
 | Works backwards | swap the pot's two end legs (B pot only; on an A pot, pin 1 must stay on the +5V side) |
 | Knob does nothing, stuck at one brightness | pot wiper lost contact: the diode junction floats. Reseat or replace the pot |
 | One segment dark | that BC337's pin order, base resistor, the segment's +/− wires |
-| All dim | strip voltage under 4.5 V: thicker feed wire, check the adapter; check pin 3 swings to ~3.3 V at full |
+| All dim | strip voltage under 4.5 V: thicker feed wire, check the adapter; check pin 3 reads ~2.7 V DC at full (peak ~3.3 V) |
 | Max too dim | lower the 100 kΩ to 82 kΩ, only after checking total current |
 | Faint glow at the bottom of the turn | expected on some parts: unplug the adapter to switch off |
 

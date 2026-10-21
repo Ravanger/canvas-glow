@@ -20,14 +20,14 @@
   <g stroke="#222" stroke-width="3" fill="none"><line x1="148" y1="86" x2="172" y2="86"/><path d="M148 94 Q160 88 172 94"/></g>
   <path d="M160 94 L160 745" stroke="#2a6db5" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
   <circle cx="160" cy="745" r="4" fill="#222"/>
-  <text x="178" y="92" text-anchor="start" font-size="12" fill="#222">470-1000 uF</text>
+  <text x="178" y="92" text-anchor="start" font-size="12" fill="#222">470–1000 µF</text>
   <path d="M200 40 L200 120" stroke="#d62828" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
   <circle cx="200" cy="40" r="4" fill="#222"/>
   <g stroke="#222" stroke-width="3"><line x1="188" y1="120" x2="212" y2="120"/><line x1="188" y1="128" x2="212" y2="128"/></g>
   <path d="M200 128 L200 745" stroke="#2a6db5" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
   <circle cx="200" cy="745" r="4" fill="#222"/>
   <text x="218" y="126" text-anchor="start" font-size="12" fill="#222">100 nF</text>
-  <text x="30" y="214" text-anchor="start" font-size="11" font-weight="bold" fill="#777">NE555 PWM ~1.1 kHz</text>
+  <text x="30" y="214" text-anchor="start" font-size="11" font-weight="bold" fill="#777">NE555 PWM ~0.9 kHz</text>
   <text x="30" y="230" text-anchor="start" font-size="11" fill="#777">pot sets the duty</text>
   <rect x="280" y="200" width="100" height="180" fill="#fff" stroke="#222" stroke-width="2.5"/>
   <path d="M322 200 Q330 212 338 200" fill="none" stroke="#222" stroke-width="2"/>
@@ -99,12 +99,12 @@
   <path d="M270 310 L270 490" stroke="#e07a00" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
   <path d="M270 490 L640 490" stroke="#e07a00" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
   <circle cx="640" cy="490" r="4" fill="#222"/>
-  <text x="300" y="510" text-anchor="start" font-size="12" font-weight="bold" fill="#e07a00">pin 3 out = duty x 3.3 V</text>
+  <text x="300" y="510" text-anchor="start" font-size="12" font-weight="bold" fill="#e07a00">pin 3 out ≈ duty × 3.3 V</text>
   <rect x="645" y="460" width="90" height="60" fill="none" stroke="#222" stroke-width="1.5" stroke-dasharray="6 4"/>
   <text x="690" y="452" text-anchor="middle" font-size="12" font-weight="bold" fill="#222">step 1 only</text>
   <path d="M640 490 L650 490" stroke="#e07a00" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
   <rect x="650" y="483" width="40" height="14" fill="#fff" stroke="#222" stroke-width="2"/>
-  <text x="670" y="512" text-anchor="middle" font-size="12" fill="#222">220 ohm</text>
+  <text x="670" y="512" text-anchor="middle" font-size="12" fill="#222">220 Ω</text>
   <polygon points="690,478 690,502 712,490" fill="#ffd166" stroke="#b08900" stroke-width="1.5"/>
   <line x1="712" y1="478" x2="712" y2="502" stroke="#222" stroke-width="3"/>
   <line x1="696" y1="470" x2="690" y2="464" stroke="#222" stroke-width="1.5"/>
@@ -116,7 +116,7 @@
   <path d="M640 580 L860 580" stroke="#e07a00" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
   <rect x="860" y="573" width="40" height="14" fill="#fff" stroke="#222" stroke-width="2"/>
   <path d="M900 580 L932 580" stroke="#e07a00" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
-  <text x="880" y="568" text-anchor="middle" font-size="12" fill="#222">100 ohm</text>
+  <text x="880" y="568" text-anchor="middle" font-size="12" fill="#222">100 Ω</text>
   <circle cx="940" cy="580" r="26" fill="none" stroke="#222" stroke-width="2"/>
   <line x1="932" y1="565" x2="932" y2="595" stroke="#222" stroke-width="3.5"/>
   <path d="M932 572 L950 558" stroke="#222" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
@@ -132,14 +132,14 @@
   <path d="M950 40 L950 62" stroke="#d62828" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
   <circle cx="950" cy="40" r="4" fill="#222"/>
   <rect x="943" y="62" width="14" height="40" fill="#fff" stroke="#222" stroke-width="2"/>
-  <text x="968" y="85" text-anchor="start" font-size="12" fill="#222">220 ohm</text>
+  <text x="968" y="85" text-anchor="start" font-size="12" fill="#222">220 Ω</text>
   <polygon points="938,102 962,102 950,124" fill="#ffd166" stroke="#b08900" stroke-width="1.5"/>
   <line x1="938" y1="124" x2="962" y2="124" stroke="#222" stroke-width="3"/>
   <line x1="928" y1="88" x2="922" y2="82" stroke="#222" stroke-width="1.5"/>
   <line x1="940" y1="88" x2="934" y2="82" stroke="#222" stroke-width="1.5"/>
-  <text x="24" y="780" text-anchor="start" font-size="12" fill="#333">joined = dot; crossing without dot = not joined</text>
+  <text x="24" y="780" text-anchor="start" font-size="12" fill="#333">● = joined · crossing without ● = not joined</text>
   <text x="24" y="798" text-anchor="start" font-size="12" fill="#333">NE555 pins: 1 GND, 2 TRIG, 3 OUT, 4 RESET, 5 CTRL, 6 THR, 7 DISCH, 8 VCC</text>
   <text x="24" y="816" text-anchor="start" font-size="12" fill="#333">BC337 pins C-B-E (flat face towards you, legs down: check your datasheet)</text>
-  <text x="24" y="834" text-anchor="start" font-size="12" fill="#333">step 1: 555 + LED in the dashed box only; step 2: remove the LED, add the BC337 stage</text>
-  <text x="24" y="852" text-anchor="start" font-size="12" fill="#333">pin 3 high = strip on; duty = upper pot half / total</text>
+  <text x="24" y="834" text-anchor="start" font-size="12" fill="#333">step 1: 555 + LED in the dashed box only · step 2: remove the LED, add the BC337 stage</text>
+  <text x="24" y="852" text-anchor="start" font-size="12" fill="#333">pin 3 high = strip on; duty = upper pot half ÷ total</text>
 </svg>
