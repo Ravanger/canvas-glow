@@ -95,9 +95,9 @@
   <text x="551" y="445" text-anchor="middle" font-size="12" fill="#222">D2</text>
   <path d="M420 350 L472 350" stroke="#222" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
   <g stroke="#222" stroke-width="3"><line x1="472" y1="338" x2="472" y2="362"/><line x1="480" y1="338" x2="480" y2="362"/></g>
-  <path d="M480 350 L480 470" stroke="#222" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
+  <path d="M480 362 L480 470" stroke="#222" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
   <use href="#gnd" x="480" y="470"/>
-  <text x="476" y="325" text-anchor="middle" font-size="12" fill="#222">100 nF</text>
+  <text x="450" y="380" text-anchor="middle" font-size="12" fill="#222">100 nF</text>
   <path d="M460 62 L460 120" stroke="#d62828" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
   <circle cx="460" cy="62" r="4" fill="#222"/>
   <g stroke="#222" stroke-width="3"><line x1="448" y1="120" x2="472" y2="120"/><line x1="448" y1="128" x2="472" y2="128"/></g>
