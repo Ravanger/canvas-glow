@@ -26,7 +26,7 @@ Bench steps 1 and 2 of the [IC build guide](GUIDE-IC.md#7-build-order), on a bre
 | D1 cathode | pins 2 + 6 |
 | pot end B | 100 kΩ to D2 cathode |
 | D2 anode | pins 2 + 6 |
-| + rail | 10–47 µF to GND rail next to the chip, + lead to + rail |
+| + rail | 10–47 µF (≥ 16 V) to GND rail next to the chip, + lead to + rail |
 | pin 3 (OUT) | 220 Ω to LED anode (long leg) |
 | LED cathode (short leg, flat side) | GND rail |
 
