@@ -1,0 +1,215 @@
+# Canvas Glow build guide — IC version (NE555)
+
+A backlit nightlight behind a stretched-canvas painting. A knob sets the brightness. The PWM comes from an NE555 timer instead of discrete transistors: same strip, same power budget, same light layout as the [discrete version](GUIDE.md), with the oscillator and driver replaced by one chip.
+
+Bench-test on a breadboard first: [BREADBOARD-IC.md](BREADBOARD-IC.md). Everything runs from one 5 V 2 A adapter.
+
+Contents: [Parts](#1-parts) · [Power budget](#2-power-budget) · [How it works](#3-how-it-works) · [Circuit](#4-circuit) · [Transistors](#5-transistors) · [Light layout](#6-light-layout) · [Build order](#7-build-order) · [Checks](#8-checks) · [Troubleshooting](#9-troubleshooting) · [3D prints](#10-3d-prints-bonus) · [Ideas](#11-ideas) · [Relation to the discrete version](#12-relation-to-the-discrete-version)
+
+---
+
+## 1. Parts
+
+| Part | Qty | Notes |
+|---|---|---|
+| 5 V 2 A adapter, barrel plug | 1 | check centre-positive with a meter |
+| Barrel jack pigtail (+/− wires) | 1 | the power entry on the frame |
+| 5 V COB strip, 320 LEDs/m, 8 W/m, 3000 K (4 m reel) | ~1.2 m | cut only on the printed cut marks |
+| NE555 timer, DIP-8 | 1 | the PWM oscillator |
+| BC337 NPN | 4 | strip drivers, see [Transistors](#5-transistors) |
+| B500K potentiometer | 1 | brightness knob, plus a knob cap |
+| 1N4148 diode | 2 | charge/discharge steering |
+| 100 kΩ resistor | 1 | caps the top of the knob at ~83% duty |
+| 100 Ω resistor | 2 | BC337 base, long sides |
+| 150 Ω resistor | 2 | BC337 base, short sides |
+| 2.2 nF capacitor (marked 222) | 1 | timing |
+| 100 nF ceramic capacitor | 2 | pin 5 + supply decoupling |
+| Electrolytic 470–1000 µF ≥ 10 V | 1 | at the strip power entry |
+| Polyfuse 2–2.5 A | 1 | optional, right after the jack |
+| Perfboard, 22–24 AWG silicone wire, heat-shrink, solder | — | 20–22 AWG for the main 5 V / GND feed |
+| Breadboard, jumper wires | — | bench tests without soldering, see [BREADBOARD-IC.md](BREADBOARD-IC.md) |
+| White foam board or thick white card | 1 | optional back reflector, see [Light layout](#6-light-layout) |
+
+Tools: multimeter, soldering iron.
+
+## 2. Power budget
+
+The strip is 8 W/m at 5 V, so **1.6 A per metre** at full brightness.
+
+| Item | Current |
+|---|---|
+| 2 × 0.34 m long sides | 2 × 0.54 A |
+| 2 × 0.24 m short sides | 2 × 0.38 A |
+| Strip at 100% | 1.86 A |
+| 555 + base drive | ~0.1 A |
+| Adapter | 2.0 A |
+
+1.86 A + 0.1 A is too close to 2 A, so the 100 kΩ in series with the pin-7 side of the pot caps the top of the knob at about 83% duty. That keeps the strip near 1.55 A and the total near 1.65 A (about 83% of the adapter). A nightlight usually sits at 10–40%, well under budget.
+
+## 3. How it works
+
+The 555 has two internal thresholds, 1/3 and 2/3 of the supply. Its output flips high when the timing capacitor falls to 1/3 and low when it rises to 2/3. Two diodes steer the capacitor's charge and discharge through opposite halves of the pot: charging goes 5 V → upper pot half → D1 → capacitor, discharging goes capacitor → D2 → lower pot half → 100 kΩ → pin 7 (which the chip pulls to ground while the output is low). Turning the knob shifts resistance from one path to the other, so the total stays about 600 kΩ and the frequency stays near 1.1 kHz — only the duty changes. Duty = upper-half resistance ÷ total resistance.
+
+Pin 3 drives the four BC337 bases directly through 100 / 150 Ω. The 555's output swings to about 3.3 V under that load, which is plenty of base drive, and it pulls the bases low when off, so no pulldowns are needed. The bottom of the turn is effectively off: the diode drops keep the shortest pulse tiny. Unplug the adapter to switch off. The pot is linear, so most of the visible change happens in the first third of the turn.
+
+## 4. Circuit
+
+![Final wiring, IC version](img/wiring-ic.svg)
+
+Follow the pin labels on the drawing and your parts' datasheets: pin order varies by maker (see [Transistors](#5-transistors)).
+
+### Power entry
+
+```
+5V 2A adapter ── barrel jack ──[polyfuse, optional]──┬──── +5V rail ──► COB+ of all 4 segments, 555 pins 4 + 8
+                                                      │
+                                         [470–1000µF] across +5V/GND right here (mind polarity)
+
+GND (barrel −) = star point: 4 BC337 emitters, 555 pin 1, all capacitor negatives
+```
+
+- Run the emitter ground wires straight back to the barrel jack. The 555 GND joins at the star point.
+- Fuse: optional. Most 2 A adapters shut down on a short, but some only cut out well above 2 A. If you have one, put a 2–2.5 A polyfuse (PTC) or fast fuse in the + lead right after the jack.
+- No diode needed: nothing else powers the board.
+
+### 555 PWM
+
+```
+pins 2 + 6 tied together ──[2.2nF]── GND
+pin 5 ──[100nF]── GND
+pin 4 ── +5V (must be tied high; a floating reset pin resets the chip at random)
+pin 8 ── +5V, pin 1 ── GND, 100nF across +5V/GND next to the chip
+pin 7 ──[100k]── pot end 2
+pot end 1 ── +5V
+pot wiper ──┬── D1 anode, D2 cathode
+D1 cathode ── pins 2 + 6
+D2 anode ── pins 2 + 6
+pin 3 ── output to the four BC337 bases
+```
+
+NE555 pinout, DIP-8, notch at the top, pins counted counter-clockwise from the top left:
+
+| Pin | Name | Goes to |
+|---|---|---|
+| 1 | GND | GND rail |
+| 2 | TRIG | pins 6 + timing cap + diodes |
+| 3 | OUT | BC337 bases through 100 / 150 Ω |
+| 4 | RESET | +5V |
+| 5 | CTRL | 100 nF to GND |
+| 6 | THR | pins 2 + timing cap + diodes |
+| 7 | DISCH | 100 kΩ to pot end 2 |
+| 8 | VCC | +5V |
+
+- Total timing resistance stays about 600 kΩ whatever the knob does, so the period is ~0.91 ms (~1.1 kHz). Duty is the upper-half resistance over the total: about 0% at end 1, about 83% at end 2 (the 100 kΩ sets this top).
+- The timing capacitor can be 1 to 4.7 nF: 1 nF is ~2.4 kHz, 4.7 nF ~500 Hz. Never 100 nF: ~20 Hz flickers.
+- If the knob works backwards, swap the pot's two end legs (B pot only — see below).
+
+### One strip channel (build 4)
+
+```
++5V rail ── COB segment + ... COB segment − ── C
+                                               │  NPN (BC337)
+pin 3 ──[100Ω long / 150Ω short]────────────── B
+                                               │  E
+GND ───────────────────────────────────────────┴── star point
+```
+
+The base resistors are 100 / 150 Ω because pin 3 sits at about 3.3 V under load. No base pulldowns: pin 3 pulls the bases low itself when the output is off.
+
+### A500K log pot (optional, preferred)
+
+A log-taper pot makes the knob feel linear: its resistance stays low for most of the turn and climbs fast at the end, which roughly cancels the eye's response (the same reason the discrete version suggests one). It drops into the same three holes, but the wiring rule is strict: **pin 1 (the counter-clockwise end) goes to +5V (pot end 1), pin 3 to the 100 kΩ.** Clockwise then raises the brightness. On a log pot, swapping the ends gives the reverse curve, which bunches everything up even worse than linear — the "swap the ends" tip above applies to the B pot only. If the pins are unmarked, find pin 1 with a meter: shaft fully counter-clockwise, the end pin reading ~0 Ω to the wiper is pin 1. A downside: the off zone at the bottom gets wider, since the first part of the turn adds almost no resistance — that reads as an off position, which is fine.
+
+## 5. Transistors
+
+Each strip channel needs an NPN that saturates at up to 0.54 A from a ~3.3 V drive.
+
+| Part | Max current | Use here |
+|---|---|---|
+| **BC337** | 800 mA | first choice, any segment |
+| 2N2222A | 600 mA | fine on any segment, runs a little warmer on the long sides |
+| S8050 | 500 mA | short sides only (0.38 A) |
+| 2N3904, C1815 | 200 / 150 mA | no for the strip, too small |
+| MPSA13 | Darlington | no, ~1.5 V drop dims and heats |
+| 2N6517 | 500 mA | no, low gain at this current |
+| 2N7000 | 200 mA | no for the strip, too small |
+| JFETs (J201, 2N38xx, 2N54xx...) | mA range | no |
+
+No other transistors are needed: the 555 drives the BC337 bases directly.
+
+**Short of transistors?** Use fewer segments. Two long sides only (2 × 0.34 m) need two BC337s, draw 1.09 A at full, well within the adapter.
+
+**Pin order varies by maker**, so always check, flat face towards you, legs down:
+- BC337: C-B-E
+- P2N2222A: often E-B-C
+
+With a meter on diode test, red lead on one leg and black on each of the others:
+- the base is the leg that reads about 0.6–0.7 V to **both** other legs;
+- base-to-emitter reads a few mV **higher** than base-to-collector.
+
+A meter with an hFE socket also works.
+
+## 6. Light layout
+
+Inner opening: 36 × 25.8 cm.
+
+- Fix one segment along the inner face of each stretcher bar: ~34 cm on the long sides and ~24 cm on the short sides, rounded to the nearest cut marks.
+- **Aim and test before fixing anything.** Strips facing straight across the canvas back leave the centre dim. Two layouts are usually more even:
+  - strips angled about 45° towards the canvas (3D-printed clips, [section 10](#10-3d-prints-bonus));
+  - **reflector back**: strips aimed at a white foam board that closes the back, so the canvas is lit by the bounce. This is the most even option, and the board also keeps dust out.
+- Keep strips, wires and the board at least 1 cm off the canvas. Nothing hard should press into the painting.
+- Heat: at nightlight levels the strip barely warms. If you ever run it at full for hours, check that the strip stays only finger-warm.
+
+## 7. Build order
+
+1. **Bench, 555 + LED** ([breadboard](BREADBOARD-IC.md)): the 555 and an LED on the adapter. Check that the knob dims the LED from off to bright, with no flicker.
+2. **Bench, power stage** ([breadboard](BREADBOARD-IC.md)): one BC337, an LED. Check that the knob dims the LED smoothly.
+3. **Light layout test**: tape segments in place temporarily and try angles and the reflector with the painting upright in a dark room.
+4. **Build the harness**: 555, 4 channels and the power entry on perfboard (tape-insulate the underside), plus the knob. Mount everything on the stretcher bars.
+5. Run every check in section 8.
+
+## 8. Checks
+
+| Check | How | Pass |
+|---|---|---|
+| Strip current | wire one segment straight to 5 V with the meter (10 A jack) in series | about 1.6 A × length |
+| Duty | multimeter, DC volts on pin 3, knob at bottom and at top | average ≈ duty × 3.3 V: about 0 V at the bottom, about 2.7 V at full |
+| Transistor drop | knob at full; measure collector to emitter of a BC337 | under 0.4 V good; over 0.6 V → lower that base resistor to 82 Ω (long) or 120 Ω (short) |
+| Strip voltage | at full, across the far segment's + and − | 4.5 V or more |
+| Total current | meter in series with the barrel + wire, everything at full | at most ~1.65 A; if higher, raise the 100 kΩ to 120 kΩ |
+| Heat | 30 min at full | strip, transistors and the board only finger-warm |
+| Reboot | unplug and replug | comes up at the knob level, no blink |
+
+## 9. Troubleshooting
+
+| Symptom | Try |
+|---|---|
+| Light stuck fully on or off | the 555 is not oscillating: check the DIP-8 pinout (pins 2 + 6 tied, pin 4 to +5V, pin 5 cap), the diodes are not swapped, the 2.2 nF is on pins 2 + 6 |
+| Output flips at random | pin 4 floating: tie it to +5V |
+| Visible flicker | timing cap too big: use 2.2 nF or smaller |
+| Works backwards | swap the pot's two end legs (B pot only; on an A pot, pin 1 must stay on the +5V side) |
+| Knob does nothing, stuck at one brightness | pot wiper lost contact: the diode junction floats. Reseat or replace the pot |
+| One segment dark | that BC337's pin order, base resistor, the segment's +/− wires |
+| All dim | strip voltage under 4.5 V: thicker feed wire, check the adapter; check pin 3 swings to ~3.3 V at full |
+| Max too dim | lower the 100 kΩ to 82 kΩ, only after checking total current |
+| Faint glow at the bottom of the turn | expected on some parts: unplug the adapter to switch off |
+
+## 10. 3D prints (bonus)
+
+Print anything near the strip in **PETG**: PLA softens around 55 °C.
+
+- 45° strip clips for the stretcher bars (8 mm strip)
+- A box for the 555 perfboard, screwed to a bar
+- A panel mount for the barrel jack with a cable strain relief
+- A bracket for the knob, plus a knob cap
+- Wall spacers, if you also want a glow on the wall behind the painting (needs strips facing backwards)
+
+## 11. Ideas
+
+- **Hidden message**: write or paint something on the back of the canvas. It only shows when the light is on.
+- **Halo**: extra strip on the outside back of the frame, facing the wall.
+- **Candle or breathing mode**, Wi-Fi control or an auto-on-at-dark sensor: these need a microcontroller, which this build does not have.
+
+## 12. Relation to the discrete version
+
+Same strip, power entry, light layout, checks and troubleshooting shape as [GUIDE.md](GUIDE.md). The only change is the PWM source: the NE555 and its two steering diodes replace the Q1/Q2 astable, the Q3 buffer and the Q4 high-side switch, and pin 3 drives the BC337 bases directly. Everything downstream of pin 3 is identical except the base resistors (100 / 150 Ω instead of 180 / 270 Ω, because pin 3 sits at ~3.3 V instead of the 4.8 V drive rail) and the dropped base pulldowns (pin 3 pulls the bases low itself).
