@@ -19,12 +19,14 @@ Contents: [Parts](#1-parts) · [Power budget](#2-power-budget) · [How it works]
 | BC337 NPN | 4 | strip drivers, see [Transistors](#5-transistors) |
 | B500K potentiometer | 1 | brightness knob, plus a knob cap |
 | 1N4148 diode | 2 | charge/discharge steering |
-| 100 kΩ resistor | 1 | caps the top of the knob at ~83% duty |
+| 100 kΩ resistor | 1 | in the discharge leg, caps the top at ~83% duty |
+| 10 kΩ resistor | 1 | pin 7 pull-up |
 | 100 Ω resistor | 2 | BC337 base, long sides |
 | 150 Ω resistor | 2 | BC337 base, short sides |
 | 2.2 nF capacitor (marked 222) | 1 | timing |
 | 100 nF ceramic capacitor | 2 | pin 5 + supply decoupling |
 | Electrolytic 470–1000 µF ≥ 10 V | 1 | at the strip power entry |
+| Electrolytic 10–47 µF ≥ 10 V | 1 | across +5V/GND right at pins 8/1 |
 | Polyfuse 2–2.5 A | 1 | optional, right after the jack |
 | Perfboard, 22–24 AWG silicone wire, heat-shrink, solder | — | 20–22 AWG for the main 5 V / GND feed |
 | Breadboard, jumper wires | — | bench tests without soldering, see [BREADBOARD-IC.md](BREADBOARD-IC.md) |
@@ -44,13 +46,13 @@ The strip is 8 W/m at 5 V, so **1.6 A per metre** at full brightness.
 | 555 + base drive | ~0.1 A |
 | Adapter | 2.0 A |
 
-1.86 A + 0.1 A is too close to 2 A, so the 100 kΩ in series with the pin-7 side of the pot caps the top of the knob at about 83% duty. That keeps the strip near 1.55 A and the total near 1.65 A (about 83% of the adapter). A nightlight usually sits at 10–40%, well under budget.
+1.86 A + 0.1 A is too close to 2 A, so the 100 kΩ in the discharge leg caps the top of the knob at about 83% duty. That keeps the strip near 1.55 A and the total near 1.65 A (about 83% of the adapter). A nightlight usually sits at 10–40%, well under budget.
 
 ## 3. How it works
 
-The 555 has two internal thresholds, 1/3 and 2/3 of the supply. Its output flips high when the timing capacitor falls to 1/3 and low when it rises to 2/3. Two diodes steer the capacitor's charge and discharge through opposite halves of the pot: charging goes 5 V → upper pot half → D1 → capacitor, discharging goes capacitor → D2 → lower pot half → 100 kΩ → pin 7 (which the chip pulls to ground while the output is low). Turning the knob shifts resistance from one path to the other, so the total stays about 600 kΩ and the frequency stays near 0.9 kHz — only the duty changes. Duty = upper-half resistance ÷ total resistance.
+The 555 has two internal thresholds, 1/3 and 2/3 of the supply. Its output flips high when the timing capacitor falls to 1/3 and low when it rises to 2/3. Two diodes steer the capacitor's charge and discharge through opposite halves of the pot. The wiper goes to pin 7, and a 10 kΩ pull-up holds pin 7 at +5 V while the output is high: charging goes 5 V → 10 kΩ → pin 7 → wiper → upper pot half → D1 → capacitor. While the output is low, the chip pulls pin 7 to ground: discharging goes capacitor → D2 → 100 kΩ → lower pot half → wiper → pin 7. Turning the knob shifts resistance from one path to the other, so the total stays about 610 kΩ and the frequency stays near 0.9 kHz — only the duty changes. Duty = charge resistance (10 kΩ + upper half) ÷ total resistance. The pot ends never touch +5V: that is what keeps the discharge path clean. An earlier version of this guide tied pot end 1 to +5V, which put a divider on the discharge path and killed oscillation for most of the knob's travel — do not wire it that way.
 
-Pin 3 drives the four BC337 bases directly through 100 / 150 Ω. The 555's output swings to about 3.3 V under that load, which is plenty of base drive, and it pulls the bases low when off, so no pulldowns are needed. The bottom of the turn is effectively off: the diode drops keep the shortest pulse tiny. Unplug the adapter to switch off. The pot is linear, so most of the visible change happens in the first third of the turn.
+Pin 3 drives the four BC337 bases directly through 100 / 150 Ω. The 555's output swings to about 3.3 V under that load, which is plenty of base drive, and it pulls the bases low when off, so no pulldowns are needed. The bottom of the turn is a faint glow, not off: the 10 kΩ sets a minimum duty of a few percent. Unplug the adapter to switch off (or the RESET switch in Troubleshooting). The pot is linear, so most of the visible change happens in the first third of the turn.
 
 ## 4. Circuit
 
@@ -78,12 +80,10 @@ GND (barrel −) = star point: 4 BC337 emitters, 555 pin 1, all capacitor negati
 pins 2 + 6 tied together ──[2.2nF]── GND
 pin 5 ──[100nF]── GND
 pin 4 ── +5V (must be tied high; a floating reset pin resets the chip at random)
-pin 8 ── +5V, pin 1 ── GND, 100nF across +5V/GND next to the chip
-pin 7 ──[100k]── pot end 2
-pot end 1 ── +5V
-pot wiper ──┬── D1 anode, D2 cathode
-D1 cathode ── pins 2 + 6
-D2 anode ── pins 2 + 6
+pin 8 ── +5V, pin 1 ── GND, 100nF + 10–47µF across +5V/GND right at the chip
+pin 7 ── pot wiper, and pin 7 ──[10k]── +5V (pull-up)
+pot end A ── D1 anode, D1 cathode ── pins 2 + 6
+pot end B ──[100k]── D2 cathode, D2 anode ── pins 2 + 6
 pin 3 ── output to the four BC337 bases
 ```
 
@@ -97,12 +97,12 @@ NE555 pinout, DIP-8, notch at the top, pins counted counter-clockwise from the t
 | 4 | RESET | +5V |
 | 5 | CTRL | 100 nF to GND |
 | 6 | THR | pins 2 + timing cap + diodes |
-| 7 | DISCH | 100 kΩ to pot end 2 |
+| 7 | DISCH | pot wiper, 10 kΩ pull-up to +5V |
 | 8 | VCC | +5V |
 
-- Total timing resistance stays about 600 kΩ whatever the knob does, so the period is ~1.1 ms (~0.9 kHz). The diode drops stretch it past the ideal 0.91 ms; the duty barely moves, because charge and discharge stretch by nearly the same factor. Duty is the upper-half resistance over the total: about 0% at end 1, about 83% at end 2 (the 100 kΩ sets this top).
+- Total timing resistance stays about 610 kΩ whatever the knob does (10 kΩ pull-up + 500 kΩ pot + 100 kΩ), so the period is ~1.1 ms (~0.9 kHz). The diode drops stretch it past the ideal 0.93 ms; the duty barely moves, because charge and discharge stretch by nearly the same factor. Duty is the charge resistance (10 kΩ + upper half) over the total: about 3.5% at end A (a faint glow, not off), about 83% at end B (the 100 kΩ sets this top).
 - The timing capacitor can be 1 to 4.7 nF: 1 nF is ~2 kHz, 4.7 nF ~400 Hz. Never 100 nF: ~20 Hz flickers.
-- If the knob works backwards, swap the pot's two end legs (B pot only — see below).
+- If the knob works backwards, swap the pot's two end legs (swap the D1 side and the 100 kΩ/D2 side).
 
 ### One strip channel (build 4)
 
@@ -115,10 +115,6 @@ GND ─────────────────────────�
 ```
 
 The base resistors are 100 / 150 Ω because pin 3 sits at about 3.3 V under load. No base pulldowns: pin 3 pulls the bases low itself when the output is off.
-
-### A500K log pot (optional, preferred)
-
-A log-taper pot makes the knob feel linear: its resistance stays low for most of the turn and climbs fast at the end, which roughly cancels the eye's response (the same reason the discrete version suggests one). It drops into the same three holes, but the wiring rule is strict: **pin 1 (the counter-clockwise end) goes to +5V (pot end 1), pin 3 to the 100 kΩ.** Clockwise then raises the brightness. On a log pot, swapping the ends gives the reverse curve, which bunches everything up even worse than linear — the "swap the ends" tip above applies to the B pot only. If the pins are unmarked, find pin 1 with a meter: shaft fully counter-clockwise, the end pin reading ~0 Ω to the wiper is pin 1. A downside: the off zone at the bottom gets wider, since the first part of the turn adds almost no resistance — that reads as an off position, which is fine.
 
 ## 5. Transistors
 
@@ -133,6 +129,7 @@ Each strip channel needs an NPN that saturates at up to 0.54 A from a ~3.3 V dri
 | MPSA13 | Darlington | no, ~1.5 V drop dims and heats |
 | 2N6517 | 500 mA | no, low gain at this current |
 | 2N7000 | 200 mA | no for the strip, too small |
+| ULN2803, ULN2003 | Darlington array, 500 mA/ch | no, ~1 V saturation drop dims and heats, and the 0.54 A long sides exceed the 500 mA per-channel rating |
 | JFETs (J201, 2N38xx, 2N54xx...) | mA range | no |
 
 No other transistors are needed: the 555 drives the BC337 bases directly.
@@ -164,7 +161,7 @@ Inner opening: 36 × 25.8 cm.
 
 ## 7. Build order
 
-1. **Bench, 555 + LED** ([breadboard](BREADBOARD-IC.md)): the 555 and an LED on the adapter. Check that the knob dims the LED from off to bright, with no flicker.
+1. **Bench, 555 + LED** ([breadboard](BREADBOARD-IC.md)): the 555 and an LED on the adapter. Check that the knob dims the LED from a faint glow to bright, with no flicker and no dead zone (it must brighten continuously through the whole travel).
 2. **Bench, power stage** ([breadboard](BREADBOARD-IC.md)): one BC337, an LED. Check that the knob dims the LED smoothly.
 3. **Light layout test**: tape segments in place temporarily and try angles and the reflector with the painting upright in a dark room.
 4. **Build the harness**: 555, 4 channels and the power entry on perfboard (tape-insulate the underside), plus the knob. Mount everything on the stretcher bars.
@@ -175,8 +172,8 @@ Inner opening: 36 × 25.8 cm.
 | Check | How | Pass |
 |---|---|---|
 | Strip current | wire one segment straight to 5 V with the meter (10 A jack) in series | about 1.6 A × length |
-| Duty | multimeter, DC volts on pin 3, knob at bottom and at top | average ≈ duty × 3.3 V: about 0 V at the bottom, about 2.7 V at full |
-| Transistor drop | knob at full; measure collector to emitter of a BC337 | under 0.4 V good; over 0.6 V → lower that base resistor to 82 Ω (long) or 120 Ω (short) |
+| Duty | multimeter, DC volts on pin 3, knob at bottom and at top | average ≈ duty × 3.3 V: about 0.1 V at the bottom, about 2.7 V at full |
+| Transistor drop | knob at full; measure collector to emitter of a BC337 | under 0.4 V good; over 0.6 V → lower that base resistor to 82 Ω (long) or 120 Ω (short), then recheck pin 3 still reads ~2.7 V DC at full |
 | Strip voltage | at full, across the far segment's + and − | 4.5 V or more |
 | Total current | meter in series with the barrel + wire, everything at full | at most ~1.65 A; if higher, raise the 100 kΩ to 120 kΩ |
 | Heat | 30 min at full | strip, transistors and the board only finger-warm |
@@ -186,15 +183,16 @@ Inner opening: 36 × 25.8 cm.
 
 | Symptom | Try |
 |---|---|
-| Light stuck fully on or off | the 555 is not oscillating: check the DIP-8 pinout (pins 2 + 6 tied, pin 4 to +5V, pin 5 cap), the diodes are not swapped, the 2.2 nF is on pins 2 + 6 |
+| Light stuck fully on or off | the 555 is not oscillating: check the DIP-8 pinout (pins 2 + 6 tied, pin 4 to +5V, pin 5 cap), the wiper goes to pin 7 with the 10 kΩ pull-up, the diodes are not swapped, the 2.2 nF is on pins 2 + 6 |
 | Output flips at random | pin 4 floating: tie it to +5V |
 | Visible flicker | timing cap too big: use 2.2 nF or smaller |
-| Works backwards | swap the pot's two end legs (B pot only; on an A pot, pin 1 must stay on the +5V side) |
-| Knob does nothing, stuck at one brightness | pot wiper lost contact: the diode junction floats. Reseat or replace the pot |
+| Works backwards | swap the pot's two end legs (swap the D1 side and the 100 kΩ/D2 side) |
+| Knob does nothing, stuck at one brightness | pot wiper lost contact: both charge and discharge go through the wiper, so the 555 freezes. Reseat or replace the pot |
 | One segment dark | that BC337's pin order, base resistor, the segment's +/− wires |
 | All dim | strip voltage under 4.5 V: thicker feed wire, check the adapter; check pin 3 reads ~2.7 V DC at full (peak ~3.3 V) |
 | Max too dim | lower the 100 kΩ to 82 kΩ, only after checking total current |
-| Faint glow at the bottom of the turn | expected on some parts: unplug the adapter to switch off |
+| Faint glow at the bottom of the turn | that's the minimum duty (~3.5%): unplug the adapter to switch off, or add a RESET switch (below) |
+| Want a real off switch | replace the direct pin 4 → +5V tie with a 10 kΩ pull-up to +5V, and wire a latching switch (not a momentary button) from pin 4 to GND; closing it forces the output low (strip off) |
 
 ## 10. 3D prints (bonus)
 
@@ -214,4 +212,4 @@ Print anything near the strip in **PETG**: PLA softens around 55 °C.
 
 ## 12. Relation to the discrete version
 
-Same strip, power entry, light layout, checks and troubleshooting shape as [GUIDE.md](GUIDE.md). The only change is the PWM source: the NE555 and its two steering diodes replace the Q1/Q2 astable, the Q3 buffer and the Q4 high-side switch, and pin 3 drives the BC337 bases directly. Everything downstream of pin 3 is identical except the base resistors (100 / 150 Ω instead of 180 / 270 Ω, because pin 3 sits at ~3.3 V instead of the 4.8 V drive rail) and the dropped base pulldowns (pin 3 pulls the bases low itself).
+Same strip, power entry, light layout, checks and troubleshooting shape as [GUIDE.md](GUIDE.md). The only change is the PWM source: the NE555 and its two steering diodes replace the Q1/Q2 astable, the Q3 buffer and the Q4 high-side switch, and pin 3 drives the BC337 bases directly. The 555 circuit is the standard diode-steered form: wiper to pin 7, 10 kΩ pull-up, pot ends to D1 and (via 100 kΩ) D2. The pot ends never touch +5V, which is what keeps the discharge path clean. Everything downstream of pin 3 is identical except the base resistors (100 / 150 Ω instead of 180 / 270 Ω, because pin 3 sits at ~3.3 V instead of the 4.8 V drive rail) and the dropped base pulldowns (pin 3 pulls the bases low itself).

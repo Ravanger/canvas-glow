@@ -27,6 +27,12 @@
   <path d="M200 128 L200 745" stroke="#2a6db5" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
   <circle cx="200" cy="745" r="4" fill="#222"/>
   <text x="218" y="126" text-anchor="start" font-size="12" fill="#222">100 nF</text>
+  <path d="M260 40 L260 100" stroke="#d62828" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
+  <circle cx="260" cy="40" r="4" fill="#222"/>
+  <g stroke="#222" stroke-width="3"><line x1="248" y1="100" x2="272" y2="100"/><line x1="248" y1="108" x2="272" y2="108"/></g>
+  <path d="M260 108 L260 745" stroke="#2a6db5" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
+  <circle cx="260" cy="745" r="4" fill="#222"/>
+  <text x="278" y="105" text-anchor="start" font-size="12" fill="#222">10–47 µF</text>
   <text x="30" y="214" text-anchor="start" font-size="11" font-weight="bold" fill="#777">NE555 PWM ~0.9 kHz</text>
   <text x="30" y="230" text-anchor="start" font-size="11" fill="#777">pot sets the duty</text>
   <rect x="280" y="200" width="100" height="180" fill="#fff" stroke="#222" stroke-width="2.5"/>
@@ -42,7 +48,7 @@
   <text x="235" y="346" text-anchor="end" font-size="11" font-weight="bold" fill="#222">4 RESET</text>
   <path d="M380 230 L420 230" stroke="#222" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
   <text x="425" y="226" text-anchor="start" font-size="11" font-weight="bold" fill="#222">8 VCC</text>
-  <path d="M380 270 L420 270" stroke="#222" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
+  <path d="M380 270 L430 270" stroke="#222" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
   <text x="425" y="266" text-anchor="start" font-size="11" font-weight="bold" fill="#222">7 DISCH</text>
   <path d="M380 310 L520 310" stroke="#222" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
   <text x="425" y="306" text-anchor="start" font-size="11" font-weight="bold" fill="#222">6 THR</text>
@@ -64,32 +70,37 @@
   <path d="M390 464 L390 745" stroke="#2a6db5" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
   <circle cx="390" cy="745" r="4" fill="#222"/>
   <text x="410" y="462" text-anchor="start" font-size="12" fill="#222">2.2 nF</text>
-  <path d="M520 425 L520 455" stroke="#222" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
-  <path d="M575 425 L575 455" stroke="#222" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
-  <path d="M520 425 L553 425" stroke="#222" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
-  <polygon points="575,413 575,437 553,425" fill="#222"/>
-  <line x1="553" y1="413" x2="553" y2="437" stroke="#222" stroke-width="3"/>
-  <text x="566" y="408" text-anchor="middle" font-size="12" fill="#222">D1</text>
-  <path d="M562 455 L575 455" stroke="#222" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
-  <polygon points="520,443 520,467 562,455" fill="#222"/>
-  <line x1="562" y1="443" x2="562" y2="467" stroke="#222" stroke-width="3"/>
-  <text x="566" y="482" text-anchor="middle" font-size="12" fill="#222">D2</text>
-  <path d="M575 425 L575 266" stroke="#222" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
+  <path d="M520 248 L520 278" stroke="#222" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
+  <polygon points="508,278 532,278 520,296" fill="#222"/>
+  <line x1="508" y1="296" x2="532" y2="296" stroke="#222" stroke-width="3"/>
+  <path d="M520 296 L520 310" stroke="#222" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
+  <circle cx="520" cy="310" r="4" fill="#222"/>
+  <text x="535" y="315" text-anchor="start" font-size="12" fill="#222">D1</text>
   <rect x="520" y="240" width="110" height="16" fill="#fff" stroke="#222" stroke-width="2"/>
   <polygon points="575,256 569,266 581,266" fill="#222"/>
-  <text x="516" y="282" text-anchor="middle" font-size="11" font-weight="bold" fill="#222">1</text>
-  <text x="634" y="282" text-anchor="middle" font-size="11" font-weight="bold" fill="#222">2</text>
+  <text x="516" y="282" text-anchor="middle" font-size="11" font-weight="bold" fill="#222">A</text>
+  <text x="634" y="282" text-anchor="middle" font-size="11" font-weight="bold" fill="#222">B</text>
   <text x="640" y="252" text-anchor="start" font-size="12" font-weight="bold" fill="#222">pot B500K</text>
-  <path d="M520 248 L510 248" stroke="#d62828" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
-  <path d="M510 248 L510 40" stroke="#d62828" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
-  <circle cx="510" cy="40" r="4" fill="#222"/>
-  <path d="M630 248 L630 230" stroke="#222" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
-  <path d="M630 230 L500 230" stroke="#222" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
-  <path d="M500 230 L500 270" stroke="#222" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
-  <path d="M500 270 L470 270" stroke="#222" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
-  <rect x="430" y="263" width="40" height="14" fill="#fff" stroke="#222" stroke-width="2"/>
-  <path d="M420 270 L430 270" stroke="#222" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
-  <text x="450" y="258" text-anchor="middle" font-size="12" fill="#222">100k</text>
+  <path d="M575 266 L575 340" stroke="#222" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
+  <path d="M575 340 L430 340" stroke="#222" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
+  <path d="M430 340 L430 270" stroke="#222" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
+  <circle cx="430" cy="270" r="4" fill="#222"/>
+  <path d="M500 340 L500 230" stroke="#222" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
+  <circle cx="500" cy="340" r="4" fill="#222"/>
+  <rect x="493" y="190" width="14" height="40" fill="#fff" stroke="#222" stroke-width="2"/>
+  <path d="M500 190 L500 40" stroke="#d62828" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
+  <circle cx="500" cy="40" r="4" fill="#222"/>
+  <text x="512" y="215" text-anchor="start" font-size="12" fill="#222">10k</text>
+  <path d="M630 248 L630 380" stroke="#222" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
+  <path d="M630 380 L600 380" stroke="#222" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
+  <rect x="593" y="380" width="14" height="40" fill="#fff" stroke="#222" stroke-width="2"/>
+  <path d="M600 420 L562 420" stroke="#222" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
+  <line x1="562" y1="408" x2="562" y2="432" stroke="#222" stroke-width="3"/>
+  <polygon points="540,408 540,432 562,420" fill="#222"/>
+  <path d="M540 420 L520 420" stroke="#222" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
+  <circle cx="520" cy="420" r="4" fill="#222"/>
+  <text x="600" y="445" text-anchor="middle" font-size="12" fill="#222">100k</text>
+  <text x="551" y="445" text-anchor="middle" font-size="12" fill="#222">D2</text>
   <path d="M420 350 L440 350" stroke="#222" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
   <g stroke="#222" stroke-width="3"><line x1="440" y1="338" x2="440" y2="362"/><line x1="448" y1="338" x2="448" y2="362"/></g>
   <path d="M448 350 L480 350" stroke="#222" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
@@ -141,5 +152,5 @@
   <text x="24" y="798" text-anchor="start" font-size="12" fill="#333">NE555 pins: 1 GND, 2 TRIG, 3 OUT, 4 RESET, 5 CTRL, 6 THR, 7 DISCH, 8 VCC</text>
   <text x="24" y="816" text-anchor="start" font-size="12" fill="#333">BC337 pins C-B-E (flat face towards you, legs down: check your datasheet)</text>
   <text x="24" y="834" text-anchor="start" font-size="12" fill="#333">step 1: 555 + LED in the dashed box only · step 2: remove the LED, add the BC337 stage</text>
-  <text x="24" y="852" text-anchor="start" font-size="12" fill="#333">pin 3 high = strip on; duty = upper pot half ÷ total</text>
+  <text x="24" y="852" text-anchor="start" font-size="12" fill="#333">pin 3 high = strip on; duty rises toward end B</text>
 </svg>
