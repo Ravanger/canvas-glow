@@ -186,7 +186,7 @@ Inner opening: 36 × 25.8 cm.
 | Light stuck fully on or off | the 555 is not oscillating: check the DIP-8 pinout (pins 2 + 6 tied, pin 4 to +5V, pin 5 cap), the wiper goes to pin 7 with the 10 kΩ pull-up and good contact, the diodes are not swapped, the 2.2 nF is on pins 2 + 6 (a floating wiper freezes it fully on or off) |
 | Output flips at random | pin 4 floating: tie it to +5V |
 | Visible flicker | timing cap too big: use 2.2 nF or smaller |
-| Works backwards | swap the pot's two end legs (swap the D1 side and the 100 kΩ/D2 side) |
+| Works backwards | swap the two end legs |
 | One segment dark | that BC337's pin order, base resistor, the segment's +/− wires |
 | All dim | strip voltage under 4.5 V: thicker feed wire, check the adapter; check pin 3 reads ~2.7 V DC at full (peak ~3.3 V) |
 | Max too dim | lower the 100 kΩ to 82 kΩ, only after checking total current |

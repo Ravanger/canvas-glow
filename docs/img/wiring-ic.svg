@@ -20,7 +20,7 @@
   <circle cx="215" cy="62" r="4" fill="#222"/>
   <path d="M215 62 L215 86" stroke="#d62828" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
   <g stroke="#222" stroke-width="3" fill="none"><line x1="203" y1="86" x2="227" y2="86"/><path d="M203 98 Q215 92 227 98"/></g>
-  <path d="M215 98 L215 122" stroke="#222" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
+  <path d="M215 95 L215 122" stroke="#222" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
   <use href="#gnd" x="215" y="122"/>
   <text x="215" y="150" text-anchor="middle" font-size="12" fill="#222">470–1000 µF</text>
   <text x="215" y="164" text-anchor="middle" font-size="11" fill="#222">stripe (−) to GND</text>
@@ -104,12 +104,12 @@
   <g stroke="#222" stroke-width="3"><line x1="448" y1="120" x2="472" y2="120"/><line x1="448" y1="128" x2="472" y2="128"/></g>
   <path d="M460 128 L460 180" stroke="#222" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
   <use href="#gnd" x="460" y="180"/>
-  <text x="460" y="200" text-anchor="middle" font-size="12" fill="#222">100 nF</text>
+  <text x="460" y="208" text-anchor="middle" font-size="12" fill="#222">100 nF</text>
   <path d="M480 62 L480 140" stroke="#d62828" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
   <circle cx="480" cy="62" r="4" fill="#222"/>
   <g stroke="#222" stroke-width="3"><line x1="468" y1="140" x2="492" y2="140"/><path d="M468 148 Q480 156 492 148" fill="none"/></g>
   <text x="488" y="100" text-anchor="start" font-size="12" fill="#222">+</text>
-  <path d="M480 156 L480 180" stroke="#222" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
+  <path d="M480 152 L480 180" stroke="#222" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
   <use href="#gnd" x="480" y="180"/>
   <text x="480" y="55" text-anchor="middle" font-size="12" fill="#222">10–47 µF</text>
   <path d="M270 310 L270 500" stroke="#e07a00" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
