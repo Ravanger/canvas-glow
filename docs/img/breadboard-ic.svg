@@ -26,7 +26,7 @@
   <g stroke="#222" stroke-width="3"><line x1="188" y1="120" x2="212" y2="120"/><line x1="188" y1="128" x2="212" y2="128"/></g>
   <path d="M200 128 L200 745" stroke="#2a6db5" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
   <circle cx="200" cy="745" r="4" fill="#222"/>
-  <text x="208" y="112" text-anchor="start" font-size="12" fill="#222">100 nF</text>
+  <text x="125" y="80" text-anchor="end" font-size="12" fill="#222">100 nF</text>
   <path d="M260 40 L260 100" stroke="#d62828" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
   <circle cx="260" cy="40" r="4" fill="#222"/>
   <g stroke="#222" stroke-width="3"><line x1="248" y1="100" x2="272" y2="100"/><path d="M248 108 Q260 116 272 108" fill="none"/></g>
@@ -38,7 +38,7 @@
   <text x="125" y="230" text-anchor="end" font-size="11" fill="#777">pot sets the duty</text>
   <rect x="280" y="200" width="100" height="180" fill="#fff" stroke="#222" stroke-width="2.5"/>
   <path d="M322 200 Q330 212 338 200" fill="none" stroke="#222" stroke-width="2"/>
-  <text x="330" y="295" text-anchor="middle" font-size="14" font-weight="bold" fill="#222">NE555</text>
+  <text x="330" y="245" text-anchor="middle" font-size="14" font-weight="bold" fill="#222">NE555</text>
   <path d="M280 230 L250 230" stroke="#222" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
   <text x="290" y="226" text-anchor="start" font-size="11" font-weight="bold" fill="#222">1 GND</text>
   <path d="M280 270 L230 270" stroke="#222" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
@@ -102,16 +102,15 @@
   <circle cx="520" cy="420" r="4" fill="#222"/>
   <text x="600" y="445" text-anchor="middle" font-size="12" fill="#222">100k</text>
   <text x="551" y="445" text-anchor="middle" font-size="12" fill="#222">D2</text>
-  <path d="M420 350 L440 350" stroke="#222" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
-  <g stroke="#222" stroke-width="3"><line x1="440" y1="338" x2="440" y2="362"/><line x1="448" y1="338" x2="448" y2="362"/></g>
-  <path d="M448 350 L480 350" stroke="#222" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
+  <path d="M420 350 L472 350" stroke="#222" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
+  <g stroke="#222" stroke-width="3"><line x1="472" y1="338" x2="472" y2="362"/><line x1="480" y1="338" x2="480" y2="362"/></g>
   <path d="M480 350 L480 745" stroke="#2a6db5" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
   <circle cx="480" cy="745" r="4" fill="#222"/>
-  <text x="464" y="328" text-anchor="middle" font-size="12" fill="#222">100 nF</text>
+  <text x="476" y="325" text-anchor="middle" font-size="12" fill="#222">100 nF</text>
   <path d="M270 310 L270 490" stroke="#e07a00" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
   <path d="M270 490 L640 490" stroke="#e07a00" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
   <circle cx="640" cy="490" r="4" fill="#222"/>
-  <text x="400" y="510" text-anchor="start" font-size="12" font-weight="bold" fill="#e07a00">pin 3 out ≈ duty × 3.3 V</text>
+  <text x="485" y="535" text-anchor="start" font-size="12" font-weight="bold" fill="#e07a00">pin 3 out ≈ duty × 3.3 V</text>
   <rect x="645" y="460" width="90" height="60" fill="none" stroke="#222" stroke-width="1.5" stroke-dasharray="6 4"/>
   <text x="690" y="452" text-anchor="middle" font-size="12" font-weight="bold" fill="#222">step 1 only</text>
   <path d="M640 490 L650 490" stroke="#e07a00" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
