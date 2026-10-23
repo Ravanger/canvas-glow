@@ -69,6 +69,7 @@ Changing the strip length changes the power budget, so re-check
 - Polyfuse 2–2.5 A at the power entry: optional
 - IC version only, real off switch: optional latching switch on
   the NE555 RESET pin (pin 4), with a 10 kΩ pull-up
+- Discrete version: no off switch — unplug the adapter to switch off
 - Back reflector: optional white foam board or thick white card
 - 3D prints: optional, PETG only (PLA softens around 55 °C)
 
