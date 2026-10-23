@@ -81,8 +81,9 @@ its own strip lengths and its own power-budget check.
 
 Documentation lives in `docs/`, next to the build it describes.
 Each file in `docs/` is written as a standalone page, and every page
-ends with Previous / Contents / Next links in the order below, so
-you can read straight through or jump to a single page:
+ends with Previous / Contents / Next links where one exists, in the
+order below, so you can read straight through or jump to a single
+page:
 
 1. [Discrete build guide](docs/GUIDE.md) — parts, power budget,
    how it works, circuit, build order, checks, troubleshooting

@@ -34,9 +34,9 @@ looks wrong, verify it first and say what the check showed.
 
 - Each file in `docs/` is a standalone page. Keep section numbering
   stable: other work references sections by number.
-- Every docs page ends with Previous / Contents / Next links in the
-  README's reading order: GUIDE → BREADBOARD → GUIDE-IC →
-  BREADBOARD-IC.
+- Every docs page ends with Previous / Contents / Next links where
+  one exists, in the README's reading order: GUIDE → BREADBOARD →
+  GUIDE-IC → BREADBOARD-IC.
 - Do not split a guide into more pages without asking: section
   references across the guides would break.
 - The `reference/` directory holds the original v5 guide for
