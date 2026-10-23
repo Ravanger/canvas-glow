@@ -54,8 +54,8 @@ light; a breadboard and jumper wires for the bench test.
 4. [IC breadboard test](docs/BREADBOARD-IC.md) — bench steps 1 and 2
    of the IC build order, no soldering
 
-Read the discrete guide first: the IC guide builds on it and only
-describes what changes.
+Either guide works on its own; the IC guide repeats the shared
+sections.
 
 ## Configuration
 
@@ -84,8 +84,9 @@ with your actual cut lengths.
 
 Documentation lives in `docs/`, next to the build it describes.
 Each file in `docs/` is written as a standalone page, and every page
-ends with Previous / Contents / Next links in the order below, so
-you can read straight through or jump to a single page:
+ends with Previous / Contents / Next links where one exists, in the
+order below, so you can read straight through or jump to a single
+page:
 
 1. [Discrete build guide](docs/GUIDE.md) — parts, power budget,
    how it works, circuit, build order, checks, troubleshooting
