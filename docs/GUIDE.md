@@ -14,7 +14,7 @@ Contents: [Parts](#1-parts) · [Power budget](#2-power-budget) · [How it works]
 |---|---|---|
 | 5 V 2 A adapter, barrel plug | 1 | check centre-positive with a meter |
 | Barrel jack pigtail (+/− wires) | 1 | the power entry on the frame |
-| 5 V COB strip, 320 LEDs/m, 8 W/m, 3000 K (4 m reel) | ~1.2 m | cut only on the printed cut marks |
+| 5 V COB strip, 320 LEDs/m, 8 W/m, 3000 K (4 m reel) | ~1.2 m | cut only on the printed cut marks; pitch and rated power vary between strips |
 | BC337 NPN | 4 | strip drivers, see [Transistors](#5-transistors) |
 | 2N3904 NPN | 3 | the oscillator and its output buffer (BC337 also works, pins differ) |
 | BC327 PNP | 1 | drives the four BC337 bases |
@@ -53,6 +53,8 @@ The strip is 8 W/m at 5 V, so **1.6 A per metre** at full brightness.
 | Adapter | 2.0 A |
 
 Note: figures are rounded; exact = length × 1.6 A (long sides 0.544 A, short sides 0.384 A, total 1.856 A).
+
+The 8 W/m is the tested strip's rating; cut pitch and rated power vary between strips. Use your strip's rated W/m — current = W/m ÷ 5 V × length — and recompute this section with your actual cut lengths.
 
 1.86 A + 0.1 A is too close to 2 A, so Rb caps the top of the knob at about 86% duty. That keeps the strip near 1.5 A and the total at ~1.65 A or under — simulations measure 1.52–1.57 A (about 76–78% of the adapter). A nightlight usually sits at 10–40%, well under budget.
 
@@ -164,7 +166,7 @@ A meter with an hFE socket also works.
 
 Inner opening: 36 × 25.8 cm.
 
-- Fix one segment along the inner face of each stretcher bar: ~34 cm on the long sides and ~24 cm on the short sides, rounded to the nearest cut marks.
+- Fix one segment along the inner face of each stretcher bar: ~34 cm on the long sides and ~24 cm on the short sides, rounded to the nearest cut marks (the pitch varies between strips — use your strip's).
 - **Aim and test before fixing anything.** Strips facing straight across the canvas back leave the centre dim. Two layouts are usually more even:
   - strips angled about 45° towards the canvas (3D-printed clips, [section 10](#10-3d-prints-bonus));
   - **reflector back**: strips aimed at a white foam board that closes the back, so the canvas is lit by the bounce. This is the most even option, and the board also keeps dust out.
