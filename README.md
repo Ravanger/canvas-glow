@@ -11,10 +11,9 @@ on perfboard behind the painting.
 
 ## Features
 
-- Knob-only brightness, no menus or apps
-- ~1 kHz PWM, no visible flicker
-- No microcontroller, no firmware, no flashing
-- Breadboard test with no soldering
+- Knob-only brightness
+- ~1 kHz PWM
+- Breadboard test
 - One 5 V 2 A adapter for everything
 - Strip split into four segments, one transistor each, so every
   transistor stays inside its rating
