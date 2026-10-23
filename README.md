@@ -101,6 +101,10 @@ you can read straight through or jump to a single page:
 The original v5 guide is kept for history:
 [canvas-glow-v5.html](docs/reference/canvas-glow-v5.html).
 
+The simulation figures in the guides come from `sim/` — SPICE
+netlists and run notes; see [sim/README.md](sim/README.md) for what
+was run and how to reproduce them.
+
 ---
 
 [Next: Discrete build guide →](docs/GUIDE.md)
