@@ -69,6 +69,7 @@ Changing the strip length changes the power budget, so re-check
 - Polyfuse 2–2.5 A at the power entry: optional
 - IC version only, real off switch: optional latching switch on
   the NE555 RESET pin (pin 4), with a 10 kΩ pull-up
+- Discrete version: no off switch — unplug the adapter to switch off
 - Back reflector: optional white foam board or thick white card
 - 3D prints: optional, PETG only (PLA softens around 55 °C)
 
@@ -90,6 +91,9 @@ you can read straight through or jump to a single page:
 3. [IC build guide](docs/GUIDE-IC.md) — the NE555 version
 4. [IC breadboard test](docs/BREADBOARD-IC.md) — bench steps 1 and
    2 for the IC version
+
+The original v5 guide is kept for history:
+[canvas-glow-v5.html](docs/reference/canvas-glow-v5.html).
 
 ---
 
