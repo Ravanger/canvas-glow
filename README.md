@@ -27,8 +27,8 @@ on perfboard behind the painting.
 
 | Version | PWM source | Build guide | Breadboard test |
 | ------- | ---------- | ----------- | --------------- |
-| Discrete | Two-transistor oscillator, no ICs | [docs/GUIDE.md](docs/GUIDE.md) | [docs/BREADBOARD.md](docs/BREADBOARD.md) |
-| IC | NE555 timer, same four BC337 output channels | [docs/GUIDE-IC.md](docs/GUIDE-IC.md) | [docs/BREADBOARD-IC.md](docs/BREADBOARD-IC.md) |
+| Discrete | Two-transistor oscillator (~1 kHz), no ICs | [docs/GUIDE.md](docs/GUIDE.md) | [docs/BREADBOARD.md](docs/BREADBOARD.md) |
+| IC | NE555 timer (~0.9 kHz), same four BC337 output channels | [docs/GUIDE-IC.md](docs/GUIDE-IC.md) | [docs/BREADBOARD-IC.md](docs/BREADBOARD-IC.md) |
 
 Both versions use the same strip, power entry, light layout, and
 output stage. The only change is what makes the PWM: the discrete
