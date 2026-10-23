@@ -161,7 +161,7 @@ A meter with an hFE socket also works.
 
 ## 6. Light layout
 
-Inner opening: 36 × 25.8 cm.
+Inner opening: 36 × 25.8 cm (the tested painting's — measure your own opening and size the segments from it).
 
 - Fix one segment along the inner face of each stretcher bar: ~34 cm on the long sides and ~24 cm on the short sides, rounded to the nearest cut marks (the pitch varies between strips — use your strip's).
 - **Aim and test before fixing anything.** Strips facing straight across the canvas back leave the centre dim. Two layouts are usually more even:
