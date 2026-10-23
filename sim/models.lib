@@ -1,6 +1,6 @@
 * Generic component models for canvas-glow circuit sims (ngspice).
 * Values are typical/representative, not manufacturer-verified; the
-* saturation conclusions drawn in the findings report are robust to them
+* saturation conclusions from these sims are robust to them
 * (forced beta well under hFE min in every case).
 
 * 1N4148 switching diode. VF ~0.51 V at 200 uA - realistic for this part
