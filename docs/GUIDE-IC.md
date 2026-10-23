@@ -34,7 +34,9 @@ Contents: [Parts](#1-parts) · [Power budget](#2-power-budget) · [How it works]
 | 3 or 5 mm LED | 1 | for the breadboard tests |
 | White foam board or thick white card | 1 | optional back reflector, see [Light layout](#6-light-layout) |
 
-Use a bipolar NE555 for this circuit. Do not substitute a CMOS timer such as the TLC555 without revalidating the output-drive requirements and, if necessary, redesigning the driver stage.
+Use a bipolar NE555-class timer for this circuit. Do not substitute a CMOS variant — the TLC555, LMC555 or ICM7555 — without revalidating the output-drive requirements and, if necessary, redesigning the driver stage: their outputs drive far weaker than a bipolar 555's and cannot source the ~80 mA this circuit needs at full brightness.
+
+The datasheet minimum supply is 4.5 V, and the output must source or sink up to 200 mA; the four channels' ~90 mA pin-3 load at full brightness stays inside that.
 
 Tools: multimeter, soldering iron.
 
@@ -182,6 +184,7 @@ The meter checks below read steady or average quantities, which a DC multimeter 
 | Strip current | wire one segment straight to 5 V with the meter (10 A jack) in series | about 1.6 A × length |
 | Duty | multimeter, DC volts on pin 3, knob at bottom and at top | average ≈ duty × 3.3 V: about 0.06 V at the bottom, about 2.7 V at full |
 | Total current | meter in series with the barrel + wire, everything at full | at most ~1.65 A; if higher, raise the 100 kΩ to 120 kΩ |
+| VCC at pin 8 | multimeter, DC volts from pin 8 to GND, everything at full | ≥ 4.5 V (datasheet minimum supply); sag is worst at full load, so test there |
 | Heat | 30 min at full | strip, transistors and the board only finger-warm |
 | Reboot | unplug and replug | comes up at the knob level, no blink |
 
