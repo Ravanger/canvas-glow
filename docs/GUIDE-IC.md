@@ -34,6 +34,8 @@ Contents: [Parts](#1-parts) · [Power budget](#2-power-budget) · [How it works]
 | 3 or 5 mm LED | 1 | for the breadboard tests |
 | White foam board or thick white card | 1 | optional back reflector, see [Light layout](#6-light-layout) |
 
+Use a bipolar NE555 for this circuit. Do not substitute a CMOS timer such as the TLC555 without revalidating the output-drive requirements and, if necessary, redesigning the driver stage.
+
 Tools: multimeter, soldering iron.
 
 ## 2. Power budget
