@@ -47,7 +47,7 @@ Remove the LED from Q3, then add:
 | BC337 C | LED cathode (short leg, flat side) |
 | + rail | 220 Ω to LED anode (long leg) |
 
-Any 3 or 5 mm LED, about 13 mA. It tests the switching and the knob. The BC337 drop at real strip current is checked on the finished light ([Checks](GUIDE.md#8-checks)).
+Any 3 or 5 mm LED, about 13 mA for a red LED (white/blue run lower, ~7 mA). It tests the switching and the knob. The BC337 drop at real strip current is checked on the finished light ([Checks](GUIDE.md#8-checks)).
 
 Pass: the LED dims smoothly, and the DC voltage on the DRIVE RAIL tracks the knob.
 
