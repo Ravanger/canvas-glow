@@ -10,7 +10,7 @@ independent external sim (ngspice 42, behavioral 555) and analytic derivations.
 | File | What | Status |
 |---|---|---|
 | `555a.lib` | Pure-analog NE555 model (genopa1 comparators + cross-coupled NPN SR latch at 1 k scale + real discharge/output transistors; follower high side so it can represent the ~90 mA pin-3 source load) | sanity-passed |
-| `sanity.cir` | Standard astable: RA=1 k→DISCH, RB=5 k→node, C=0.5 µF, TRIG=THR=node | **PASS**: 262.5 Hz / 3.92 ms period (expected ~246–262 Hz), clean 40 ms window, no aborts |
+| `sanity.cir` | Standard astable: RA=1 k→DISCH, RB=5 k→node, C=0.5 µF, TRIG=THR=node | **PASS**: ~255 Hz / 3.92 ms period (expected ~247–262 Hz), clean 40 ms window, no aborts |
 | `models.lib` | Generic 1N4148 / 2N3904 / BC327 / BC337 models for the real-circuit sims | ready |
 | `parse_tran.py` | Merges ngspice's paginated print tables and analyzes a column (freq, duty, levels) | ready |
 | `flatten_subckt.py` | Inlines a subcircuit with `i_`-prefixed internal nodes (ngspice 47 can't print `v(x1:node)`) | ready |
