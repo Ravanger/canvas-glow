@@ -169,19 +169,23 @@ Inner opening: 36 × 25.8 cm.
 2. **Bench, power stage** ([breadboard](BREADBOARD-IC.md)): one BC337, an LED. Check that the knob dims the LED smoothly.
 3. **Light layout test**: tape segments in place temporarily and try angles and the reflector with the painting upright in a dark room.
 4. **Build the harness**: 555, 4 channels and the power entry on perfboard (tape-insulate the underside), plus the knob. Mount everything on the stretcher bars.
-5. Run every check in section 8.
+5. Run every check in section 8 (the two oscilloscope checks are optional).
 
 ## 8. Checks
+
+The meter checks below read steady or average quantities, which a DC multimeter can do. The transistor drop and the strip voltage are PWM-switched: a DC meter reads their average, which moves with the knob, so no fixed threshold works — use the optional oscilloscope checks below instead.
 
 | Check | How | Pass |
 |---|---|---|
 | Strip current | wire one segment straight to 5 V with the meter (10 A jack) in series | about 1.6 A × length |
 | Duty | multimeter, DC volts on pin 3, knob at bottom and at top | average ≈ duty × 3.3 V: about 0.06 V at the bottom, about 2.7 V at full |
-| Transistor drop | knob at full; measure collector to emitter of a BC337 | under 0.4 V good; over 0.6 V → lower that base resistor to 82 Ω (long) or 120 Ω (short), then recheck pin 3 still reads ~2.7 V DC at full |
-| Strip voltage | at full, across the far segment's + and − | 4.5 V or more |
 | Total current | meter in series with the barrel + wire, everything at full | at most ~1.65 A; if higher, raise the 100 kΩ to 120 kΩ |
 | Heat | 30 min at full | strip, transistors and the board only finger-warm |
 | Reboot | unplug and replug | comes up at the knob level, no blink |
+
+**Optional, needs an oscilloscope: transistor saturation.** Knob at full. Probe a BC337's collector against circuit ground — probe ground clip on the GND rail. The on-state plateau should sit near the BC337 datasheet saturation voltage at this drive (Ic ~0.54 A; about 0.1 V in sims of this circuit); a plateau near 5 V means the transistor is not switching on.
+
+**Optional, needs an oscilloscope: strip voltage.** Two channels both referenced to circuit ground — the strip + rail on one, the far segment's − (the switched collector) on the other, subtracted — or a differential probe. The on-state level should sit just under the 5 V rail — ~4.9 V in sims, the rail minus the ~0.1 V saturation drop. Never clip an ordinary grounded scope's ground to the switched collector or a strip terminal: it shorts that node to earth.
 
 ## 9. Troubleshooting
 
@@ -192,7 +196,7 @@ Inner opening: 36 × 25.8 cm.
 | Visible flicker | timing cap too big: use 2.2 nF or smaller |
 | Works backwards | swap the two end legs |
 | One segment dark | that BC337's pin order, base resistor, the segment's +/− wires |
-| All dim | strip voltage under 4.5 V: thicker feed wire, check the adapter; check pin 3 reads ~2.7 V DC at full (peak ~3.3 V) |
+| All dim | thicker feed wire, check the adapter; check pin 3 reads ~2.7 V DC at full (peak ~3.3 V); see section 8 for how to measure the strip voltage |
 | Max too dim | lower the 100 kΩ to 82 kΩ, only after checking total current |
 | Faint glow at the bottom of the turn | that's the minimum duty (~1.6–2%): unplug the adapter to switch off, or add a RESET switch (below) |
 | Want a real off switch | replace the direct pin 4 → +5V tie with a 10 kΩ pull-up to +5V, and wire a latching switch (not a momentary button) from pin 4 to GND; closing it forces the output low (strip off) |
