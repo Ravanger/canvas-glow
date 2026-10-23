@@ -14,11 +14,11 @@ Contents: [Parts](#1-parts) · [Power budget](#2-power-budget) · [How it works]
 |---|---|---|
 | 5 V 2 A adapter, barrel plug | 1 | check centre-positive with a meter |
 | Barrel jack pigtail (+/− wires) | 1 | the power entry on the frame |
-| 5 V COB strip, 320 LEDs/m, 8 W/m, 3000 K (4 m reel) | ~1.2 m | cut only on the printed cut marks |
+| 5 V COB strip, 320 LEDs/m, 8 W/m, 3000 K (4 m reel) | ~1.2 m | cut only on the printed cut marks; pitch and rated power vary between strips |
 | NE555 timer, DIP-8 | 1 | the PWM oscillator |
 | BC337 NPN | 4 | strip drivers, see [Transistors](#5-transistors) |
 | B500K potentiometer | 1 | brightness knob, plus a knob cap |
-| 1N4148 diode | 2 | charge/discharge steering |
+| 1N4148 diode | 2 | charge/discharge steering; the banded end is the cathode |
 | 100 kΩ resistor | 1 | in the discharge leg, caps the top at ≈81–83% duty |
 | 10 kΩ resistor | 2 | pin 7 pull-up, and the optional RESET switch ([Troubleshooting](#9-troubleshooting)) |
 | 100 Ω resistor | 2 | BC337 base, long sides |
@@ -28,13 +28,15 @@ Contents: [Parts](#1-parts) · [Power budget](#2-power-budget) · [How it works]
 | 100 nF ceramic capacitor | 2 | pin 5 + supply decoupling |
 | Electrolytic 470–1000 µF ≥ 16 V | 1 | at the strip power entry |
 | Electrolytic 10–47 µF ≥ 16 V | 1 | across +5V/GND right at pins 8/1, + lead to +5V |
-| Polyfuse 2–2.5 A | 1 | optional, right after the jack |
+| Polyfuse 2–2.5 A | 1 | optional, right after the jack (2–2.5 A = PTC hold current, or slow-blow fuse rating) |
 | Perfboard, 22–24 AWG silicone wire, heat-shrink, solder | — | 20–22 AWG for the main 5 V / GND feed |
 | Breadboard, jumper wires | — | bench tests without soldering, see [BREADBOARD-IC.md](BREADBOARD-IC.md) |
 | 3 or 5 mm LED | 1 | for the breadboard tests |
 | White foam board or thick white card | 1 | optional back reflector, see [Light layout](#6-light-layout) |
 
-Use a bipolar NE555 for this circuit. Do not substitute a CMOS timer such as the TLC555 without revalidating the output-drive requirements and, if necessary, redesigning the driver stage.
+Use a bipolar NE555-class timer for this circuit. Do not substitute a CMOS variant — the TLC555, LMC555 or ICM7555 — without revalidating the output-drive requirements and, if necessary, redesigning the driver stage: their outputs drive far weaker than a bipolar 555's and cannot source the ~87 mA this circuit needs at full brightness.
+
+The datasheet minimum supply is 4.5 V, and the output must source or sink up to 200 mA; the four channels' ~87 mA pin-3 load at full brightness stays inside that.
 
 Tools: multimeter, soldering iron.
 
@@ -51,6 +53,8 @@ The strip is 8 W/m at 5 V, so **1.6 A per metre** at full brightness.
 | Adapter | 2.0 A |
 
 Note: figures are rounded; exact = length × 1.6 A (long sides 0.544 A, short sides 0.384 A, total 1.856 A).
+
+The 8 W/m is the tested strip's rating; cut pitch and rated power vary between strips. Use your strip's rated W/m — current = W/m ÷ 5 V × length — and recompute this section with your actual cut lengths.
 
 1.86 A + 0.1 A is too close to 2 A, so the 100 kΩ in the discharge leg caps the top of the knob at ≈81–83% duty. In theory that puts the strip alone at 0.83 × 1.856 ≈ 1.54 A; simulations measure the total at 1.52–1.57 A, under the ~1.65 A budget (about 83% of the adapter) — lower than theory because the strip sees ~4.85 V, not 5 V, under load, so its ON current is ~1.80 A, not 1.856 A. A nightlight usually sits at 10–40%, well under budget.
 
@@ -77,8 +81,8 @@ GND (barrel −) = star point: 4 BC337 emitters, 555 pin 1, all capacitor negati
 ```
 
 - Run the emitter ground wires straight back to the barrel jack. The 555 GND joins at the star point.
-- Fuse: optional. Most 2 A adapters shut down on a short, but some only cut out well above 2 A. If you have one, put a 2–2.5 A polyfuse (PTC) or slow-blow (T) fuse in the + lead right after the jack — the bulk caps draw inrush on plug-in, which a fast fuse can nuisance-trip on.
-- No diode needed: nothing else powers the board.
+- Fuse: optional. Most 2 A adapters shut down on a short, but some only cut out well above 2 A. If you have one, put a polyfuse (PTC) with a 2–2.5 A hold current, or a slow-blow (T) fuse of that rating, in the + lead right after the jack — the bulk caps draw inrush on plug-in, which a fast fuse can nuisance-trip on. A PTC derates as it warms and adds a little series drop; it will not trip at this build's full-on current (about 1.86 A plus base drive, about 1.96 A).
+- No diode needed: nothing else powers the board; a wrong-polarity adapter would reverse-bias the electrolytics, so the centre-positive meter check in [Parts](#1-parts) is the only protection.
 
 ### 555 PWM
 
@@ -108,6 +112,7 @@ NE555 pinout, DIP-8, notch at the top, pins counted counter-clockwise from the t
 
 - Total timing resistance stays about 610 kΩ whatever the knob does (10 kΩ pull-up + 500 kΩ pot + 100 kΩ), so the period is ~1.1 ms (~0.9 kHz). The diode drops stretch it past the ideal 0.93 ms but barely change the duty, because charge and discharge stretch by nearly the same factor. Duty is the charge resistance (10 kΩ + upper half) over the total: about 1.6–2% at end A (a faint glow, not off), ≈81–83% at end B (the 100 kΩ sets this top).
 - The timing capacitor can be 1 to 4.7 nF: 1 nF is ~2 kHz, 4.7 nF ~400 Hz. Never 100 nF: ~20 Hz flickers.
+- The diodes' banded end is the cathode.
 - End A is the counter-clockwise end, end B the clockwise end, so turning clockwise brightens. If it runs backwards, swap the two end legs.
 
 ### One strip channel (build 4)
@@ -156,9 +161,9 @@ A meter with an hFE socket also works.
 
 ## 6. Light layout
 
-Inner opening: 36 × 25.8 cm.
+Inner opening: 36 × 25.8 cm (the tested painting's — measure your own opening and size the segments from it).
 
-- Fix one segment along the inner face of each stretcher bar: ~34 cm on the long sides and ~24 cm on the short sides, rounded to the nearest cut marks.
+- Fix one segment along the inner face of each stretcher bar: ~34 cm on the long sides and ~24 cm on the short sides, rounded to the nearest cut marks (the pitch varies between strips — use your strip's).
 - **Aim and test before fixing anything.** Strips facing straight across the canvas back leave the centre dim. Two layouts are usually more even:
   - strips angled about 45° towards the canvas (3D-printed clips, [section 10](#10-3d-prints-bonus));
   - **reflector back**: strips aimed at a white foam board that closes the back, so the canvas is lit by the bounce. This is the most even option, and the board also keeps dust out.
@@ -182,6 +187,7 @@ The meter checks below read steady or average quantities, which a DC multimeter 
 | Strip current | wire one segment straight to 5 V with the meter (10 A jack) in series | about 1.6 A × length |
 | Duty | multimeter, DC volts on pin 3, knob at bottom and at top | average ≈ duty × 3.3 V: about 0.06 V at the bottom, about 2.7 V at full |
 | Total current | meter in series with the barrel + wire, everything at full | at most ~1.65 A; if higher, raise the 100 kΩ to 120 kΩ |
+| VCC at pin 8 | multimeter, DC volts from pin 8 to GND, everything at full | ≥ 4.5 V (datasheet minimum supply); sag is worst at full load, so test there |
 | Heat | 30 min at full | strip, transistors and the board only finger-warm |
 | Reboot | unplug and replug | comes up at the knob level, no blink |
 
@@ -193,7 +199,7 @@ The meter checks below read steady or average quantities, which a DC multimeter 
 
 | Symptom | Try |
 |---|---|
-| Light stuck fully on or off | the 555 is not oscillating: check the DIP-8 pinout (pins 2 + 6 tied, pin 4 to +5V, pin 5 cap), the wiper goes to pin 7 with the 10 kΩ pull-up and good contact, the diodes are not swapped, the 2.2 nF is on pins 2 + 6 (a floating wiper freezes it fully on or off) |
+| Light stuck fully on or off | the 555 is not oscillating: check the DIP-8 pinout (pins 2 + 6 tied, pin 4 to +5V, pin 5 cap), the wiper goes to pin 7 with the 10 kΩ pull-up and good contact, the diodes are not swapped, the 2.2 nF is on pins 2 + 6 (a floating wiper freezes it fully on or off). If it is frozen fully on, unplug it rather than leave it running: full on draws about 1.86 A plus base drive (about 1.96 A), over the ~1.65 A operating budget |
 | Output flips at random | pin 4 floating: tie it to +5V |
 | Visible flicker | timing cap too big: use 2.2 nF or smaller |
 | Works backwards | swap the two end legs |

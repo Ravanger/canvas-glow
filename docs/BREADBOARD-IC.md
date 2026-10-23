@@ -23,8 +23,8 @@ Bench steps 1 and 2 of the [IC build guide](GUIDE-IC.md#7-build-order), on a bre
 | + rail | 10 kΩ to pin 7 (DISCH) |
 | pin 7 (DISCH) | pot wiper |
 | pot end A | D1 anode |
-| D1 cathode | pins 2 + 6 |
-| pot end B | 100 kΩ to D2 cathode |
+| D1 cathode (banded end) | pins 2 + 6 |
+| pot end B | 100 kΩ to D2 cathode (banded end) |
 | D2 anode | pins 2 + 6 |
 | + rail | 10–47 µF (≥ 16 V) to GND rail next to the chip, + lead to + rail |
 | + rail | 470–1000 µF (≥ 16 V) to GND rail at the jack, + lead to + rail |

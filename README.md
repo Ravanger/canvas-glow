@@ -75,7 +75,10 @@ Changing the strip length changes the power budget, so re-check
 
 The values shipped in the guides are the tested configuration, not
 a recommendation for every painting: a different frame size needs
-its own strip lengths and its own power-budget check.
+its own strip lengths and its own power-budget check. Cut pitch and
+rated W/m vary between strips — use your strip's (current = W/m ÷ 5 V
+× length) and recompute [the power budget](docs/GUIDE.md#2-power-budget)
+with your actual cut lengths.
 
 ## Documentation
 
