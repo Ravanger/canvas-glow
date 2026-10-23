@@ -32,7 +32,7 @@ Contents: [Parts](#1-parts) · [Power budget](#2-power-budget) · [How it works]
 | 100 nF ceramic capacitor | 1 | oscillator supply |
 | Electrolytic 100 µF ≥ 16 V | 1 | oscillator supply |
 | Electrolytic 470–1000 µF ≥ 16 V | 1 | at the strip power entry |
-| Polyfuse 2–2.5 A | 1 | optional, right after the jack |
+| Polyfuse 2–2.5 A | 1 | optional, right after the jack (2–2.5 A = PTC hold current, or slow-blow fuse rating) |
 | Perfboard, 22–24 AWG silicone wire, heat-shrink, solder | — | 20–22 AWG for the main 5 V / GND feed |
 | Breadboard, jumper wires | — | bench tests without soldering, see [BREADBOARD.md](BREADBOARD.md) |
 | 3 or 5 mm LED | 1 | for the breadboard tests |
@@ -81,7 +81,7 @@ GND (barrel −) = star point: 4 BC337 emitters, Q3 emitter, oscillator GND, all
 ```
 
 - Run the emitter ground wires straight back to the barrel jack. The oscillator GND joins at the star point.
-- Fuse: optional. Most 2 A adapters shut down on a short, but some only cut out well above 2 A. If you have one, put a 2–2.5 A polyfuse (PTC) or slow-blow (T) fuse in the + lead right after the jack — the bulk caps draw inrush on plug-in, which a fast fuse can nuisance-trip on.
+- Fuse: optional. Most 2 A adapters shut down on a short, but some only cut out well above 2 A. If you have one, put a polyfuse (PTC) with a 2–2.5 A hold current, or a slow-blow (T) fuse of that rating, in the + lead right after the jack — the bulk caps draw inrush on plug-in, which a fast fuse can nuisance-trip on. A PTC derates as it warms and adds a little series drop; it will not trip at this build's full-on current (about 1.86 A plus base drive, about 1.96 A).
 - No diode needed: nothing else powers the board; a wrong-polarity adapter would reverse-bias the electrolytics, so the centre-positive meter check in [Parts](#1-parts) is the only protection.
 
 ### Oscillator
@@ -210,7 +210,7 @@ The meter checks below read steady or average quantities, which a DC multimeter 
 | All dim | thicker feed wire, check the adapter; check Q4 saturates (drive rail ≈4.0 V DC at full, scope peak ≈4.8–4.9 V); see section 8 for how to measure the strip voltage |
 | Max too dim | lower Rb to 82k, only after checking total current |
 | Faint glow at the bottom of the turn | expected on some parts: unplug the adapter to switch off |
-| Jumps to full, knob does nothing | pot wiper lost contact: both bases float and the light goes full on. Reseat or replace the pot |
+| Jumps to full, knob does nothing | pot wiper lost contact: both bases float and the light goes full on — about 1.86 A plus base drive (about 1.96 A), over the ~1.65 A operating budget. Unplug it and do not leave it running; reseat or replace the pot |
 
 ## 10. 3D prints (bonus)
 
