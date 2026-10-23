@@ -36,7 +36,7 @@ Contents: [Parts](#1-parts) · [Power budget](#2-power-budget) · [How it works]
 
 Use a bipolar NE555 for this circuit. Do not substitute a CMOS timer such as the TLC555 without revalidating the output-drive requirements and, if necessary, redesigning the driver stage.
 
-Tools: multimeter, soldering iron.
+Tools: multimeter with a 10 A current range, soldering iron.
 
 ## 2. Power budget
 

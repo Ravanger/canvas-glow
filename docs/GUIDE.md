@@ -38,7 +38,7 @@ Contents: [Parts](#1-parts) · [Power budget](#2-power-budget) · [How it works]
 | 3 or 5 mm LED | 1 | for the breadboard tests |
 | White foam board or thick white card | 1 | optional back reflector, see [Light layout](#6-light-layout) |
 
-Tools: multimeter, soldering iron.
+Tools: multimeter with a 10 A current range, soldering iron.
 
 ## 2. Power budget
 
