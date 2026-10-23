@@ -143,6 +143,8 @@ Each strip channel needs an NPN that saturates at up to 0.54 A from a ~4.8 V dri
 
 Oscillator and driver parts: Q1, Q2, Q3 = 2N3904 (BC337 also works), Q3 always through its 47k base resistor; Q4 = BC327 (2N2907 or S8550 also work, mind the pins).
 
+Maker check on the BC337: onsemi rates it 800 mA, but Philips/NXP rates it 500 mA DC (1 A peak). Either is fine here: the long sides peak at 0.54 A and average about 0.46 A at the 86% cap — under both ratings, though with less margin than the IC version.
+
 **Short of transistors?** Use fewer segments. Two long sides only (2 × 0.34 m) need two BC337s, draw 1.09 A at full, well within the adapter.
 
 **Pin order varies by maker**, so always check, flat face towards you, legs down:
