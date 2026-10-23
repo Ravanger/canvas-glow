@@ -1,0 +1,76 @@
+* Pure-analog NE555 behavioral model for ngspice (no XSPICE elements).
+* Based on the topology of Clyde Stenson's XSPICE behavioral 555
+* (ngspice forum, "XSPICE 555 Timer Model"), with the ADC/DAC bridges
+* replaced by an analog cross-coupled BJT latch.
+*
+* Pins: GND TRIG OUT RESET CTRL THRES DISCH VCC
+*
+* Notes / limitations:
+* - Output high side is an NPN follower (approximates the chip's ~200 mA
+*   output stage). VOH is pessimistic vs a real chip (~2.6 V no-load,
+*   ~1.8 V under full load here; 3.3-3.5 V measured on real parts):
+*   the latch node sags under the follower's base drive through the
+*   1 k/1 k path. See README "known limitation".
+* - Comparator bandwidth set by genopa1 POLE (default 100k -> ~1.6us tau),
+*   adding a few us of edge delay per transition.
+
+.subckt 555a gnd trig out reset ctrl thr disch vcc
+* internal divider: ctrl = 2/3 Vcc, mid = 1/3 Vcc
+Rdiv1 vcc ctrl 5k
+Rdiv2 ctrl mid 5k
+Rdiv3 mid gnd 5k
+
+* comparators (genopa1 output high when in+ > in-)
+Xtrig mid trig vcc gnd setn genopa1      ; SET when TRIG < 1/3 Vcc
+Xthr  thr ctrl vcc gnd resetn genopa1    ; RESET when THRES > 2/3 Vcc
+
+* master reset (active low) -> rsn high when pin4 is low
+Rprst reset rsi 10k
+Qrst rsn rsi gnd N555
+Rpu_rst rsn vcc 10k
+
+* SR latch: outn LOW / nout HIGH  ==  Q=1 (OUT high, discharge off).
+* 1k-scale resistors: the latch nodes must source both output-transistor
+* base currents; at 10k scale the 1k base-drive paths pin them at ~1V.
+Qa outn xba gnd N555
+Qb nout xbb gnd N555
+Rp1 outn vcc 1k
+Rp2 nout vcc 1k
+Rf1 outn xbb 1k
+Rf2 nout xba 1k
+Rs_set setn xba 1k
+Rs_rst resetn xbb 1k
+Rs_rst2 rsn xbb 1k
+
+* discharge transistor: on when OUT low (outn high). Rdb at 10k so the
+* base path does not load the outn latch node.
+Rdb outn db 10k
+Qd disch db gnd N555
+
+* output stage: NPN follower high side (base from nout, which is HIGH
+* when OUT should be high) + NPN pull-down driven from outn. The 100-ohm
+* pull-up of the XSPICE model cannot represent a ~90 mA source load.
+Rbh nout bh 1k
+Qh vcc bh out N555
+Rpb outn ob 1k
+Qo out ob gnd N555
+Routg out gnd 1Meg
+
+.model N555 npn (is=1e-12 bf=150 ne=1.5 cje=3e-11 tf=1e-9)
+.ends
+
+* generic OpAmp model (from ngspice forum, Holger Vogt)
+.subckt genopa1 in+ in- vcc vee out params: POLE=100k GAIN=20k VOFFSET=5m ROUT=10 RIN=10Meg
+Rin   in+ in+ {RIN}
+Voff  in+ inoff dc {VOFFSET}
+G10   0 int inoff in- 100u
+R1    int 0 {GAIN/100u}
+C1    int 0 {1/(6.28*(GAIN/100u)*POLE)}
+Eout  2 0 int 0 1
+Rout  2 out {ROUT}
+Elow  3 0 vee 0 1
+Ehigh 8 0 vcc 0 1
+Dlow  3   int Dlimit
+Dhigh int 8   Dlimit
+.model Dlimit D N=0.05
+.ends

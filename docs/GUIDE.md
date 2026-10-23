@@ -26,13 +26,16 @@ Contents: [Parts](#1-parts) · [Power budget](#2-power-budget) · [How it works]
 | 1 kΩ resistor | 1 | Q3 collector to Q4 base |
 | 180 Ω resistor | 2 | BC337 base, long sides |
 | 270 Ω resistor | 2 | BC337 base, short sides |
+| 470 Ω resistor | 1 | breadboard test Step 1, LED current limit |
+| 220 Ω resistor | 1 | breadboard test Step 2, LED current limit |
 | 2.2 nF capacitor (marked 222) | 2 | C1, C2 |
 | 100 nF ceramic capacitor | 1 | oscillator supply |
-| Electrolytic 100 µF ≥ 10 V | 1 | oscillator supply |
-| Electrolytic 470–1000 µF ≥ 10 V | 1 | at the strip power entry |
+| Electrolytic 100 µF ≥ 16 V | 1 | oscillator supply |
+| Electrolytic 470–1000 µF ≥ 16 V | 1 | at the strip power entry |
 | Polyfuse 2–2.5 A | 1 | optional, right after the jack |
 | Perfboard, 22–24 AWG silicone wire, heat-shrink, solder | — | 20–22 AWG for the main 5 V / GND feed |
 | Breadboard, jumper wires | — | bench tests without soldering, see [BREADBOARD.md](BREADBOARD.md) |
+| 3 or 5 mm LED | 1 | for the breadboard tests |
 | White foam board or thick white card | 1 | optional back reflector, see [Light layout](#6-light-layout) |
 
 Tools: multimeter, soldering iron.
@@ -49,7 +52,7 @@ The strip is 8 W/m at 5 V, so **1.6 A per metre** at full brightness.
 | Oscillator + base drive | ~0.1 A |
 | Adapter | 2.0 A |
 
-1.86 A + 0.1 A is too close to 2 A, so Rb caps the top of the knob at about 83% duty. That keeps the strip near 1.55 A and the total near 1.65 A (about 83% of the adapter). A nightlight usually sits at 10–40%, well under budget.
+1.86 A + 0.1 A is too close to 2 A, so Rb caps the top of the knob at about 86% duty. That keeps the strip near 1.5 A and the total at ~1.65 A or under — simulations measure 1.52–1.57 A (about 76–78% of the adapter). A nightlight usually sits at 10–40%, well under budget.
 
 ## 3. How it works
 
@@ -74,7 +77,7 @@ GND (barrel −) = star point: 4 BC337 emitters, Q3 emitter, oscillator GND, all
 ```
 
 - Run the emitter ground wires straight back to the barrel jack. The oscillator GND joins at the star point.
-- Fuse: optional. Most 2 A adapters shut down on a short, but some only cut out well above 2 A. If you have one, put a 2–2.5 A polyfuse (PTC) or fast fuse in the + lead right after the jack.
+- Fuse: optional. Most 2 A adapters shut down on a short, but some only cut out well above 2 A. If you have one, put a 2–2.5 A polyfuse (PTC) or slow-blow (T) fuse in the + lead right after the jack — the bulk caps draw inrush on plug-in, which a fast fuse can nuisance-trip on.
 - No diode needed: nothing else powers the board.
 
 ### Oscillator
@@ -92,7 +95,7 @@ Q1 E, Q2 E ── GND
 ```
 
 - C1 goes from Q1's collector to Q2's base. C2 goes from Q2's collector to Q1's base.
-- Total timing resistance stays about 605 kΩ whatever the knob does, so the period is ~0.92 ms. Q2's off-time is 0.693 × C1 × (Ra + the pot's A-side), which gives about 0.8% duty in theory with the pot at end A (in practice ~0, see above) and about 83% at end B (Rb sets this top).
+- Total timing resistance stays about 605 kΩ whatever the knob does, so the period is ~0.92 ms. Q2's off-time is 0.693 × C1 × (Ra + the pot's A-side), which gives about 0.8% duty in theory with the pot at end A (in practice ~0, see above) and about 83% in theory at end B — measured ~86%, a few points high because Vbe/Vce thresholds lengthen Q2's off-time and Q3's 47k caps Q2's collector swing at ~4.25 V, shortening Q1's off-time (Rb sets this top).
 - C1 = C2 can be any matched pair from 1 to 4.7 nF: 1 nF is ~2.4 kHz, 4.7 nF ~500 Hz. Never 100 nF: ~20 Hz flickers.
 - If the knob works backwards, swap the pot's two end legs.
 
@@ -140,7 +143,9 @@ Each strip channel needs an NPN that saturates at up to 0.54 A from a ~4.8 V dri
 
 Oscillator and driver parts: Q1, Q2, Q3 = 2N3904 (BC337 also works), Q3 always through its 47k base resistor; Q4 = BC327 (2N2907 or S8550 also work, mind the pins).
 
-**Short of transistors?** Use fewer segments. Two long sides only (2 × 0.34 m) need two BC337s, draw 1.09 A at full, well within the adapter.
+Maker check on the BC337: onsemi rates it 800 mA, but Philips/NXP rates it 500 mA DC (1 A peak). Either is fine here: the long sides peak at 0.54 A and average about 0.46 A at the 86% cap — under both ratings, though with less margin than the IC version.
+
+**Short of transistors?** Use fewer segments. Two long sides only (2 × 0.34 m) need two BC337s, draw about 0.94 A at full (the knob caps below 100% duty), well within the adapter.
 
 **Pin order varies by maker**, so always check, flat face towards you, legs down:
 - 2N3904: E-B-C
@@ -177,7 +182,7 @@ Inner opening: 36 × 25.8 cm.
 | Check | How | Pass |
 |---|---|---|
 | Strip current | wire one segment straight to 5 V with the meter (10 A jack) in series | about 1.6 A × length |
-| Duty | multimeter, DC volts on the DRIVE RAIL, knob at bottom and at top | average ≈ duty × 4.8 V: 0 to 0.05 V at the bottom, about 4.0 V at full |
+| Duty | multimeter, DC volts on the DRIVE RAIL, knob at bottom and at top | average ≈ duty × 4.8 V: ~0–0.1 V at the bottom, about 4.0 V at full |
 | Transistor drop | knob at full; measure collector to emitter of a BC337 | under 0.4 V good; over 0.6 V → lower that base resistor to 150 Ω (long) or 220 Ω (short) |
 | Strip voltage | at full, across the far segment's + and − | 4.5 V or more |
 | Total current | meter in series with the barrel + wire, everything at full | at most ~1.65 A; if higher, raise Rb to 120k |
@@ -193,7 +198,7 @@ Inner opening: 36 × 25.8 cm.
 | Visible flicker | C1/C2 too big: use 2.2 nF or smaller |
 | Works backwards | swap the pot's two end legs |
 | One segment dark | that BC337's pin order, base resistor, the segment's +/− wires |
-| All dim | strip voltage under 4.5 V: thicker feed wire, check the adapter; check Q4 saturates (drive rail 4.6 V or more at full) |
+| All dim | strip voltage under 4.5 V: thicker feed wire, check the adapter; check Q4 saturates (drive rail ≈4.0 V DC at full, scope peak ≈4.8–4.9 V) |
 | Max too dim | lower Rb to 82k, only after checking total current |
 | Faint glow at the bottom of the turn | expected on some parts: unplug the adapter to switch off |
 | Jumps to full, knob does nothing | pot wiper lost contact: both bases float and the light goes full on. Reseat or replace the pot |
@@ -221,7 +226,7 @@ The original is kept in [`reference/canvas-glow-v5.html`](reference/canvas-glow-
 - ESP32 and firmware dropped for a discrete 2-transistor PWM oscillator; knob-only, no hover sensor, no mode switch.
 - The strip is split into four segments only so that each transistor stays in its rating.
 - One 5 V 2 A adapter for everything (was two USB supplies). Added bulk capacitors; dropped the PTC fuse requirement, USB breakout and second cable.
-- Top of the knob capped at ~81% duty by Rb to stay within the adapter budget.
+- Top of the knob capped at ~86% duty by Rb to stay within the adapter budget.
 - Added a transistor substitution table.
 - Dropped: the 5 mm LED fallback, the PTC section and the old dated schedule.
 

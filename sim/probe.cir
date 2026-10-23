@@ -1,0 +1,26 @@
+* Internal-node probe for the 555a model (flattened - see flatten_subckt.py).
+* Run: python3 flatten_subckt.py 555a.lib 555a flat.inc && ngspice -b probe.cir
+*
+* KNOWN ISSUE: this flattened form fails to converge at t=0 in ngspice 47
+* ("Timestep too small; initial timepoint: trouble with dlow") even with
+* pre-charged caps, while the identical subcircuit form (sanity.cir) runs
+* cleanly. Root cause not fully pinned down (matrix ordering / Dlimit knee).
+* The subcircuit form is good enough for all timing work; this probe exists
+* to diagnose the model's VOH ~2.6 V no-load sag (real chip: ~3.3-3.5 V
+* under the guide's load). Timing results are unaffected by that sag.
+*
+* Pin mapping matches sanity.cir: gnd node out reset ctrl node disch vcc
+.include 555a.lib
+V1 vcc 0 dc 5
+Ra vcc disch 1k
+Rb disch node 5k
+Ct node 0 0.5u ic=2
+Cc ctrl 0 10n ic=3.33
+Vrst reset 0 dc 5
+.include flat.inc
+.tran 1u 8m uic
+.control
+run
+print time v(out) v(i_nout) v(i_outn) v(i_bh) v(i_xba) v(i_xbb) v(i_rsn) v(i_resetn) v(i_setn)
+quit
+.endc

@@ -1,0 +1,16 @@
+* analog 555 sanity: standard astable, 5V. RA vcc->disch, RB disch->node,
+* cap on node, TRIG=THR=node -> expect ~246 Hz, duty ~51%
+.include 555a.lib
+V1 vcc 0 dc 5
+X1 gnd node out reset ctrl node disch vcc 555a
+RA vcc disch 1k
+RB disch node 5k
+Ct node 0 0.5u
+Cc ctrl 0 10n
+Vrst reset 0 dc 5
+.tran 1u 40m uic
+.control
+run
+print time v(out) v(node)
+quit
+.endc
