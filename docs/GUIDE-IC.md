@@ -212,3 +212,7 @@ Print anything near the strip in **PETG**: PLA softens around 55 °C.
 ## 12. Relation to the discrete version
 
 Same strip, power entry, light layout, checks and troubleshooting shape as [GUIDE.md](GUIDE.md). The only change is the PWM source: the NE555 and its two steering diodes replace the Q1/Q2 astable, the Q3 buffer and the Q4 high-side switch, and pin 3 drives the BC337 bases directly. The 555 circuit is the standard diode-steered form: wiper to pin 7, 10 kΩ pull-up, pot ends to D1 and (via 100 kΩ) D2. The pot ends never touch +5V, which is what keeps the discharge path clean. Everything downstream of pin 3 is identical except the base resistors (100 / 150 Ω instead of 180 / 270 Ω, because pin 3 sits at ~3.3 V instead of the 4.8 V drive rail) and the dropped base pulldowns (pin 3 pulls the bases low itself).
+
+---
+
+[← Previous: Discrete breadboard test](BREADBOARD.md) · [Contents](../README.md#documentation) · [Next: IC breadboard test →](BREADBOARD-IC.md)

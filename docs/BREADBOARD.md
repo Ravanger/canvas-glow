@@ -50,3 +50,7 @@ Remove the LED from Q3, then add:
 Any 3 or 5 mm LED, about 13 mA. It tests the switching and the knob. The BC337 drop at real strip current is checked on the finished light ([Checks](GUIDE.md#8-checks)).
 
 Pass: the LED dims smoothly, and the DC voltage on the DRIVE RAIL tracks the knob.
+
+---
+
+[← Previous: Discrete build guide](GUIDE.md) · [Contents](../README.md#documentation) · [Next: IC build guide →](GUIDE-IC.md)

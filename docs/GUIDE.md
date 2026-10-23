@@ -224,3 +224,7 @@ The original is kept in [`reference/canvas-glow-v5.html`](reference/canvas-glow-
 - Top of the knob capped at ~81% duty by Rb to stay within the adapter budget.
 - Added a transistor substitution table.
 - Dropped: the 5 mm LED fallback, the PTC section and the old dated schedule.
+
+---
+
+[← Previous: README](../README.md) · [Contents](../README.md#documentation) · [Next: Discrete breadboard test →](BREADBOARD.md)
