@@ -91,6 +91,9 @@ you can read straight through or jump to a single page:
 4. [IC breadboard test](docs/BREADBOARD-IC.md) — bench steps 1 and
    2 for the IC version
 
+The original v5 guide is kept for history:
+[canvas-glow-v5.html](docs/reference/canvas-glow-v5.html).
+
 ---
 
 [Next: Discrete build guide →](docs/GUIDE.md)
