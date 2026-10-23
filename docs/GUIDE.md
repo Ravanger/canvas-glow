@@ -145,7 +145,7 @@ Oscillator and driver parts: Q1, Q2, Q3 = 2N3904 (BC337 also works), Q3 always t
 
 Maker check on the BC337: onsemi rates it 800 mA, but Philips/NXP rates it 500 mA DC (1 A peak). Either is fine here: the long sides peak at 0.54 A and average about 0.46 A at the 86% cap — under both ratings, though with less margin than the IC version.
 
-**Short of transistors?** Use fewer segments. Two long sides only (2 × 0.34 m) need two BC337s, draw 1.09 A at full, well within the adapter.
+**Short of transistors?** Use fewer segments. Two long sides only (2 × 0.34 m) need two BC337s, draw about 0.94 A at full (the knob caps below 100% duty), well within the adapter.
 
 **Pin order varies by maker**, so always check, flat face towards you, legs down:
 - 2N3904: E-B-C
