@@ -77,17 +77,6 @@ The values shipped in the guides are the tested configuration, not
 a recommendation for every painting: a different frame size needs
 its own strip lengths and its own power-budget check.
 
-## What this build deliberately does not need
-
-- No microcontroller and no firmware: the dimmer is analog.
-- No Wi-Fi, app, or remote control.
-- No second supply: one 5 V 2 A adapter runs the oscillator and
-  the strip.
-- No soldering for the bench test: the breadboard pages cover the
-  oscillator and the power stage with jumper wires.
-- No mode switch, hover sensor, or breathing/candle mode: those
-  need a microcontroller, which this build does not have.
-
 ## Documentation
 
 Documentation lives in `docs/`, next to the build it describes.
@@ -103,16 +92,7 @@ you can read straight through or jump to a single page:
 4. [IC breadboard test](docs/BREADBOARD-IC.md) — bench steps 1 and
    2 for the IC version
 
-## Contributing
-
-Changes go through pull requests. When reporting a build problem,
-include the version (discrete or IC), the step that failed, and the
-meter readings from the checks section.
-
-Agents and contributors: read [AGENTS.md](AGENTS.md) first. It states
-the frozen design decisions and the rules for changing numbers in
-the guides.
-
 ---
 
 [Next: Discrete build guide →](docs/GUIDE.md)
+
