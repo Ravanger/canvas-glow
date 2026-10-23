@@ -140,7 +140,7 @@ Each strip channel needs an NPN that saturates at up to 0.54 A from a ~3.3 V dri
 
 No other transistors are needed: the 555 drives the BC337 bases directly.
 
-Maker check on the BC337: onsemi rates it 800 mA, but Philips/NXP rates it 500 mA DC (1 A peak). Either is fine here: at the 81–83% cap the long sides peak at 0.54 A and average 0.44–0.45 A — the peak is under both peak ratings (onsemi 800 mA, NXP 1 A) and the average is under the 500 mA DC rating and onsemi's 800 mA.
+Maker check on the BC337: onsemi rates it 800 mA, but Philips/NXP rates it 500 mA DC (1 A peak). Either is fine here: at the 81–83% cap the long sides peak at 0.54 A and average 0.44–0.45 A — the peak is under onsemi's 800 mA and NXP's 1 A peak and the average is under the 500 mA DC rating and onsemi's 800 mA.
 
 **Short of transistors?** Use fewer segments. Two long sides only (2 × 0.34 m) need two BC337s, draw about 0.88–0.91 A at full (the knob caps below 100% duty), well within the adapter.
 
