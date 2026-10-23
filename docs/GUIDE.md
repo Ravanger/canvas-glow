@@ -177,7 +177,7 @@ Inner opening: 36 × 25.8 cm.
 | Check | How | Pass |
 |---|---|---|
 | Strip current | wire one segment straight to 5 V with the meter (10 A jack) in series | about 1.6 A × length |
-| Duty | multimeter, DC volts on the DRIVE RAIL, knob at bottom and at top | average ≈ duty × 4.8 V: 0 to 0.05 V at the bottom, about 4.0 V at full |
+| Duty | multimeter, DC volts on the DRIVE RAIL, knob at bottom and at top | average ≈ duty × 4.8 V: ~0–0.1 V at the bottom, about 4.0 V at full |
 | Transistor drop | knob at full; measure collector to emitter of a BC337 | under 0.4 V good; over 0.6 V → lower that base resistor to 150 Ω (long) or 220 Ω (short) |
 | Strip voltage | at full, across the far segment's + and − | 4.5 V or more |
 | Total current | meter in series with the barrel + wire, everything at full | at most ~1.65 A; if higher, raise Rb to 120k |
