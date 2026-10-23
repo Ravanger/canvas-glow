@@ -28,8 +28,8 @@ Contents: [Parts](#1-parts) · [Power budget](#2-power-budget) · [How it works]
 | 270 Ω resistor | 2 | BC337 base, short sides |
 | 2.2 nF capacitor (marked 222) | 2 | C1, C2 |
 | 100 nF ceramic capacitor | 1 | oscillator supply |
-| Electrolytic 100 µF ≥ 10 V | 1 | oscillator supply |
-| Electrolytic 470–1000 µF ≥ 10 V | 1 | at the strip power entry |
+| Electrolytic 100 µF ≥ 16 V | 1 | oscillator supply |
+| Electrolytic 470–1000 µF ≥ 16 V | 1 | at the strip power entry |
 | Polyfuse 2–2.5 A | 1 | optional, right after the jack |
 | Perfboard, 22–24 AWG silicone wire, heat-shrink, solder | — | 20–22 AWG for the main 5 V / GND feed |
 | Breadboard, jumper wires | — | bench tests without soldering, see [BREADBOARD.md](BREADBOARD.md) |
