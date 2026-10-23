@@ -52,7 +52,7 @@ The strip is 8 W/m at 5 V, so **1.6 A per metre** at full brightness.
 
 The 555 has two internal thresholds, 1/3 and 2/3 of the supply. Its output flips high when the timing capacitor falls to 1/3 and low when it rises to 2/3. Two diodes steer the capacitor's charge and discharge through opposite halves of the pot. The wiper goes to pin 7, and a 10 kΩ pull-up holds pin 7 at +5 V while the output is high: charging goes 5 V → 10 kΩ → pin 7 → wiper → upper pot half → D1 → capacitor. While the output is low, the chip pulls pin 7 to ground: discharging goes capacitor → D2 → 100 kΩ → lower pot half → wiper → pin 7. Turning the knob shifts resistance from one path to the other, so the total stays about 610 kΩ and the frequency stays near 0.9 kHz — only the duty changes. Duty = charge resistance (10 kΩ + upper half) ÷ total resistance. The pot ends never touch +5V: that is what keeps the discharge path clean.
 
-Pin 3 drives the four BC337 bases directly through 100 / 150 Ω. The 555's output swings to about 3.3 V under that load, which is plenty of base drive, and it pulls the bases low when off, so no pulldowns are needed. The bottom of the turn is a faint glow, not off: the 10 kΩ sets a minimum duty of a few percent. Unplug the adapter to switch off (or the RESET switch in Troubleshooting). The pot is linear, so most of the visible change happens in the first third of the turn.
+Pin 3 drives the four BC337 bases directly through 100 / 150 Ω. The 555's output swings to about 3.3 V under that load, which is plenty of base drive, and it pulls the bases low when off, so no pulldowns are needed. The bottom of the turn is a faint glow, not off: the 10 kΩ sets a minimum duty of about 2%. Unplug the adapter to switch off (or the RESET switch in Troubleshooting). The pot is linear, so most of the visible change happens in the first third of the turn.
 
 ## 4. Circuit
 
@@ -100,7 +100,7 @@ NE555 pinout, DIP-8, notch at the top, pins counted counter-clockwise from the t
 | 7 | DISCH | pot wiper, 10 kΩ pull-up to +5V |
 | 8 | VCC | +5V |
 
-- Total timing resistance stays about 610 kΩ whatever the knob does (10 kΩ pull-up + 500 kΩ pot + 100 kΩ), so the period is ~1.1 ms (~0.9 kHz). The diode drops stretch it past the ideal 0.93 ms; the duty barely moves, because charge and discharge stretch by nearly the same factor. Duty is the charge resistance (10 kΩ + upper half) over the total: about 3.5% at end A (a faint glow, not off), about 83% at end B (the 100 kΩ sets this top).
+- Total timing resistance stays about 610 kΩ whatever the knob does (10 kΩ pull-up + 500 kΩ pot + 100 kΩ), so the period is ~1.1 ms (~0.9 kHz). The diode drops stretch it past the ideal 0.93 ms; the duty barely moves, because charge and discharge stretch by nearly the same factor. Duty is the charge resistance (10 kΩ + upper half) over the total: about 1.6–2% at end A (a faint glow, not off), about 83% at end B (the 100 kΩ sets this top).
 - The timing capacitor can be 1 to 4.7 nF: 1 nF is ~2 kHz, 4.7 nF ~400 Hz. Never 100 nF: ~20 Hz flickers.
 - End A is the counter-clockwise end, end B the clockwise end, so turning clockwise brightens. If it runs backwards, swap the two end legs.
 
@@ -172,7 +172,7 @@ Inner opening: 36 × 25.8 cm.
 | Check | How | Pass |
 |---|---|---|
 | Strip current | wire one segment straight to 5 V with the meter (10 A jack) in series | about 1.6 A × length |
-| Duty | multimeter, DC volts on pin 3, knob at bottom and at top | average ≈ duty × 3.3 V: about 0.1 V at the bottom, about 2.7 V at full |
+| Duty | multimeter, DC volts on pin 3, knob at bottom and at top | average ≈ duty × 3.3 V: about 0.06 V at the bottom, about 2.7 V at full |
 | Transistor drop | knob at full; measure collector to emitter of a BC337 | under 0.4 V good; over 0.6 V → lower that base resistor to 82 Ω (long) or 120 Ω (short), then recheck pin 3 still reads ~2.7 V DC at full |
 | Strip voltage | at full, across the far segment's + and − | 4.5 V or more |
 | Total current | meter in series with the barrel + wire, everything at full | at most ~1.65 A; if higher, raise the 100 kΩ to 120 kΩ |
@@ -190,7 +190,7 @@ Inner opening: 36 × 25.8 cm.
 | One segment dark | that BC337's pin order, base resistor, the segment's +/− wires |
 | All dim | strip voltage under 4.5 V: thicker feed wire, check the adapter; check pin 3 reads ~2.7 V DC at full (peak ~3.3 V) |
 | Max too dim | lower the 100 kΩ to 82 kΩ, only after checking total current |
-| Faint glow at the bottom of the turn | that's the minimum duty (~3.5%): unplug the adapter to switch off, or add a RESET switch (below) |
+| Faint glow at the bottom of the turn | that's the minimum duty (~1.6–2%): unplug the adapter to switch off, or add a RESET switch (below) |
 | Want a real off switch | replace the direct pin 4 → +5V tie with a 10 kΩ pull-up to +5V, and wire a latching switch (not a momentary button) from pin 4 to GND; closing it forces the output low (strip off) |
 
 ## 10. 3D prints (bonus)

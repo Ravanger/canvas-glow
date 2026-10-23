@@ -45,7 +45,7 @@ Remove the LED from pin 3, then add:
 
 Any 3 or 5 mm LED, about 13 mA for a red LED (white/blue run lower, ~7 mA). It tests the switching and the knob. The BC337 drop at real strip current is checked on the finished light ([Checks](GUIDE-IC.md#8-checks)).
 
-Pass: the LED dims smoothly, and the DC voltage on pin 3 tracks the knob (about 0.1 V at the bottom, about 2.7 V at full).
+Pass: the LED dims smoothly, and the DC voltage on pin 3 tracks the knob (about 0.06 V at the bottom, about 2.7 V at full).
 
 ---
 
