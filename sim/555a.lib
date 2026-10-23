@@ -7,8 +7,10 @@
 *
 * Notes / limitations:
 * - Output high side is an NPN follower (approximates the chip's ~200 mA
-*   output stage). VOH under heavy load is optimistic vs a real chip
-*   (no beta roll-off in the BJT model).
+*   output stage). VOH is pessimistic vs a real chip (~2.6 V no-load,
+*   ~1.8 V under full load here; 3.3-3.5 V measured on real parts):
+*   the latch node sags under the follower's base drive through the
+*   1 k/1 k path. See README "known limitation".
 * - Comparator bandwidth set by genopa1 POLE (default 100k -> ~1.6us tau),
 *   adding a few us of edge delay per transition.
 
