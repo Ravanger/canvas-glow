@@ -77,6 +77,12 @@ The values shipped in the guides are the tested configuration, not
 a recommendation for every painting: a different frame size needs
 its own strip lengths and its own power-budget check.
 
+## Limitations
+
+- No true off: the bottom of the knob leaves a faint glow — unplug
+  the adapter to switch off. The IC version can add a real off
+  switch on the NE555 RESET pin ([GUIDE-IC, Troubleshooting](docs/GUIDE-IC.md#9-troubleshooting)).
+
 ## Documentation
 
 Documentation lives in `docs/`, next to the build it describes.
