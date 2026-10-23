@@ -48,6 +48,8 @@ The strip is 8 W/m at 5 V, so **1.6 A per metre** at full brightness.
 | 555 + base drive | ~0.1 A |
 | Adapter | 2.0 A |
 
+Note: figures are rounded; exact = length × 1.6 A (long sides 0.544 A, short sides 0.384 A, total 1.856 A).
+
 1.86 A + 0.1 A is too close to 2 A, so the 100 kΩ in the discharge leg caps the top of the knob at about 83% duty. That keeps the strip near 1.55 A and the total near 1.65 A (about 83% of the adapter). A nightlight usually sits at 10–40%, well under budget.
 
 ## 3. How it works

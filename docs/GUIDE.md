@@ -52,6 +52,8 @@ The strip is 8 W/m at 5 V, so **1.6 A per metre** at full brightness.
 | Oscillator + base drive | ~0.1 A |
 | Adapter | 2.0 A |
 
+Note: figures are rounded; exact = length × 1.6 A (long sides 0.544 A, short sides 0.384 A, total 1.856 A).
+
 1.86 A + 0.1 A is too close to 2 A, so Rb caps the top of the knob at about 86% duty. That keeps the strip near 1.5 A and the total at ~1.65 A or under — simulations measure 1.52–1.57 A (about 76–78% of the adapter). A nightlight usually sits at 10–40%, well under budget.
 
 ## 3. How it works
