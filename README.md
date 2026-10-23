@@ -54,8 +54,8 @@ light; a breadboard and jumper wires for the bench test.
 4. [IC breadboard test](docs/BREADBOARD-IC.md) — bench steps 1 and 2
    of the IC build order, no soldering
 
-Read the discrete guide first: the IC guide builds on it and only
-describes what changes.
+Either guide works on its own; the IC guide repeats the shared
+sections.
 
 ## Configuration
 
