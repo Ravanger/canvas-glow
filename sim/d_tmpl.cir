@@ -1,0 +1,42 @@
+* discrete astable (GUIDE.md) sim - knob @ __POS__ : potA=__RA__, potB=__RB__
+.include models.lib
+V1 vcc 0 dc 5
+RC1 vcc q1c 10k
+RC2 vcc q2c 10k
+C1 q1c q2b 2.2n
+C2 q2c q1b 2.2n
+RpotA vcc endA __RA__
+RpotB vcc endB __RB__
+Ra endA q2b 4.7k
+Rb endB q1b 100k
+Q1 q1c q1b 0 Q2N3904
+Q2 q2c q2b 0 Q2N3904
+Rq3b q2c q3b 47k
+Q3 q3c q3b 0 Q2N3904
+Rq3c q3c q4b 1k
+Rpq4 q4b vcc 10k
+Q4 rail q4b vcc PBC327
+Rd1 rail b_l1 180
+Rd2 rail b_l2 180
+Rd3 rail b_s1 270
+Rd4 rail b_s2 270
+Rpl1 b_l1 0 10k
+Rpl2 b_l2 0 10k
+Rpl3 b_s1 0 10k
+Rpl4 b_s2 0 10k
+Ql1 c_l1 b_l1 0 NBC337
+Ql2 c_l2 b_l2 0 NBC337
+Qs1 c_s1 b_s1 0 NBC337
+Qs2 c_s2 b_s2 0 NBC337
+RsL1 vcc c_l1 9.19
+RsL2 vcc c_l2 9.19
+RsS1 vcc c_s1 13.02
+RsS2 vcc c_s2 13.02
+Cdec vcc 0 100u ic=5
+Cdec2 vcc 0 100n ic=5
+.tran 1u 6m uic
+.control
+run
+print time v(rail) v(q2c) v(q2b) v(c_l1) v(c_s1)
+quit
+.endc

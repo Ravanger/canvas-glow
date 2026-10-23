@@ -1,0 +1,33 @@
+* IC PWM (GUIDE-IC) sim - pot @ endB : RpotA=500k, RpotB=1
+.include 555a.lib
+.include models.lib
+V1 vcc 0 dc 5
+X1 gnd node out reset ctrl node disch vcc 555a
+Ct node 0 2.2n
+Cc ctrl 0 100n
+Ce vcc 0 47u
+Vrst reset 0 dc 5
+Rpu7 disch vcc 10k
+RpotA disch endA 500k
+RpotB endB disch 1
+D1 endA node D1N4148
+R100k endB d2c 100k
+D2 node d2c D1N4148
+Rb1 out b1 100
+Rb2 out b2 100
+Rb3 out b3 150
+Rb4 out b4 150
+Q1l c1 b1 0 NBC337
+Q2l c2 b2 0 NBC337
+Q3l c3 b3 0 NBC337
+Q4l c4 b4 0 NBC337
+Rs1 vcc c1 9.19
+Rs2 vcc c2 9.19
+Rs3 vcc c3 13.02
+Rs4 vcc c4 13.02
+.tran 1u 6m uic
+.control
+run
+print time v(out) v(node) v(c1) v(c3) v(b1)
+quit
+.endc

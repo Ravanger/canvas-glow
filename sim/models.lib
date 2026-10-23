@@ -1,0 +1,18 @@
+* Generic component models for canvas-glow circuit sims (ngspice).
+* Values are typical/representative, not manufacturer-verified; the
+* saturation conclusions drawn in the findings report are robust to them
+* (forced beta well under hFE min in every case).
+
+* 1N4148 switching diode. VF ~0.51 V at 200 uA - realistic for this part
+* at the sub-mA currents the guide's circuits actually draw.
+.model D1N4148 D (is=2.52e-9 n=1.752 rs=0.568 cjo=4p m=0.333)
+
+* 2N3904 NPN small signal (generic).
+.model Q2N3904 NPN (is=1.386e-14 bf=200 ne=1.5 cje=4.4p tf=240p)
+
+* BC327 PNP small signal (mirror of 2N2907-class params).
+.model PBC327 PNP (is=1.386e-14 bf=150 ne=1.5 cje=4.4p tf=240p)
+
+* BC337 NPN medium power (hFE min 60 at high current; bf=300 with the
+* low is keeps it saturating at forced beta ~20-30 as expected).
+.model NBC337 NPN (is=1e-12 bf=300 ne=1.5 cje=5e-11 tf=1e-9)
