@@ -49,7 +49,7 @@ The strip is 8 W/m at 5 V, so **1.6 A per metre** at full brightness.
 | Oscillator + base drive | ~0.1 A |
 | Adapter | 2.0 A |
 
-1.86 A + 0.1 A is too close to 2 A, so Rb caps the top of the knob at about 83% duty. That keeps the strip near 1.55 A and the total near 1.65 A (about 83% of the adapter). A nightlight usually sits at 10–40%, well under budget.
+1.86 A + 0.1 A is too close to 2 A, so Rb caps the top of the knob at about 86% duty. That keeps the strip near 1.5 A and the total at ~1.65 A or under — simulations measure 1.52–1.57 A (about 76–78% of the adapter). A nightlight usually sits at 10–40%, well under budget.
 
 ## 3. How it works
 
@@ -92,7 +92,7 @@ Q1 E, Q2 E ── GND
 ```
 
 - C1 goes from Q1's collector to Q2's base. C2 goes from Q2's collector to Q1's base.
-- Total timing resistance stays about 605 kΩ whatever the knob does, so the period is ~0.92 ms. Q2's off-time is 0.693 × C1 × (Ra + the pot's A-side), which gives about 0.8% duty in theory with the pot at end A (in practice ~0, see above) and about 83% at end B (Rb sets this top).
+- Total timing resistance stays about 605 kΩ whatever the knob does, so the period is ~0.92 ms. Q2's off-time is 0.693 × C1 × (Ra + the pot's A-side), which gives about 0.8% duty in theory with the pot at end A (in practice ~0, see above) and about 83% in theory at end B — measured ~86%, a few points high because Vbe/Vce thresholds lengthen Q2's off-time and Q3's 47k caps Q2's collector swing at ~4.25 V, shortening Q1's on-time (Rb sets this top).
 - C1 = C2 can be any matched pair from 1 to 4.7 nF: 1 nF is ~2.4 kHz, 4.7 nF ~500 Hz. Never 100 nF: ~20 Hz flickers.
 - If the knob works backwards, swap the pot's two end legs.
 
@@ -221,7 +221,7 @@ The original is kept in [`reference/canvas-glow-v5.html`](reference/canvas-glow-
 - ESP32 and firmware dropped for a discrete 2-transistor PWM oscillator; knob-only, no hover sensor, no mode switch.
 - The strip is split into four segments only so that each transistor stays in its rating.
 - One 5 V 2 A adapter for everything (was two USB supplies). Added bulk capacitors; dropped the PTC fuse requirement, USB breakout and second cable.
-- Top of the knob capped at ~81% duty by Rb to stay within the adapter budget.
+- Top of the knob capped at ~86% duty by Rb to stay within the adapter budget.
 - Added a transistor substitution table.
 - Dropped: the 5 mm LED fallback, the PTC section and the old dated schedule.
 
