@@ -20,7 +20,7 @@ Contents: [Parts](#1-parts) · [Power budget](#2-power-budget) · [How it works]
 | B500K potentiometer | 1 | brightness knob, plus a knob cap |
 | 1N4148 diode | 2 | charge/discharge steering |
 | 100 kΩ resistor | 1 | in the discharge leg, caps the top at ~83% duty |
-| 10 kΩ resistor | 1 | pin 7 pull-up |
+| 10 kΩ resistor | 2 | pin 7 pull-up, and the optional RESET switch ([Troubleshooting](#9-troubleshooting)) |
 | 100 Ω resistor | 2 | BC337 base, long sides |
 | 150 Ω resistor | 2 | BC337 base, short sides |
 | 2.2 nF capacitor (marked 222) | 1 | timing |
