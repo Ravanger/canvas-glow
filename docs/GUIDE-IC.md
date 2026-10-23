@@ -73,7 +73,7 @@ GND (barrel −) = star point: 4 BC337 emitters, 555 pin 1, all capacitor negati
 ```
 
 - Run the emitter ground wires straight back to the barrel jack. The 555 GND joins at the star point.
-- Fuse: optional. Most 2 A adapters shut down on a short, but some only cut out well above 2 A. If you have one, put a 2–2.5 A polyfuse (PTC) or fast fuse in the + lead right after the jack.
+- Fuse: optional. Most 2 A adapters shut down on a short, but some only cut out well above 2 A. If you have one, put a 2–2.5 A polyfuse (PTC) or slow-blow (T) fuse in the + lead right after the jack — the bulk caps draw inrush on plug-in, which a fast fuse can nuisance-trip on.
 - No diode needed: nothing else powers the board.
 
 ### 555 PWM
