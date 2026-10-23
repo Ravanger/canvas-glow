@@ -23,6 +23,7 @@ Contents: [Parts](#1-parts) · [Power budget](#2-power-budget) · [How it works]
 | 10 kΩ resistor | 2 | pin 7 pull-up, and the optional RESET switch ([Troubleshooting](#9-troubleshooting)) |
 | 100 Ω resistor | 2 | BC337 base, long sides |
 | 150 Ω resistor | 2 | BC337 base, short sides |
+| 220 Ω resistor | 1 | breadboard tests, LED current limit |
 | 2.2 nF capacitor (marked 222) | 1 | timing |
 | 100 nF ceramic capacitor | 2 | pin 5 + supply decoupling |
 | Electrolytic 470–1000 µF ≥ 16 V | 1 | at the strip power entry |
@@ -30,6 +31,7 @@ Contents: [Parts](#1-parts) · [Power budget](#2-power-budget) · [How it works]
 | Polyfuse 2–2.5 A | 1 | optional, right after the jack |
 | Perfboard, 22–24 AWG silicone wire, heat-shrink, solder | — | 20–22 AWG for the main 5 V / GND feed |
 | Breadboard, jumper wires | — | bench tests without soldering, see [BREADBOARD-IC.md](BREADBOARD-IC.md) |
+| 3 or 5 mm LED | 1 | for the breadboard tests |
 | White foam board or thick white card | 1 | optional back reflector, see [Light layout](#6-light-layout) |
 
 Tools: multimeter, soldering iron.
