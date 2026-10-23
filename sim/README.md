@@ -2,15 +2,15 @@
 
 Simulation scratch for scrutinizing `docs/GUIDE.md` / `docs/GUIDE-IC.md`
 (discrete + NE555 PWM versions). Investigation only — nothing here changes
-the guides. The findings report cites results from these sims plus an
-independent external sim (ngspice 42, behavioral 555) and analytic derivations.
+the guides. The results below come from these sims plus an independent
+external sim (ngspice 42, behavioral 555) and analytic derivations.
 
 ## Files
 
 | File | What | Status |
 |---|---|---|
 | `555a.lib` | Pure-analog NE555 model (genopa1 comparators + cross-coupled NPN SR latch at 1 k scale + real discharge/output transistors; follower high side so it can represent the ~90 mA pin-3 source load) | sanity-passed |
-| `sanity.cir` | Standard astable: RA=1 k→DISCH, RB=5 k→node, C=0.5 µF, TRIG=THR=node | **PASS**: 262.5 Hz / 3.92 ms period (expected ~246–262 Hz), clean 40 ms window, no aborts |
+| `sanity.cir` | Standard astable: RA=1 k→DISCH, RB=5 k→node, C=0.5 µF, TRIG=THR=node | **PASS**: ~255 Hz / 3.92 ms period (expected ~247–262 Hz), clean 40 ms window, no aborts |
 | `models.lib` | Generic 1N4148 / 2N3904 / BC327 / BC337 models for the real-circuit sims | ready |
 | `parse_tran.py` | Merges ngspice's paginated print tables and analyzes a column (freq, duty, levels) | ready |
 | `flatten_subckt.py` | Inlines a subcircuit with `i_`-prefixed internal nodes (ngspice 47 can't print `v(x1:node)`) | ready |
@@ -72,7 +72,7 @@ No-load VOH in the sim is ~2.6 V, not the ~4.3–4.6 V an ideal follower would
 give (latch node sags under the follower's base drive through the 1 k/1 k
 path; internal probe pending). A real NE555 delivers ~3.3–3.5 V at the
 guide's ~90 mA pin-3 load, and the external behavioral-model sim measured
-3.53 V — so **pin-3 level claims in the report rely on datasheet + external
+3.53 V — so **pin-3 level claims rely on datasheet + external
 sim, not this model**. Timing (comparators, latch switching, discharge) is
 verified correct by `sanity.cir`, and the sagged VOH still drives the BC337
 base resistors into deep saturation in load sims (19 mA forced vs 9 mA
@@ -117,5 +117,5 @@ EndB duty is also **trajectory-sensitive in this generic BJT model**: two
 mathematically identical netlists (`disc_endB.cir` and `diag_discrete_q2c.cir`)
 give different sample-count duties (85.4 % vs 78.4 %) while their long-pulse
 pairing agrees at ~82–86 % per cycle in both. The cleaner external sim's
-85.6–85.9 % is taken as the best estimate for the report; this model's band
+85.6–85.9 % is taken as the best estimate; this model's band
 (78–86 %) is noted as a caveat.
