@@ -34,9 +34,9 @@ Contents: [Parts](#1-parts) · [Power budget](#2-power-budget) · [How it works]
 | 3 or 5 mm LED | 1 | for the breadboard tests |
 | White foam board or thick white card | 1 | optional back reflector, see [Light layout](#6-light-layout) |
 
-Use a bipolar NE555-class timer for this circuit. Do not substitute a CMOS variant — the TLC555, LMC555 or ICM7555 — without revalidating the output-drive requirements and, if necessary, redesigning the driver stage: their outputs drive far weaker than a bipolar 555's and cannot source the ~80 mA this circuit needs at full brightness.
+Use a bipolar NE555-class timer for this circuit. Do not substitute a CMOS variant — the TLC555, LMC555 or ICM7555 — without revalidating the output-drive requirements and, if necessary, redesigning the driver stage: their outputs drive far weaker than a bipolar 555's and cannot source the ~87 mA this circuit needs at full brightness.
 
-The datasheet minimum supply is 4.5 V, and the output must source or sink up to 200 mA; the four channels' ~90 mA pin-3 load at full brightness stays inside that.
+The datasheet minimum supply is 4.5 V, and the output must source or sink up to 200 mA; the four channels' ~87 mA pin-3 load at full brightness stays inside that.
 
 Tools: multimeter, soldering iron.
 
