@@ -193,7 +193,7 @@ Inner opening: 36 × 25.8 cm.
 | Visible flicker | C1/C2 too big: use 2.2 nF or smaller |
 | Works backwards | swap the pot's two end legs |
 | One segment dark | that BC337's pin order, base resistor, the segment's +/− wires |
-| All dim | strip voltage under 4.5 V: thicker feed wire, check the adapter; check Q4 saturates (drive rail 4.6 V or more at full) |
+| All dim | strip voltage under 4.5 V: thicker feed wire, check the adapter; check Q4 saturates (drive rail ≈4.0 V DC at full, scope peak ≈4.8–4.9 V) |
 | Max too dim | lower Rb to 82k, only after checking total current |
 | Faint glow at the bottom of the turn | expected on some parts: unplug the adapter to switch off |
 | Jumps to full, knob does nothing | pot wiper lost contact: both bases float and the light goes full on. Reseat or replace the pot |
