@@ -41,6 +41,12 @@ looks wrong, verify it first and say what the check showed.
   references across the guides would break.
 - The `reference/` directory holds the original v5 guide for
   history. Do not edit it.
+- Shared sections (§§1, 5, 6, 10, 11 and the Checks section) must be
+  edited in both guides unless the difference is intentional;
+  GUIDE-IC §12 lists the intentional ones.
+- After any SVG edit, re-render it and re-check it against the part
+  tables. The four drawings and the tables currently agree on every
+  pin, value, and orientation; keep them that way.
 
 ## Workflow
 

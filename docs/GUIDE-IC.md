@@ -38,7 +38,7 @@ Use a bipolar NE555-class timer for this circuit. Do not substitute a CMOS varia
 
 The datasheet minimum supply is 4.5 V, and the output must source or sink up to 200 mA; the four channels' ~87 mA pin-3 load at full brightness stays inside that.
 
-Tools: multimeter, soldering iron.
+Tools: multimeter with a 10 A current range, soldering iron.
 
 ## 2. Power budget
 
@@ -211,7 +211,7 @@ The meter checks below read steady or average quantities, which a DC multimeter 
 
 ## 10. 3D prints (bonus)
 
-Print anything near the strip in **PETG**: PLA softens around 55 °C.
+Print anything near the strip in **PETG**: PLA softens around 55 °C. Models are not included — no files, dimensions or links; design them for your own frame and strip.
 
 - 45° strip clips for the stretcher bars (8 mm strip)
 - A box for the 555 perfboard, screwed to a bar

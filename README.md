@@ -80,6 +80,12 @@ rated W/m vary between strips — use your strip's (current = W/m ÷ 5 V
 × length) and recompute [the power budget](docs/GUIDE.md#2-power-budget)
 with your actual cut lengths.
 
+## Limitations
+
+- No true off: the bottom of the knob leaves a faint glow — unplug
+  the adapter to switch off. The IC version can add a real off
+  switch on the NE555 RESET pin ([GUIDE-IC, Troubleshooting](docs/GUIDE-IC.md#9-troubleshooting)).
+
 ## Documentation
 
 Documentation lives in `docs/`, next to the build it describes.
@@ -98,6 +104,10 @@ page:
 
 The original v5 guide is kept for history:
 [canvas-glow-v5.html](docs/reference/canvas-glow-v5.html).
+
+The simulation figures in the guides come from `sim/` — SPICE
+netlists and run notes; see [sim/README.md](sim/README.md) for what
+was run and how to reproduce them.
 
 ---
 

@@ -38,7 +38,7 @@ Contents: [Parts](#1-parts) · [Power budget](#2-power-budget) · [How it works]
 | 3 or 5 mm LED | 1 | for the breadboard tests |
 | White foam board or thick white card | 1 | optional back reflector, see [Light layout](#6-light-layout) |
 
-Tools: multimeter, soldering iron.
+Tools: multimeter with a 10 A current range, soldering iron.
 
 ## 2. Power budget
 
@@ -214,7 +214,7 @@ The meter checks below read steady or average quantities, which a DC multimeter 
 
 ## 10. 3D prints (bonus)
 
-Print anything near the strip in **PETG**: PLA softens around 55 °C.
+Print anything near the strip in **PETG**: PLA softens around 55 °C. Models are not included — no files, dimensions or links; design them for your own frame and strip.
 
 - 45° strip clips for the stretcher bars (8 mm strip)
 - A box for the driver perfboard, screwed to a bar
