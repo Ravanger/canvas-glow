@@ -19,7 +19,7 @@ Contents: [Parts](#1-parts) · [Power budget](#2-power-budget) · [How it works]
 | BC337 NPN | 4 | strip drivers, see [Transistors](#5-transistors) |
 | B500K potentiometer | 1 | brightness knob, plus a knob cap |
 | 1N4148 diode | 2 | charge/discharge steering |
-| 100 kΩ resistor | 1 | in the discharge leg, caps the top at ~83% duty |
+| 100 kΩ resistor | 1 | in the discharge leg, caps the top at ≈81–83% duty |
 | 10 kΩ resistor | 2 | pin 7 pull-up, and the optional RESET switch ([Troubleshooting](#9-troubleshooting)) |
 | 100 Ω resistor | 2 | BC337 base, long sides |
 | 150 Ω resistor | 2 | BC337 base, short sides |
@@ -50,7 +50,7 @@ The strip is 8 W/m at 5 V, so **1.6 A per metre** at full brightness.
 
 Note: figures are rounded; exact = length × 1.6 A (long sides 0.544 A, short sides 0.384 A, total 1.856 A).
 
-1.86 A + 0.1 A is too close to 2 A, so the 100 kΩ in the discharge leg caps the top of the knob at about 83% duty. That keeps the strip near 1.55 A and the total near 1.65 A (about 83% of the adapter). A nightlight usually sits at 10–40%, well under budget.
+1.86 A + 0.1 A is too close to 2 A, so the 100 kΩ in the discharge leg caps the top of the knob at ≈81–83% duty. That keeps the strip near 1.55 A and the total near 1.65 A (about 83% of the adapter). A nightlight usually sits at 10–40%, well under budget.
 
 ## 3. How it works
 
@@ -104,7 +104,7 @@ NE555 pinout, DIP-8, notch at the top, pins counted counter-clockwise from the t
 | 7 | DISCH | pot wiper, 10 kΩ pull-up to +5V |
 | 8 | VCC | +5V |
 
-- Total timing resistance stays about 610 kΩ whatever the knob does (10 kΩ pull-up + 500 kΩ pot + 100 kΩ), so the period is ~1.1 ms (~0.9 kHz). The diode drops stretch it past the ideal 0.93 ms but barely change the duty, because charge and discharge stretch by nearly the same factor. Duty is the charge resistance (10 kΩ + upper half) over the total: about 1.6–2% at end A (a faint glow, not off), about 83% at end B (the 100 kΩ sets this top).
+- Total timing resistance stays about 610 kΩ whatever the knob does (10 kΩ pull-up + 500 kΩ pot + 100 kΩ), so the period is ~1.1 ms (~0.9 kHz). The diode drops stretch it past the ideal 0.93 ms but barely change the duty, because charge and discharge stretch by nearly the same factor. Duty is the charge resistance (10 kΩ + upper half) over the total: about 1.6–2% at end A (a faint glow, not off), ≈81–83% at end B (the 100 kΩ sets this top).
 - The timing capacitor can be 1 to 4.7 nF: 1 nF is ~2 kHz, 4.7 nF ~400 Hz. Never 100 nF: ~20 Hz flickers.
 - End A is the counter-clockwise end, end B the clockwise end, so turning clockwise brightens. If it runs backwards, swap the two end legs.
 
@@ -138,7 +138,7 @@ Each strip channel needs an NPN that saturates at up to 0.54 A from a ~3.3 V dri
 
 No other transistors are needed: the 555 drives the BC337 bases directly.
 
-Maker check on the BC337: onsemi rates it 800 mA, but Philips/NXP rates it 500 mA DC (1 A peak). Either is fine here: the long sides peak at 0.54 A and average 0.45 A at the 83% cap, under both ratings.
+Maker check on the BC337: onsemi rates it 800 mA, but Philips/NXP rates it 500 mA DC (1 A peak). Either is fine here: the long sides peak at 0.54 A and average 0.44–0.45 A at the 81–83% cap, under both ratings.
 
 **Short of transistors?** Use fewer segments. Two long sides only (2 × 0.34 m) need two BC337s, draw about 0.88–0.91 A at full (the knob caps below 100% duty), well within the adapter.
 
