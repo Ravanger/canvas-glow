@@ -191,7 +191,7 @@ The meter checks below read steady or average quantities, which a DC multimeter 
 | Heat | 30 min at full | strip, transistors and the board only finger-warm |
 | Reboot | unplug and replug about 20 times, with the knob low, mid and high | comes up at the knob level every time, no blink |
 
-**Optional, needs an oscilloscope: transistor saturation.** Knob at full. Probe a BC337's collector against circuit ground — probe ground clip on the GND rail. The on-state plateau should sit near the BC337 datasheet saturation voltage at this drive (Ic ~0.54 A; about 0.1 V in sims of this circuit); a plateau near 5 V means the transistor is not switching on.
+**Optional, needs an oscilloscope: transistor saturation.** Knob at full. Probe a BC337's collector against circuit ground — probe ground clip on the GND rail. The on-state plateau should be a few tenths of a volt at most (Ic ~0.54 A; about 0.1 V in sims of this circuit, real parts often read higher); a plateau near 5 V means the transistor is not switching on.
 
 **Optional, needs an oscilloscope: strip voltage.** Two channels both referenced to circuit ground — the strip + rail on one, the far segment's − (the switched collector) on the other, subtracted — or a differential probe. The on-state level should sit just under the 5 V rail — ~4.9 V in sims, the rail minus the ~0.1 V saturation drop. Never clip an ordinary grounded scope's ground to the switched collector or a strip terminal: it shorts that node to earth.
 
