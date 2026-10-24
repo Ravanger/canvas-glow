@@ -5,9 +5,9 @@
       <line x1="-10" y1="0" x2="10" y2="0"/><line x1="-6" y1="4" x2="6" y2="4"/><line x1="-2" y1="8" x2="2" y2="8"/>
     </g>
   </defs>
-  <path d="M30 40 L1050 40" stroke="#d62828" stroke-width="5" fill="none" stroke-linejoin="round"/>
+  <path d="M30 40 L1030 40" stroke="#d62828" stroke-width="5" fill="none" stroke-linejoin="round"/>
   <text x="1070" y="44" text-anchor="end" font-size="13" font-weight="bold" fill="#d62828">+5 V</text>
-  <path d="M30 745 L1050 745" stroke="#2a6db5" stroke-width="5" fill="none" stroke-linejoin="round"/>
+  <path d="M30 745 L1030 745" stroke="#2a6db5" stroke-width="5" fill="none" stroke-linejoin="round"/>
   <text x="1070" y="749" text-anchor="end" font-size="13" font-weight="bold" fill="#2a6db5">GND</text>
   <rect x="30" y="90" width="100" height="44" rx="6" fill="#444"/>
   <text x="80" y="117" text-anchor="middle" font-size="13" fill="#fff">5 V 2 A jack</text>
@@ -110,7 +110,7 @@
   <path d="M270 310 L270 490" stroke="#e07a00" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
   <path d="M270 490 L640 490" stroke="#e07a00" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
   <circle cx="640" cy="490" r="4" fill="#222"/>
-  <text x="485" y="535" text-anchor="start" font-size="12" font-weight="bold" fill="#e07a00">pin 3 out ≈ duty × 3.3 V</text>
+  <text x="490" y="535" text-anchor="start" font-size="12" font-weight="bold" fill="#e07a00">pin 3 ≈ duty × 3.3 V</text>
   <rect x="645" y="460" width="90" height="60" fill="none" stroke="#222" stroke-width="1.5" stroke-dasharray="6 4"/>
   <text x="690" y="452" text-anchor="middle" font-size="12" font-weight="bold" fill="#222">step 1 only</text>
   <path d="M640 490 L650 490" stroke="#e07a00" stroke-width="2.5" fill="none" stroke-linejoin="round"/>

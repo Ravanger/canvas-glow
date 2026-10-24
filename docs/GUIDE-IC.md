@@ -13,9 +13,10 @@ Contents: [Parts](#1-parts) · [Power budget](#2-power-budget) · [How it works]
 | Part | Qty | Notes |
 |---|---|---|
 | 5 V 2 A adapter, barrel plug | 1 | check centre-positive with a meter |
-| Barrel jack pigtail (+/− wires) | 1 | the power entry on the frame |
+| Barrel jack pigtail (+/− wires) | 1 | the power entry on the frame; rated 3 A or more |
 | 5 V COB strip, 320 LEDs/m, 8 W/m, 3000 K (4 m reel) | ~1.2 m | cut only on the printed cut marks; pitch and rated power vary between strips |
 | NE555 timer, DIP-8 | 1 | the PWM oscillator |
+| DIP-8 socket | 1 | optional, so the 555 can be swapped |
 | BC337 NPN | 4 | strip drivers, see [Transistors](#5-transistors) |
 | B500K potentiometer | 1 | brightness knob, plus a knob cap |
 | 1N4148 diode | 2 | charge/discharge steering; the banded end is the cathode |
@@ -24,11 +25,12 @@ Contents: [Parts](#1-parts) · [Power budget](#2-power-budget) · [How it works]
 | 100 Ω resistor | 2 | BC337 base, long sides |
 | 150 Ω resistor | 2 | BC337 base, short sides |
 | 220 Ω resistor | 1 | breadboard tests, LED current limit |
-| 2.2 nF capacitor (marked 222) | 1 | timing |
+| 2.2 nF capacitor (marked 222) | 1 | timing, film or C0G ceramic |
 | 100 nF ceramic capacitor | 2 | pin 5 + supply decoupling |
-| Electrolytic 470–1000 µF ≥ 16 V | 1 | at the strip power entry |
+| Electrolytic 470–1000 µF ≥ 16 V | 1 | at the strip power entry, low-ESR type (a low-ESR series such as Panasonic FR/FM or Nichicon HE) |
 | Electrolytic 10–47 µF ≥ 16 V | 1 | across +5V/GND right at pins 8/1, + lead to +5V |
-| Polyfuse 2–2.5 A | 1 | optional, right after the jack (2–2.5 A = PTC hold current, or slow-blow fuse rating) |
+| Polyfuse 2–2.5 A | 1 | optional, right after the jack (2–2.5 A = PTC hold current, or slow-blow fuse rating; for a PTC inside a closed frame prefer 2.5 A, see [section 4](#4-circuit)) |
+| Latching switch | 1 | optional real off switch on RESET, see [Troubleshooting](#9-troubleshooting) |
 | Perfboard, 22–24 AWG silicone wire, heat-shrink, solder | — | 20–22 AWG for the main 5 V / GND feed |
 | Breadboard, jumper wires | — | bench tests without soldering, see [BREADBOARD-IC.md](BREADBOARD-IC.md) |
 | 3 or 5 mm LED | 1 | for the breadboard tests |
@@ -56,7 +58,7 @@ Note: figures are rounded; exact = length × 1.6 A (long sides 0.544 A, short si
 
 The 8 W/m is the tested strip's rating; cut pitch and rated power vary between strips. Use your strip's rated W/m — current = W/m ÷ 5 V × length — and recompute this section with your actual cut lengths.
 
-1.86 A + 0.1 A is too close to 2 A, so the 100 kΩ in the discharge leg caps the top of the knob at ≈81–83% duty. In theory that puts the strip alone at 0.83 × 1.856 ≈ 1.54 A; simulations measure the total at 1.52–1.57 A, under the ~1.65 A budget (about 83% of the adapter) — lower than theory because the strip sees ~4.85 V, not 5 V, under load, so its ON current is ~1.80 A, not 1.856 A. A nightlight usually sits at 10–40%, well under budget.
+1.86 A + 0.1 A is too close to 2 A, so the 100 kΩ in the discharge leg caps the top of the knob at ≈81–83% duty. In theory that puts the strip alone at 0.83 × 1.856 ≈ 1.54 A; simulations measure the total at 1.52–1.57 A (about 76–78% of the adapter), under the ~1.65 A budget — lower than theory because the strip sees ~4.85 V, not 5 V, under load, so its ON current is ~1.80 A, not 1.856 A. A nightlight usually sits at 10–40%, well under budget. The duty figures are nominal: pot tolerance and part spread move the top by a few points, which is why the Total current check in [section 8](#8-checks) matters.
 
 ## 3. How it works
 
@@ -77,11 +79,11 @@ Follow the pin labels on the drawing and your parts' datasheets: pin order varie
                                                       │
                                          [470–1000µF] across +5V/GND right here (mind polarity)
 
-GND (barrel −) = star point: 4 BC337 emitters, 555 pin 1, all capacitor negatives
+GND (barrel −) = star point: 4 BC337 emitters, 555 pin 1, bulk capacitor negative
 ```
 
-- Run the emitter ground wires straight back to the barrel jack. The 555 GND joins at the star point.
-- Fuse: optional. Most 2 A adapters shut down on a short, but some only cut out well above 2 A. If you have one, put a polyfuse (PTC) with a 2–2.5 A hold current, or a slow-blow (T) fuse of that rating, in the + lead right after the jack — the bulk caps draw inrush on plug-in, which a fast fuse can nuisance-trip on. A PTC derates as it warms and adds a little series drop; it will not trip at this build's full-on current (about 1.86 A plus base drive, about 1.96 A).
+- Run the emitter ground wires straight back to the barrel jack. The 555's 100 nF + 10–47 µF return to pin 1, which joins the star point on one wire. Run the +5 V and GND feeds as wire, not perfboard tracks: they carry up to about 2 A.
+- Fuse: optional. Most 2 A adapters shut down on a short, but some only cut out well above 2 A. If you have one, put a polyfuse (PTC) with a 2–2.5 A hold current, or a slow-blow (T) fuse of that rating, in the + lead right after the jack — the bulk caps draw inrush on plug-in, which a fast fuse can nuisance-trip on. A PTC's hold current is rated at room temperature and falls as it warms, and the part adds a little series drop. Inside a closed frame a 2 A PTC can trip near the top of the knob, so prefer 2.5 A and check the hold current at the in-frame temperature on its datasheet derating curve. Full on draws about 1.86 A plus base drive (about 1.96 A).
 - No diode needed: nothing else powers the board; a wrong-polarity adapter would reverse-bias the electrolytics, so the centre-positive meter check in [Parts](#1-parts) is the only protection.
 
 ### 555 PWM
@@ -113,7 +115,7 @@ NE555 pinout, DIP-8, notch at the top, pins counted counter-clockwise from the t
 - Total timing resistance stays about 610 kΩ whatever the knob does (10 kΩ pull-up + 500 kΩ pot + 100 kΩ), so the period is ~1.1 ms (~0.9 kHz). The diode drops stretch it past the ideal 0.93 ms but barely change the duty, because charge and discharge stretch by nearly the same factor. Duty is the charge resistance (10 kΩ + upper half) over the total: about 1.6–2% at end A (a faint glow, not off), ≈81–83% at end B (the 100 kΩ sets this top).
 - The timing capacitor can be 1 to 4.7 nF: 1 nF is ~2 kHz, 4.7 nF ~400 Hz. Never 100 nF: ~20 Hz flickers.
 - The diodes' banded end is the cathode.
-- End A is the counter-clockwise end, end B the clockwise end, so turning clockwise brightens. If it runs backwards, swap the two end legs.
+- End A is the counter-clockwise end, end B the clockwise end, so turning clockwise brightens. With the shaft towards you and the legs down, the left leg is usually end A, the middle leg the wiper and the right leg end B. If it runs backwards, swap the two end legs.
 
 ### One strip channel (build 4)
 
@@ -185,13 +187,13 @@ The meter checks below read steady or average quantities, which a DC multimeter 
 | Check | How | Pass |
 |---|---|---|
 | Strip current | wire one segment straight to 5 V with the meter (10 A jack) in series | about 1.6 A × length |
-| Duty | multimeter, DC volts on pin 3, knob at bottom and at top | average ≈ duty × 3.3 V: about 0.06 V at the bottom, about 2.7 V at full |
+| Duty | multimeter, DC volts on pin 3, knob at bottom and at top | average ≈ duty × pin 3 high level (typically 3.3 V, datasheet minimum 2.75 V at 100 mA): about 0.06 V at the bottom, about 2.7 V at full (down to about 2.3 V on a weak chip) |
 | Total current | meter in series with the barrel + wire, everything at full | at most ~1.65 A; if higher, raise the 100 kΩ to 120 kΩ |
-| VCC at pin 8 | multimeter, DC volts from pin 8 to GND, everything at full | ≥ 4.5 V (datasheet minimum supply); sag is worst at full load, so test there |
+| VCC at pin 8 | multimeter, DC volts from pin 8 to GND, everything at full, the current meter out of the circuit | ≥ 4.5 V (datasheet minimum supply); sag is worst at full load, so test there |
 | Heat | 30 min at full | strip, transistors and the board only finger-warm |
-| Reboot | unplug and replug | comes up at the knob level, no blink |
+| Reboot | unplug and replug about 20 times, with the knob low, mid and high | comes up at the knob level every time, no blink |
 
-**Optional, needs an oscilloscope: transistor saturation.** Knob at full. Probe a BC337's collector against circuit ground — probe ground clip on the GND rail. The on-state plateau should sit near the BC337 datasheet saturation voltage at this drive (Ic ~0.54 A; about 0.1 V in sims of this circuit); a plateau near 5 V means the transistor is not switching on.
+**Optional, needs an oscilloscope: transistor saturation.** Knob at full. Probe a BC337's collector against circuit ground — probe ground clip on the GND rail. The on-state plateau should be a few tenths of a volt at most (Ic ~0.54 A; about 0.1 V in sims of this circuit, real parts often read higher); a plateau near 5 V means the transistor is not switching on.
 
 **Optional, needs an oscilloscope: strip voltage.** Two channels both referenced to circuit ground — the strip + rail on one, the far segment's − (the switched collector) on the other, subtracted — or a differential probe. The on-state level should sit just under the 5 V rail — ~4.9 V in sims, the rail minus the ~0.1 V saturation drop. Never clip an ordinary grounded scope's ground to the switched collector or a strip terminal: it shorts that node to earth.
 
@@ -204,7 +206,7 @@ The meter checks below read steady or average quantities, which a DC multimeter 
 | Visible flicker | timing cap too big: use 2.2 nF or smaller |
 | Works backwards | swap the two end legs |
 | One segment dark | that BC337's pin order, base resistor, the segment's +/− wires |
-| All dim | thicker feed wire, check the adapter; check pin 3 reads ~2.7 V DC at full (peak ~3.3 V); see section 8 for how to measure the strip voltage |
+| All dim | thicker feed wire, check the adapter; check pin 3 reads ~2.7 V DC at full (peak ~3.3 V; a chip at the datasheet minimum reads ~2.3 V DC, 2.75 V peak); see section 8 for how to measure the strip voltage |
 | Max too dim | lower the 100 kΩ to 82 kΩ, only after checking total current |
 | Faint glow at the bottom of the turn | that's the minimum duty (~1.6–2%): unplug the adapter to switch off, or add a RESET switch (below) |
 | Want a real off switch | replace the direct pin 4 → +5V tie with a 10 kΩ pull-up to +5V, and wire a latching switch (not a momentary button) from pin 4 to GND; closing it forces the output low (strip off) |
