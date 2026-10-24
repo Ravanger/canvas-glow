@@ -58,13 +58,33 @@ Note: figures are rounded; exact = length × 1.6 A (long sides 0.544 A, short si
 
 The 8 W/m is the tested strip's rating; cut pitch and rated power vary between strips. Use your strip's rated W/m — current = W/m ÷ 5 V × length — and recompute this section with your actual cut lengths.
 
-1.86 A + 0.1 A is too close to 2 A, so the 100 kΩ in the discharge leg caps the top of the knob at ≈81–83% duty. In theory that puts the strip alone at 0.83 × 1.856 ≈ 1.54 A; simulations with vendor transistor models measure the total at about 1.50–1.54 A from a 5.00 V supply (about 75–77% of the adapter), under the ~1.65 A budget, and ~1.59–1.63 A from an adapter at the top of its tolerance (5.25 V). The strip draws less than theory because it sees ~4.77 V, not 5 V: each BC337 drops ~0.23 V when on, so the ON current is ~1.77 A, not 1.856 A; the 555's base drive adds ~0.07 A. A nightlight usually sits at 10–40%, well under budget. The duty figures are nominal: pot tolerance and part spread move the top by a few points, which is why the Total current check in [section 8](#8-checks) matters.
+**In short:** 1.86 A + 0.1 A is too close to 2 A, so the 100 kΩ in the discharge leg caps the top of the knob at ≈81–83% duty. A nightlight usually sits at 10–40%, well under budget.
+
+The detail:
+
+- **Theory:** the cap puts the strip alone at 0.83 × 1.856 ≈ 1.54 A.
+- **Simulation:** with vendor transistor models the total is about 1.50–1.54 A from a 5.00 V supply (about 75–77% of the adapter), under the ~1.65 A budget.
+- **Why the strip draws less than theory:** it sees ~4.77 V, not 5 V. Each BC337 drops ~0.23 V when on, so the ON current is ~1.77 A, not 1.856 A. The 555's base drive adds ~0.07 A.
+- **High adapter:** one at the top of its tolerance (5.25 V) gives ~1.59–1.63 A.
+- **Part spread:** the duty figures are nominal. Pot tolerance and part spread move the top by a few points, which is why the Total current check in [section 8](#8-checks) matters.
 
 ## 3. How it works
 
-The 555 has two internal thresholds, 1/3 and 2/3 of the supply. Its output flips high when the timing capacitor falls to 1/3 and low when it rises to 2/3. Two diodes steer the capacitor's charge and discharge through opposite sides of the pot: the end-A side (wiper to end A) and the end-B side (wiper to end B). The wiper goes to pin 7, and a 10 kΩ pull-up holds pin 7 at +5 V while the output is high: charging goes 5 V → 10 kΩ → pin 7 → wiper → end-A side → D1 → capacitor. While the output is low, the chip pulls pin 7 to ground: discharging goes capacitor → D2 → 100 kΩ → end-B side → wiper → pin 7. Turning the knob shifts resistance from one path to the other, so the total stays about 610 kΩ and the frequency stays near 0.9 kHz — only the duty changes. Duty = charge resistance (10 kΩ + end-A side) ÷ total resistance. The pot ends never touch +5V: +5 V reaches the timing network only through the 10 kΩ into pin 7, and while the output is low pin 7 takes that current straight to ground, so none of it flows into the capacitor during discharge.
+The 555 has two internal thresholds, 1/3 and 2/3 of the supply. Its output flips high when the timing capacitor falls to 1/3 and low when it rises to 2/3.
 
-Pin 3 drives the four BC337 bases directly through 100 / 150 Ω. The 555's output swings to about 3.3 V under that load, which is plenty of base drive, and it pulls the bases low when off, so no pulldowns are needed. The bottom of the turn is a faint glow, not off: the 10 kΩ sets a minimum duty of about 2%. Unplug the adapter to switch off (or the RESET switch in Troubleshooting). The pot is linear, so most of the visible change happens in the first third of the turn.
+Two diodes steer the capacitor's charge and discharge through opposite sides of the pot: the end-A side (wiper to end A) and the end-B side (wiper to end B). The wiper goes to pin 7.
+
+- **Output high, capacitor charging:** a 10 kΩ pull-up holds pin 7 at +5 V. Charging goes 5 V → 10 kΩ → pin 7 → wiper → end-A side → D1 → capacitor.
+- **Output low, capacitor discharging:** the chip pulls pin 7 to ground. Discharging goes capacitor → D2 → 100 kΩ → end-B side → wiper → pin 7.
+
+Turning the knob shifts resistance from one path to the other, so the total stays about 610 kΩ and the frequency stays near 0.9 kHz — only the duty changes. Duty = charge resistance (10 kΩ + end-A side) ÷ total resistance.
+
+The pot ends never touch +5V: +5 V reaches the timing network only through the 10 kΩ into pin 7, and while the output is low pin 7 takes that current straight to ground, so none of it flows into the capacitor during discharge.
+
+Pin 3 drives the four BC337 bases directly through 100 / 150 Ω. The 555's output swings to about 3.3 V under that load, which is plenty of base drive, and it pulls the bases low when off, so no pulldowns are needed.
+
+- The bottom of the turn is a faint glow, not off: the 10 kΩ sets a minimum duty of about 2%. Unplug the adapter to switch off (or the RESET switch in Troubleshooting).
+- The pot is linear, so most of the visible change happens in the first third of the turn.
 
 ## 4. Circuit
 
@@ -82,9 +102,12 @@ Follow the pin labels on the drawing and your parts' datasheets: pin order varie
 GND (barrel −) = star point: 4 BC337 emitters, 555 pin 1, bulk capacitor negative
 ```
 
-- Run the emitter ground wires straight back to the barrel jack. The 555's 100 nF + 10–47 µF return to pin 1, which joins the star point on one wire. Run the +5 V and GND feeds as wire, not perfboard tracks: they carry up to about 2 A.
-- Fuse: optional. Most 2 A adapters shut down on a short, but some only cut out well above 2 A. If you have one, put a polyfuse (PTC) with a 2–2.5 A hold current, or a slow-blow (T) fuse of that rating, in the + lead right after the jack — the bulk caps draw inrush on plug-in, which a fast fuse can nuisance-trip on. A PTC's hold current is rated at room temperature and falls as it warms, and the part adds a little series drop. Inside a closed frame a 2 A PTC can trip near the top of the knob, so prefer 2.5 A and check the hold current at the in-frame temperature on its datasheet derating curve. At the top of the knob the board draws about 1.5 A ([section 2](#2-power-budget)); only a fault that leaves the strip fully on reaches about 1.86 A plus base drive (about 1.96 A). A PTC trips at roughly twice its hold current, so it guards against a short, not a mild overload.
-- No diode needed: nothing else powers the board; a wrong-polarity adapter would reverse-bias the electrolytics, so the centre-positive meter check in [Parts](#1-parts) is the only protection.
+- **Grounds.** Run the emitter ground wires straight back to the barrel jack. The 555's 100 nF + 10–47 µF return to pin 1, which joins the star point on one wire. Run the +5 V and GND feeds as wire, not perfboard tracks: they carry up to about 2 A.
+- **Fuse (optional).** Most 2 A adapters shut down on a short, but some only cut out well above 2 A. If you have one, put a polyfuse (PTC) with a 2–2.5 A hold current, or a slow-blow (T) fuse of that rating, in the + lead right after the jack — the bulk caps draw inrush on plug-in, which a fast fuse can nuisance-trip on.
+  - A PTC's hold current is rated at room temperature and falls as it warms, and the part adds a little series drop. Inside a closed frame a 2 A PTC can trip near the top of the knob, so prefer 2.5 A and check the hold current at the in-frame temperature on its datasheet derating curve.
+  - At the top of the knob the board draws about 1.5 A ([section 2](#2-power-budget)); only a fault that leaves the strip fully on reaches about 1.86 A plus base drive (about 1.96 A).
+  - A PTC trips at roughly twice its hold current, so it guards against a short, not a mild overload.
+- **No reverse-polarity diode.** Nothing else powers the board; a wrong-polarity adapter would reverse-bias the electrolytics, so the centre-positive meter check in [Parts](#1-parts) is the only protection.
 
 ### 555 PWM
 
@@ -147,7 +170,10 @@ Each strip channel needs an NPN that saturates at up to 0.54 A from a ~3.3 V dri
 
 No other transistors are needed: the 555 drives the BC337 bases directly.
 
-Maker check on the BC337: onsemi rates it 800 mA, but Philips/NXP rates it 500 mA DC (1 A peak). Either is fine here: at the 81–83% cap the long sides peak at 0.54 A and average 0.44–0.45 A — the peak is under onsemi's 800 mA and NXP's 1 A peak and the average is under the 500 mA DC rating and onsemi's 800 mA.
+Maker check on the BC337: onsemi rates it 800 mA, but Philips/NXP rates it 500 mA DC (1 A peak). Either is fine here. At the 81–83% cap the long sides:
+
+- peak at 0.54 A — under onsemi's 800 mA and NXP's 1 A peak;
+- average 0.44–0.45 A — under the 500 mA DC rating and onsemi's 800 mA.
 
 **Short of transistors?** Use fewer segments. Two long sides only (2 × 0.34 m) need two BC337s, draw about 0.88–0.91 A at full (the knob caps below 100% duty), well within the adapter.
 

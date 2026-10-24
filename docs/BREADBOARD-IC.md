@@ -36,7 +36,14 @@ Bench steps 1 and 2 of the [IC build guide](GUIDE-IC.md#7-build-order), on a bre
 | pin 3 (OUT) | 220 Ω to LED anode (long leg) |
 | LED cathode (short leg, flat side) | GND rail |
 
-Pass: the knob dims the LED from a faint glow to bright, with no flicker and no dead zone — it must brighten continuously through the whole travel. End A is the counter-clockwise end, end B the clockwise end, so clockwise brightens. If it works backwards, swap the pot's end legs. If it is stuck on or off, the 555 is not oscillating: recheck the pinout (pins 2 + 6 tied, pin 4 to +5V, wiper to pin 7 with the 10 kΩ pull-up and good contact), the diodes are not swapped, and the 2.2 nF is on pins 2 + 6. If the LED is dark for most of the travel and only lights near one end, the pot ends or diodes are miswired — rewire to the table above. If the LED never lights even at full, check adapter polarity and that the 5 V rail is actually ~5 V.
+**Pass:** the knob dims the LED from a faint glow to bright, with no flicker and no dead zone — it must brighten continuously through the whole travel. End A is the counter-clockwise end, end B the clockwise end, so clockwise brightens.
+
+**If not:**
+
+- Works backwards: swap the pot's end legs.
+- Stuck on or off: the 555 is not oscillating. Recheck the pinout (pins 2 + 6 tied, pin 4 to +5V, wiper to pin 7 with the 10 kΩ pull-up and good contact), that the diodes are not swapped, and that the 2.2 nF is on pins 2 + 6.
+- Dark for most of the travel, lit only near one end: the pot ends or diodes are miswired. Rewire to the table above.
+- Never lights, even at full: check adapter polarity and that the 5 V rail is actually ~5 V.
 
 ## Step 2: power stage
 
@@ -51,7 +58,7 @@ Remove the step-1 220 Ω and LED from pin 3, then add:
 
 Any 3 or 5 mm LED, about 13 mA for a red LED (white/blue run lower, ~8 mA). It tests the switching and the knob. The BC337 drop at real strip current is checked on the finished light ([Checks](GUIDE-IC.md#8-checks)).
 
-Pass: the LED dims smoothly, and the DC voltage on pin 3 tracks the knob (about 0.06 V at the bottom; higher than ~2.7 V at full — one BC337 loads pin 3 with about 26 mA through the 100 Ω instead of the four channels' ~87 mA, so pin 3 sits higher under load). The finished-light figure is in [Checks](GUIDE-IC.md#8-checks).
+**Pass:** the LED dims smoothly, and the DC voltage on pin 3 tracks the knob (about 0.06 V at the bottom; higher than ~2.7 V at full — one BC337 loads pin 3 with about 26 mA through the 100 Ω instead of the four channels' ~87 mA, so pin 3 sits higher under load). The finished-light figure is in [Checks](GUIDE-IC.md#8-checks).
 
 ---
 

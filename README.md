@@ -55,6 +55,18 @@ the BC337 bases directly.
 Pick one and follow only its two pages; either guide works on its
 own, and the IC guide repeats the shared sections.
 
+### How to follow a build
+
+1. Read your version's build guide sections 1–3: parts, power
+   budget, and how it works.
+2. Buy the parts in section 1 and check the adapter polarity and
+   transistor pin orders (section 5).
+3. Do the breadboard test, steps 1 and 2. No soldering yet.
+4. Follow the build order in section 7, one step at a time.
+5. Run every check in section 8 before leaving the light on
+   unattended.
+6. If something is off, look it up in section 9.
+
 ## Hardware
 
 See the build guide for the full parts table. In short: 5 V COB
