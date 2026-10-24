@@ -187,7 +187,7 @@ The meter checks below read steady or average quantities, which a DC multimeter 
 | Strip current | wire one segment straight to 5 V with the meter (10 A jack) in series | about 1.6 A × length |
 | Duty | multimeter, DC volts on pin 3, knob at bottom and at top | average ≈ duty × pin 3 high level (typically 3.3 V, datasheet minimum 2.75 V at 100 mA): about 0.06 V at the bottom, about 2.7 V at full (down to about 2.3 V on a weak chip) |
 | Total current | meter in series with the barrel + wire, everything at full | at most ~1.65 A; if higher, raise the 100 kΩ to 120 kΩ |
-| VCC at pin 8 | multimeter, DC volts from pin 8 to GND, everything at full | ≥ 4.5 V (datasheet minimum supply); sag is worst at full load, so test there |
+| VCC at pin 8 | multimeter, DC volts from pin 8 to GND, everything at full, the current meter out of the circuit | ≥ 4.5 V (datasheet minimum supply); sag is worst at full load, so test there |
 | Heat | 30 min at full | strip, transistors and the board only finger-warm |
 | Reboot | unplug and replug about 20 times, with the knob low, mid and high | comes up at the knob level every time, no blink |
 
