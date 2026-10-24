@@ -1,3 +1,5 @@
 .pio/
 .vscode/*
 !.vscode/extensions.json
+sim/out/
+__pycache__/

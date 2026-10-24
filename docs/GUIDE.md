@@ -56,7 +56,7 @@ Note: figures are rounded; exact = length × 1.6 A (long sides 0.544 A, short si
 
 The 8 W/m is the tested strip's rating; cut pitch and rated power vary between strips. Use your strip's rated W/m — current = W/m ÷ 5 V × length — and recompute this section with your actual cut lengths.
 
-1.86 A + 0.1 A is too close to 2 A, so Rb caps the top of the knob at about 86% duty. In theory that puts the strip alone at 0.86 × 1.856 ≈ 1.60 A; simulations measure the total at 1.52–1.57 A (about 76–78% of the adapter), under the ~1.65 A budget — lower than theory because the strip sees ~4.85 V, not 5 V, under load, so its ON current is ~1.80 A, not 1.856 A. A nightlight usually sits at 10–40%, well under budget. The duty figures are nominal: pot tolerance and part spread move the top by a few points, which is why the Total current check in [section 8](#8-checks) matters.
+1.86 A + 0.1 A is too close to 2 A, so Rb caps the top of the knob at about 86% duty. In theory that puts the strip alone at 0.86 × 1.856 ≈ 1.60 A; simulations with vendor transistor models measure the total at about 1.59 A from a 5.00 V supply (about 79% of the adapter), under the ~1.65 A budget. The strip itself draws less than theory, ~1.51 A, because it sees ~4.76 V, not 5 V: each BC337 drops ~0.24 V when on, so the ON current is ~1.77 A, not 1.856 A; base drive and the oscillator add ~0.08 A. An adapter at the top of its tolerance (5.25 V) pushes the total to ~1.67 A, just over budget. A nightlight usually sits at 10–40%, well under budget. The duty figures are nominal: pot tolerance and part spread move the top by a few points, which is why the Total current check in [section 8](#8-checks) matters.
 
 ## 3. How it works
 
@@ -190,25 +190,25 @@ The meter checks below read steady or average quantities, which a DC multimeter 
 | Check | How | Pass |
 |---|---|---|
 | Strip current | wire one segment straight to 5 V with the meter (10 A jack) in series | about 1.6 A × length |
-| Duty | multimeter, DC volts on the DRIVE RAIL, knob at bottom and at top | average ≈ duty × 4.8 V: ~0–0.1 V at the bottom, about 4.0 V at full |
+| Duty | multimeter, DC volts on the DRIVE RAIL, knob at bottom and at top | average ≈ duty × 4.9 V: ~0–0.1 V at the bottom, about 4.2 V at full |
 | Total current | meter in series with the barrel + wire, everything at full | at most ~1.65 A; if higher, raise Rb to 120k |
 | Heat | 30 min at full | strip, transistors and the board only finger-warm |
 | Reboot | unplug and replug about 20 times, with the knob low, mid and high | comes up at the knob level every time, no blink |
 
 **Optional, needs an oscilloscope: transistor saturation.** Knob at full. Probe a BC337's collector against circuit ground — probe ground clip on the GND rail. The on-state plateau should be a few tenths of a volt at most (Ic ~0.54 A; about 0.1 V in sims of this circuit, real parts often read higher); a plateau near 5 V means the transistor is not switching on.
 
-**Optional, needs an oscilloscope: strip voltage.** Two channels both referenced to circuit ground — the strip + rail on one, the far segment's − (the switched collector) on the other, subtracted — or a differential probe. The on-state level should sit just under the 5 V rail — ~4.9 V in sims, the rail minus the ~0.1 V saturation drop. Never clip an ordinary grounded scope's ground to the switched collector or a strip terminal: it shorts that node to earth.
+**Optional, needs an oscilloscope: strip voltage.** Two channels both referenced to circuit ground — the strip + rail on one, the far segment's − (the switched collector) on the other, subtracted — or a differential probe. The on-state level should sit just under the 5 V rail — ~4.75 V in sims, the rail minus the BC337's ~0.25 V saturation drop (its datasheet allows up to 0.7 V at 500 mA). Never clip an ordinary grounded scope's ground to the switched collector or a strip terminal: it shorts that node to earth.
 
 ## 9. Troubleshooting
 
 | Symptom | Try |
 |---|---|
 | Light stuck fully on or off | the oscillator is not running: check the 2N3904 pin order, C1/C2 placement, RC1/RC2, Q3's 47k |
-| Off after plugging in, fine after a replug | the oscillator powered up with Q1 and Q2 both on; rare, replug |
+| Off after plugging in, fine after a replug | the oscillator powered up with Q1 and Q2 both on. Sims start it on every power-up from mid to top, even on a 1 s supply ramp. In the bottom ~10% of the turn Q1 and Q2 do sit both on, which only means off, and turning the knob up releases them. If it happens higher up, replug and recheck C1/C2 and the pot wiring |
 | Visible flicker | C1/C2 too big: use 2.2 nF or smaller |
 | Works backwards | swap the pot's two end legs |
 | One segment dark | that BC337's pin order, base resistor, the segment's +/− wires |
-| All dim | thicker feed wire, check the adapter; check Q4 saturates (drive rail ≈4.0 V DC at full, scope peak ≈4.8–4.9 V); see section 8 for how to measure the strip voltage |
+| All dim | thicker feed wire, check the adapter; check Q4 saturates (drive rail ≈4.2 V DC at full, scope peak ≈4.9 V); see section 8 for how to measure the strip voltage |
 | Max too dim | lower Rb to 82k, only after checking total current |
 | Faint glow at the bottom of the turn | expected on some parts: unplug the adapter to switch off |
 | Jumps to full, knob does nothing | pot wiper lost contact: both bases float and the light goes full on — about 1.86 A plus base drive (about 1.96 A), over the ~1.65 A operating budget. Unplug it and do not leave it running; reseat or replace the pot |

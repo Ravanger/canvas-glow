@@ -91,6 +91,11 @@ minimum), so load conclusions hold.
 
 ## Results (ngspice 47, this machine)
 
+Superseded for the supply-current figures by the recheck below: these runs
+use generic BJT models with no collector resistance, so the BC337 saturation
+drop and the strip current are off, and they report strip plus base current
+rather than the adapter current.
+
 IC PWM (`ic_pwm_*`), steady state:
 
 | Knob | f | duty (pin 3 high) | cap swing | strip avg + base @ full |
@@ -119,3 +124,50 @@ give different sample-count duties (85.4 % vs 78.4 %) while their long-pulse
 pairing agrees at ~82–86 % per cycle in both. The cleaner external sim's
 85.6–85.9 % is taken as the best estimate; this model's band
 (78–86 %) is noted as a caveat.
+
+## Recheck: supply current and start-up (vendor models)
+
+`recheck.py` builds each netlist, runs ngspice and time-averages the
+adapter current from `wrdata` output, so no print-table parsing is involved.
+It uses `vendor.lib`: Philips 2N3904, BC327-25, BC337-25 and BC337-16 models
+from the KiCad SPICE library (source and commit in its header). Run from this
+directory with `ngspice_con` on PATH (on Windows: `scoop install extras/ngspice`):
+
+    python recheck.py current
+    python recheck.py startup
+    python recheck.py knob
+
+The supply is an ideal source with an optional series resistance for the feed,
+then 1000 µF bulk (50 mΩ ESR), 100 µF and 100 nF. The strip is the same
+linearized load as above (9.19 Ω / 13.02 Ω per segment at 5 V). In the IC runs
+the 555 is replaced by an ideal PWM source at the duty the 555a runs measured
+(81 %) and at 83 %, with pin 3 as 3.6 V behind 3 Ω (≈3.3 V at the ~90 mA load,
+the datasheet typical) or behind 8.5 Ω (≈3.0 V, toward the datasheet minimum),
+plus 4 mA for the 555 and its timing network.
+
+Adapter current at the top of the knob (ngspice 47, 2026-10-24):
+
+| Case | Discrete (85.5 % duty) | IC 81 % | IC 83 % |
+|---|---|---|---|
+| 5.00 V, BC337-25 | 1.588 A | 1.445 A | 1.481 A |
+| 5.00 V, BC337-16 | 1.587 A | 1.443 A | 1.479 A |
+| 5.00 V + 0.1 Ω feed | 1.540 A | 1.400 A | 1.434 A |
+| 5.25 V adapter | 1.669 A | 1.518 A | 1.555 A |
+| 4.75 V adapter | 1.506 A | — | — |
+
+The weaker pin-3 drive (8.5 Ω) changes the IC total by under 2 mA: the BC337s
+stay saturated. BC337 Vce when on is 0.23–0.25 V in every case, so the strip
+sees ~4.76 V from a 5.00 V supply and its ON current is ~1.77 A, not 1.856 A.
+The discrete drive rail sits at 4.93 V when on and averages 4.22 V DC at full.
+Knob at the bottom draws 2 mA (discrete): the strip is off.
+
+Discrete start-up (`startup`, `knob`): the supply ramps 0 → 5 V in 10 µs,
+1 ms, 10 ms, 100 ms and 1 s. At mid and top the oscillator starts on every
+ramp (~1.1 kHz). At the bottom stop Q1 and Q2 both stay on (q1c 0.08 V,
+q2c 0.01 V), so the strip is off; turning the knob up releases it. With a
+100 ms power-up at the bottom and a 1 s turn to mid, oscillation starts about
+10 % of the way into the turn and runs at 44.8 % duty at mid.
+
+Limits: the strip is a linear load, not an LED model; no noise source, so a
+start-up failure that needs noise or part asymmetry would not show; the 555
+itself is not in the IC current runs.
