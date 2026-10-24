@@ -160,6 +160,7 @@ Maker check on the BC337: onsemi rates it 800 mA, but Philips/NXP rates it 500 m
 With a meter on diode test, red lead on one leg and black on each of the others:
 - the base is the leg that reads about 0.6–0.7 V to **both** other legs;
 - base-to-emitter reads a few mV **higher** than base-to-collector.
+- for the BC327 (PNP), swap the leads: black on the base, red on each of the others.
 
 A meter with an hFE socket also works.
 
