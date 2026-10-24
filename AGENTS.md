@@ -11,7 +11,8 @@ two-transistor PWM oscillator and an NE555 version. The guides in
 
 ## Before you start and before you finish
 
-Run the local checks. There is no CI; this is the only safety net.
+Run the local checks. GitHub runs the same checks on every pull
+request; run them first so the pull request does not fail.
 
     python tools/check.py
 
@@ -21,6 +22,12 @@ do not edit `tools/check.py` or `tools/numbers.snapshot` to make a
 FAIL go away. If a FAIL comes from a change the maintainer approved
 (a new heading, a changed number), update them deliberately in the
 same pull request and say so in its description.
+
+CI also fails a pull request that changes `docs/reference/`, and
+one that changes `tools/`, `.githooks/`, `.github/`, `AGENTS.md` or
+`LICENSE` unless the maintainer has given it the `guardrails-ok`
+label. Never add that label yourself; ask for it in the pull
+request description.
 
 Enable the pre-commit hook once per clone. It refuses commits on
 `main`, commits touching `docs/reference/`, and commits that fail

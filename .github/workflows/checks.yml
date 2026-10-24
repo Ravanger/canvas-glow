@@ -1,0 +1,45 @@
+name: checks
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled, unlabeled]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: python tools/check.py
+
+  guarded-files:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Refuse edits to frozen or guardrail files
+        env:
+          BASE: ${{ github.event.pull_request.base.sha }}
+          APPROVED: ${{ contains(github.event.pull_request.labels.*.name, 'guardrails-ok') }}
+        run: |
+          changed=$(git diff --name-only "$BASE" HEAD)
+          echo "$changed"
+          frozen=$(echo "$changed" | grep -E '^docs/reference/' || true)
+          if [ -n "$frozen" ]; then
+            echo "::error::docs/reference/ is history and must not change: $frozen"
+            exit 1
+          fi
+          guarded=$(echo "$changed" | grep -E '^(tools/|\.githooks/|\.github/|AGENTS\.md$|LICENSE$)' || true)
+          if [ -n "$guarded" ] && [ "$APPROVED" != "true" ]; then
+            echo "::error::This PR changes guardrail files and needs the maintainer's 'guardrails-ok' label: $guarded"
+            exit 1
+          fi
