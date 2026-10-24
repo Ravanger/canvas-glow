@@ -38,7 +38,7 @@ Pass: the knob dims the LED from off (or a faint glow) to bright, with no flicke
 
 ## Step 2: power stage
 
-Remove the LED from Q3, then add:
+Remove the step-1 470 Ω and LED from Q3, then add:
 
 | From | To |
 |---|---|
