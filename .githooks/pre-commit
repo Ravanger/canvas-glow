@@ -1,0 +1,29 @@
+#!/bin/sh
+# Enable once per clone: git config core.hooksPath .githooks
+
+branch=$(git rev-parse --abbrev-ref HEAD)
+case "$branch" in
+  main|master)
+    echo "pre-commit: refusing to commit on $branch. Create a feature branch first (git switch -c <name>)." >&2
+    exit 1
+    ;;
+esac
+
+if git diff --cached --name-only | grep -q '^docs/reference/'; then
+  echo "pre-commit: docs/reference/ is frozen history. Unstage it: git restore --staged docs/reference" >&2
+  exit 1
+fi
+
+if command -v python >/dev/null 2>&1; then
+  PY=python
+elif command -v python3 >/dev/null 2>&1; then
+  PY=python3
+else
+  echo "pre-commit: no python found on PATH; cannot run tools/check.py." >&2
+  exit 1
+fi
+
+if ! "$PY" tools/check.py; then
+  echo "pre-commit: tools/check.py failed. Fix the FAIL lines above, then commit again." >&2
+  exit 1
+fi
