@@ -13,7 +13,7 @@ Contents: [Parts](#1-parts) · [Power budget](#2-power-budget) · [How it works]
 | Part | Qty | Notes |
 |---|---|---|
 | 5 V 2 A adapter, barrel plug | 1 | check centre-positive with a meter |
-| Barrel jack pigtail (+/− wires) | 1 | the power entry on the frame |
+| Barrel jack pigtail (+/− wires) | 1 | the power entry on the frame; rated 3 A or more |
 | 5 V COB strip, 320 LEDs/m, 8 W/m, 3000 K (4 m reel) | ~1.2 m | cut only on the printed cut marks; pitch and rated power vary between strips |
 | BC337 NPN | 4 | strip drivers, see [Transistors](#5-transistors) |
 | 2N3904 NPN | 3 | the oscillator and its output buffer (BC337 also works, with less margin: 5 V VEBO against a ~4.2 V reverse base swing; pins differ) |
@@ -28,10 +28,10 @@ Contents: [Parts](#1-parts) · [Power budget](#2-power-budget) · [How it works]
 | 270 Ω resistor | 2 | BC337 base, short sides |
 | 470 Ω resistor | 1 | breadboard test Step 1, LED current limit |
 | 220 Ω resistor | 1 | breadboard test Step 2, LED current limit |
-| 2.2 nF capacitor (marked 222) | 2 | C1, C2 |
+| 2.2 nF capacitor (marked 222) | 2 | C1, C2: a matched pair, film or C0G ceramic |
 | 100 nF ceramic capacitor | 1 | oscillator supply |
 | Electrolytic 100 µF ≥ 16 V | 1 | oscillator supply |
-| Electrolytic 470–1000 µF ≥ 16 V | 1 | at the strip power entry |
+| Electrolytic 470–1000 µF ≥ 16 V | 1 | at the strip power entry, low-ESR type |
 | Polyfuse 2–2.5 A | 1 | optional, right after the jack (2–2.5 A = PTC hold current, or slow-blow fuse rating) |
 | Perfboard, 22–24 AWG silicone wire, heat-shrink, solder | — | 20–22 AWG for the main 5 V / GND feed |
 | Breadboard, jumper wires | — | bench tests without soldering, see [BREADBOARD.md](BREADBOARD.md) |

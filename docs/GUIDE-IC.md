@@ -13,9 +13,10 @@ Contents: [Parts](#1-parts) · [Power budget](#2-power-budget) · [How it works]
 | Part | Qty | Notes |
 |---|---|---|
 | 5 V 2 A adapter, barrel plug | 1 | check centre-positive with a meter |
-| Barrel jack pigtail (+/− wires) | 1 | the power entry on the frame |
+| Barrel jack pigtail (+/− wires) | 1 | the power entry on the frame; rated 3 A or more |
 | 5 V COB strip, 320 LEDs/m, 8 W/m, 3000 K (4 m reel) | ~1.2 m | cut only on the printed cut marks; pitch and rated power vary between strips |
 | NE555 timer, DIP-8 | 1 | the PWM oscillator |
+| DIP-8 socket | 1 | optional, so the 555 can be swapped |
 | BC337 NPN | 4 | strip drivers, see [Transistors](#5-transistors) |
 | B500K potentiometer | 1 | brightness knob, plus a knob cap |
 | 1N4148 diode | 2 | charge/discharge steering; the banded end is the cathode |
@@ -24,11 +25,12 @@ Contents: [Parts](#1-parts) · [Power budget](#2-power-budget) · [How it works]
 | 100 Ω resistor | 2 | BC337 base, long sides |
 | 150 Ω resistor | 2 | BC337 base, short sides |
 | 220 Ω resistor | 1 | breadboard tests, LED current limit |
-| 2.2 nF capacitor (marked 222) | 1 | timing |
+| 2.2 nF capacitor (marked 222) | 1 | timing, film or C0G ceramic |
 | 100 nF ceramic capacitor | 2 | pin 5 + supply decoupling |
-| Electrolytic 470–1000 µF ≥ 16 V | 1 | at the strip power entry |
+| Electrolytic 470–1000 µF ≥ 16 V | 1 | at the strip power entry, low-ESR type |
 | Electrolytic 10–47 µF ≥ 16 V | 1 | across +5V/GND right at pins 8/1, + lead to +5V |
 | Polyfuse 2–2.5 A | 1 | optional, right after the jack (2–2.5 A = PTC hold current, or slow-blow fuse rating) |
+| Latching switch | 1 | optional real off switch on RESET, see [Troubleshooting](#9-troubleshooting) |
 | Perfboard, 22–24 AWG silicone wire, heat-shrink, solder | — | 20–22 AWG for the main 5 V / GND feed |
 | Breadboard, jumper wires | — | bench tests without soldering, see [BREADBOARD-IC.md](BREADBOARD-IC.md) |
 | 3 or 5 mm LED | 1 | for the breadboard tests |
