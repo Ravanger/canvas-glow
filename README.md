@@ -109,6 +109,14 @@ The simulation figures in the guides come from `sim/` — SPICE
 netlists and run notes; see [sim/README.md](sim/README.md) for what
 was run and how to reproduce them.
 
+## License
+
+Public domain: [CC0 1.0 Universal](LICENSE). Use, copy, modify and
+sell any of it, no attribution needed. One exception:
+`sim/vendor.lib` is copied from the GPL-3.0
+[KiCad-Spice-Library](https://github.com/kicad-spice-library/KiCad-Spice-Library)
+and stays under GPL-3.0.
+
 ---
 
 [Next: Discrete build guide →](docs/GUIDE.md)
