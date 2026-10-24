@@ -110,7 +110,7 @@
   <path d="M270 310 L270 490" stroke="#e07a00" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
   <path d="M270 490 L640 490" stroke="#e07a00" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
   <circle cx="640" cy="490" r="4" fill="#222"/>
-  <text x="470" y="535" text-anchor="start" font-size="12" font-weight="bold" fill="#e07a00">pin 3 ≈ duty × 3.3 V</text>
+  <text x="490" y="535" text-anchor="start" font-size="12" font-weight="bold" fill="#e07a00">pin 3 ≈ duty × 3.3 V</text>
   <rect x="645" y="460" width="90" height="60" fill="none" stroke="#222" stroke-width="1.5" stroke-dasharray="6 4"/>
   <text x="690" y="452" text-anchor="middle" font-size="12" font-weight="bold" fill="#222">step 1 only</text>
   <path d="M640 490 L650 490" stroke="#e07a00" stroke-width="2.5" fill="none" stroke-linejoin="round"/>

@@ -120,7 +120,7 @@
   <path d="M732 138 L732 190" stroke="#e07a00" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
   <text x="744" y="86" text-anchor="start" font-size="12" fill="#222">470 Ω</text>
   <text x="748" y="138" text-anchor="start" font-size="12" font-weight="bold" fill="#222">LED</text>
-  <text x="740" y="170" text-anchor="start" font-size="11" fill="#2a9d8f">step 1 only</text>
+  <text x="764" y="160" text-anchor="middle" font-size="11" fill="#2a9d8f">step 1 only</text>
   <circle cx="732" cy="190" r="4" fill="#222"/>
   <path d="M732 190 L765 190" stroke="#e07a00" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
   <rect x="765" y="183" width="40" height="14" fill="#fff" stroke="#222" stroke-width="2"/>
