@@ -70,7 +70,7 @@ by maker, and the guides show how to find them with the meter.
 
 ## Safety
 
-- It is a 5 V circuit, but the strip feed carries about 1.5 A: use
+- It is a 5 V circuit, but the strip feed carries up to about 1.6 A: use
   the wire gauges in the parts table and heat-shrink every joint.
 - Check the adapter is centre-positive before connecting anything.
   Nothing protects the board from a reversed adapter, and a reversed
