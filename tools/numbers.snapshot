@@ -59,6 +59,7 @@ docs/GUIDE-IC.md	0.44–0.45 A	1
 docs/GUIDE-IC.md	0.54 A	4
 docs/GUIDE-IC.md	0.544 A	1
 docs/GUIDE-IC.md	0.6–0.7 V	1
+docs/GUIDE-IC.md	0.7 V	1
 docs/GUIDE-IC.md	0.88–0.91 A	1
 docs/GUIDE-IC.md	0.9 kHz	1
 docs/GUIDE-IC.md	0.93 ms	1
@@ -121,7 +122,7 @@ docs/GUIDE-IC.md	5 mm	1
 docs/GUIDE-IC.md	5.00 V	1
 docs/GUIDE-IC.md	5.25 V	1
 docs/GUIDE-IC.md	500 kΩ	1
-docs/GUIDE-IC.md	500 mA	6
+docs/GUIDE-IC.md	500 mA	7
 docs/GUIDE-IC.md	55 °C	1
 docs/GUIDE-IC.md	5V	19
 docs/GUIDE-IC.md	600 mA	1
@@ -133,8 +134,8 @@ docs/GUIDE-IC.md	800 mA	4
 docs/GUIDE-IC.md	81–83%	1
 docs/GUIDE-IC.md	82 kΩ	1
 docs/GUIDE-IC.md	~0.1 A	1
-docs/GUIDE-IC.md	~0.1 V	1
 docs/GUIDE-IC.md	~0.23 V	1
+docs/GUIDE-IC.md	~0.25 V	1
 docs/GUIDE-IC.md	~0.54 A	1
 docs/GUIDE-IC.md	~0.9 kHz	1
 docs/GUIDE-IC.md	~1 V	1
@@ -152,8 +153,8 @@ docs/GUIDE-IC.md	~20 Hz	1
 docs/GUIDE-IC.md	~24 cm	1
 docs/GUIDE-IC.md	~3.3 V	3
 docs/GUIDE-IC.md	~34 cm	1
+docs/GUIDE-IC.md	~4.75 V	1
 docs/GUIDE-IC.md	~4.77 V	1
-docs/GUIDE-IC.md	~4.9 V	1
 docs/GUIDE-IC.md	~400 Hz	1
 docs/GUIDE-IC.md	~87 mA	2
 docs/GUIDE-IC.md	≈81–83%	3
@@ -167,6 +168,7 @@ docs/GUIDE.md	0.46 A	1
 docs/GUIDE.md	0.54 A	3
 docs/GUIDE.md	0.544 A	1
 docs/GUIDE.md	0.6–0.7 V	1
+docs/GUIDE.md	0.7 V	1
 docs/GUIDE.md	0.8%	1
 docs/GUIDE.md	0.94 A	1
 docs/GUIDE.md	1 A	2
@@ -228,7 +230,7 @@ docs/GUIDE.md	5 V	15
 docs/GUIDE.md	5 mm	2
 docs/GUIDE.md	5.00 V	1
 docs/GUIDE.md	5.25 V	1
-docs/GUIDE.md	500 mA	4
+docs/GUIDE.md	500 mA	5
 docs/GUIDE.md	55 °C	1
 docs/GUIDE.md	5V	10
 docs/GUIDE.md	600 mA	1
@@ -243,8 +245,8 @@ docs/GUIDE.md	83%	1
 docs/GUIDE.md	86%	2
 docs/GUIDE.md	~0.08 A	1
 docs/GUIDE.md	~0.1 A	1
-docs/GUIDE.md	~0.1 V	1
 docs/GUIDE.md	~0.24 V	1
+docs/GUIDE.md	~0.25 V	1
 docs/GUIDE.md	~0.54 A	1
 docs/GUIDE.md	~0.92 ms	1
 docs/GUIDE.md	~0–0.1 V	1
@@ -261,9 +263,9 @@ docs/GUIDE.md	~24 cm	1
 docs/GUIDE.md	~34 cm	1
 docs/GUIDE.md	~4.2 V	1
 docs/GUIDE.md	~4.25 V	1
+docs/GUIDE.md	~4.75 V	1
 docs/GUIDE.md	~4.76 V	1
 docs/GUIDE.md	~4.8 V	1
-docs/GUIDE.md	~4.9 V	1
 docs/GUIDE.md	~500 Hz	1
 docs/GUIDE.md	~7 µs	1
 docs/GUIDE.md	~86%	2
