@@ -40,6 +40,14 @@ Contents: [Parts](#1-parts) · [Power budget](#2-power-budget) · [How it works]
 
 Tools: multimeter with a 10 A current range (move the red lead to the 10 A jack for current checks, and back to the V jack afterwards), soldering iron, wire strippers and side cutters. To mount: the strip's own adhesive backing or double-sided tape, and heat-shrink over every joint.
 
+### What the main parts look like
+
+<table>
+<tr><td align="center"><img src="img/photos/led-strip.jpg" alt="LED strip" width="200"><br><b>LED strip</b><br><sub>SMD strip shown; a COB strip looks like one continuous line of light</sub><br><sub>Photo: <a href="https://commons.wikimedia.org/wiki/File:LED_strip_on_reel.jpg">Andrey Gvrv</a>, <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a></sub></td><td align="center"><img src="img/photos/barrel-jack.jpg" alt="Barrel jack" width="200"><br><b>Barrel jack</b><br><sub>an inline socket, like the one on a pigtail</sub><br><sub>Photo: <a href="https://commons.wikimedia.org/wiki/File:DC_Barrel_Jack_Plug_-_Female_(15584438461).jpg">SparkFun Electronics</a>, <a href="https://creativecommons.org/licenses/by/2.0/">CC BY 2.0</a></sub></td><td align="center"><img src="img/photos/to92-transistor.jpg" alt="TO-92 transistor" width="200"><br><b>TO-92 transistor</b><br><sub>2N3904 shown; the BC337 and BC327 use the same package</sub><br><sub>Photo: <a href="https://commons.wikimedia.org/wiki/File:2N3904_NPN_Transistor.jpg">WaxPhilosophic</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a></sub></td></tr>
+<tr><td align="center"><img src="img/photos/potentiometer.jpg" alt="Potentiometer" width="200"><br><b>Potentiometer</b><br><sub>three legs: two ends and the wiper</sub><br><sub>Photo: <a href="https://commons.wikimedia.org/wiki/File:Potentiometer.jpg">Iainf</a>, <a href="https://creativecommons.org/licenses/by/2.5/">CC BY 2.5</a></sub></td><td align="center"><img src="img/photos/electrolytic-capacitor.jpg" alt="Electrolytic capacitors" width="200"><br><b>Electrolytic capacitors</b><br><sub>the stripe marks −</sub><br><sub>Photo: <a href="https://commons.wikimedia.org/wiki/File:Aluminium_Electrolytic_Capacitors.jpg">Brihaspati</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a></sub></td><td align="center"><img src="img/photos/perfboard.jpg" alt="Prototyping board" width="200"><br><b>Prototyping board</b><br><sub>stripboard shown; perfboard has separate pads</sub><br><sub>Photo: <a href="https://commons.wikimedia.org/wiki/File:Stripboard.jpg">Alexander Jones</a>, Public domain</sub></td></tr>
+<tr><td align="center"><img src="img/photos/multimeter.jpg" alt="Multimeter" width="200"><br><b>Multimeter</b><br><sub>with its test leads</sub><br><sub>Photo: <a href="https://commons.wikimedia.org/wiki/File:Digital_Multimeter_Aka.jpg">André Karwath (Aka)</a>, <a href="https://creativecommons.org/licenses/by-sa/2.5/">CC BY-SA 2.5</a></sub></td></tr>
+</table>
+
 ## 2. Power budget
 
 The strip is 8 W/m at 5 V, so **1.6 A per metre** at full brightness.
@@ -175,6 +183,8 @@ Maker check on the BC337: onsemi rates it 800 mA, but Philips/NXP rates it 500 m
 
 **Short of transistors?** Use fewer segments. Two long sides only (2 × 0.34 m) need two BC337s, draw about 0.94 A at full (the knob caps below 100% duty), well within the adapter.
 
+<p align="center"><img src="img/photos/to92-transistor.jpg" alt="TO-92 transistor" width="360"><br><sub>TO-92 transistor: 2N3904 shown; the BC337 and BC327 use the same package. Photo: <a href="https://commons.wikimedia.org/wiki/File:2N3904_NPN_Transistor.jpg">WaxPhilosophic</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a></sub></p>
+
 **Pin order varies by maker**, so always check, flat face towards you, legs down:
 - 2N3904: E-B-C
 - BC337, BC327: C-B-E
@@ -188,6 +198,8 @@ With a meter on diode test, red lead on one leg and black on each of the others:
 A meter with an hFE socket also works.
 
 ## 6. Light layout
+
+<p align="center"><img src="img/photos/canvas-back.jpg" alt="Back of a stretched canvas" width="360"><br><sub>Back of a stretched canvas: the strips go on the inner faces of these stretcher bars. Photo: <a href="https://commons.wikimedia.org/wiki/File:Stretcher_bars.jpg">JohanahoJ</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a></sub></p>
 
 Inner opening: 36 × 25.8 cm (the tested painting's — measure your own opening and size the segments from it).
 

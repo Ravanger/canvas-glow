@@ -4,6 +4,8 @@ Bench steps 1 and 2 of the [IC build guide](GUIDE-IC.md#7-build-order), on a bre
 
 ## Setup
 
+<p align="center"><img src="img/photos/breadboard.jpg" alt="Solderless breadboard" width="360"><br><sub>Solderless breadboard: the red and blue lines mark the power rails. Photo: <a href="https://commons.wikimedia.org/wiki/File:400_points_breadboard.jpg">oomlout</a>, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC BY-SA 2.0</a></sub></p>
+
 - Barrel jack + to the + rail, barrel jack − to the GND rail.
 - Check the pin order of every part first ([Transistors](GUIDE-IC.md#5-transistors)): NE555 DIP-8, notch at the top, pins counter-clockwise from the top left — 1 GND, 2 TRIG, 3 OUT, 4 RESET on the left; 8 VCC, 7 DISCH, 6 THR, 5 CTRL on the right. BC337 pins C-B-E.
 - Stranded wires (barrel pigtail, connector leads) bend in the breadboard holes. Twist them tight, or wrap them round a jumper pin and tape it.

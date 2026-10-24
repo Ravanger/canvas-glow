@@ -4,6 +4,8 @@ Bench steps 1 and 2 of the [build guide](GUIDE.md#7-build-order), on a breadboar
 
 ## Setup
 
+<p align="center"><img src="img/photos/breadboard.jpg" alt="Solderless breadboard" width="360"><br><sub>Solderless breadboard: the red and blue lines mark the power rails. Photo: <a href="https://commons.wikimedia.org/wiki/File:400_points_breadboard.jpg">oomlout</a>, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC BY-SA 2.0</a></sub></p>
+
 - Barrel jack + to the + rail, barrel jack − to the GND rail.
 - Check the pin order of every transistor first ([Transistors](GUIDE.md#5-transistors)): 2N3904 E-B-C, BC337 and BC327 C-B-E.
 - Stranded wires (barrel pigtail, connector leads) bend in the breadboard holes. Twist them tight, or wrap them round a jumper pin and tape it.
