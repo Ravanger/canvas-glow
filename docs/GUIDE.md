@@ -192,7 +192,7 @@ The meter checks below read steady or average quantities, which a DC multimeter 
 | Duty | multimeter, DC volts on the DRIVE RAIL, knob at bottom and at top | average ≈ duty × 4.8 V: ~0–0.1 V at the bottom, about 4.0 V at full |
 | Total current | meter in series with the barrel + wire, everything at full | at most ~1.65 A; if higher, raise Rb to 120k |
 | Heat | 30 min at full | strip, transistors and the board only finger-warm |
-| Reboot | unplug and replug | comes up at the knob level, no blink |
+| Reboot | unplug and replug about 20 times, with the knob low, mid and high | comes up at the knob level every time, no blink |
 
 **Optional, needs an oscilloscope: transistor saturation.** Knob at full. Probe a BC337's collector against circuit ground — probe ground clip on the GND rail. The on-state plateau should sit near the BC337 datasheet saturation voltage at this drive (Ic ~0.54 A; about 0.1 V in sims of this circuit); a plateau near 5 V means the transistor is not switching on.
 
