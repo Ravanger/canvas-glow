@@ -56,7 +56,7 @@ Note: figures are rounded; exact = length × 1.6 A (long sides 0.544 A, short si
 
 The 8 W/m is the tested strip's rating; cut pitch and rated power vary between strips. Use your strip's rated W/m — current = W/m ÷ 5 V × length — and recompute this section with your actual cut lengths.
 
-1.86 A + 0.1 A is too close to 2 A, so Rb caps the top of the knob at about 86% duty. In theory that puts the strip alone at 0.86 × 1.856 ≈ 1.60 A; simulations measure the total at 1.52–1.57 A (about 76–78% of the adapter), under the ~1.65 A budget — lower than theory because the strip sees ~4.85 V, not 5 V, under load, so its ON current is ~1.80 A, not 1.856 A. A nightlight usually sits at 10–40%, well under budget.
+1.86 A + 0.1 A is too close to 2 A, so Rb caps the top of the knob at about 86% duty. In theory that puts the strip alone at 0.86 × 1.856 ≈ 1.60 A; simulations measure the total at 1.52–1.57 A (about 76–78% of the adapter), under the ~1.65 A budget — lower than theory because the strip sees ~4.85 V, not 5 V, under load, so its ON current is ~1.80 A, not 1.856 A. A nightlight usually sits at 10–40%, well under budget. The duty figures are nominal: pot tolerance and part spread move the top by a few points, which is why the Total current check in [section 8](#8-checks) matters.
 
 ## 3. How it works
 
