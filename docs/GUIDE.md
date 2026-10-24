@@ -40,6 +40,14 @@ Contents: [Parts](#1-parts) · [Power budget](#2-power-budget) · [How it works]
 
 Tools: multimeter with a 10 A current range (move the red lead to the 10 A jack for current checks, and back to the V jack afterwards), soldering iron, wire strippers and side cutters. To mount: the strip's own adhesive backing or double-sided tape, and heat-shrink over every joint.
 
+### What the main parts look like
+
+<table>
+<tr><td align="center"><img src="img/photos/led-strip.jpg" alt="LED strip" width="200"><br><b>LED strip</b><br><sub>SMD strip shown; a COB strip looks like one continuous line of light</sub><br><sub>Photo: <a href="https://commons.wikimedia.org/wiki/File:LED_strip_on_reel.jpg">Andrey Gvrv</a>, <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a></sub></td><td align="center"><img src="img/photos/barrel-jack.jpg" alt="Barrel jack" width="200"><br><b>Barrel jack</b><br><sub>an inline socket, like the one on a pigtail</sub><br><sub>Photo: <a href="https://commons.wikimedia.org/wiki/File:DC_Barrel_Jack_Plug_-_Female_(15584438461).jpg">SparkFun Electronics</a>, <a href="https://creativecommons.org/licenses/by/2.0/">CC BY 2.0</a></sub></td><td align="center"><img src="img/photos/to92-transistor.jpg" alt="TO-92 transistor" width="200"><br><b>TO-92 transistor</b><br><sub>2N3904 shown; the BC337 and BC327 use the same package</sub><br><sub>Photo: <a href="https://commons.wikimedia.org/wiki/File:2N3904_NPN_Transistor.jpg">WaxPhilosophic</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a></sub></td></tr>
+<tr><td align="center"><img src="img/photos/potentiometer.jpg" alt="Potentiometer" width="200"><br><b>Potentiometer</b><br><sub>three legs: two ends and the wiper</sub><br><sub>Photo: <a href="https://commons.wikimedia.org/wiki/File:Potentiometer.jpg">Iainf</a>, <a href="https://creativecommons.org/licenses/by/2.5/">CC BY 2.5</a></sub></td><td align="center"><img src="img/photos/electrolytic-capacitor.jpg" alt="Electrolytic capacitors" width="200"><br><b>Electrolytic capacitors</b><br><sub>the stripe marks −</sub><br><sub>Photo: <a href="https://commons.wikimedia.org/wiki/File:Aluminium_Electrolytic_Capacitors.jpg">Brihaspati</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a></sub></td><td align="center"><img src="img/photos/perfboard.jpg" alt="Prototyping board" width="200"><br><b>Prototyping board</b><br><sub>stripboard shown; perfboard has separate pads</sub><br><sub>Photo: <a href="https://commons.wikimedia.org/wiki/File:Stripboard.jpg">Alexander Jones</a>, Public domain</sub></td></tr>
+<tr><td align="center" colspan="3"><img src="img/photos/multimeter.jpg" alt="Multimeter" width="200"><br><b>Multimeter</b><br><sub>with its test leads</sub><br><sub>Photo: <a href="https://commons.wikimedia.org/wiki/File:Digital_Multimeter_Aka.jpg">André Karwath (Aka)</a>, <a href="https://creativecommons.org/licenses/by-sa/2.5/">CC BY-SA 2.5</a></sub></td></tr>
+</table>
+
 ## 2. Power budget
 
 The strip is 8 W/m at 5 V, so **1.6 A per metre** at full brightness.
@@ -56,13 +64,27 @@ Note: figures are rounded; exact = length × 1.6 A (long sides 0.544 A, short si
 
 The 8 W/m is the tested strip's rating; cut pitch and rated power vary between strips. Use your strip's rated W/m — current = W/m ÷ 5 V × length — and recompute this section with your actual cut lengths.
 
-1.86 A + 0.1 A is too close to 2 A, so Rb caps the top of the knob at about 86% duty. In theory that puts the strip alone at 0.86 × 1.856 ≈ 1.60 A; simulations with vendor transistor models measure the total at about 1.59 A from a 5.00 V supply (about 79% of the adapter), under the ~1.65 A budget. The strip itself draws less than theory, ~1.51 A, because it sees ~4.76 V, not 5 V: each BC337 drops ~0.24 V when on, so the ON current is ~1.77 A, not 1.856 A; base drive and the oscillator add ~0.08 A. An adapter at the top of its tolerance (5.25 V) pushes the total to ~1.67 A, just over budget. A nightlight usually sits at 10–40%, well under budget. The duty figures are nominal: pot tolerance and part spread move the top by a few points, which is why the Total current check in [section 8](#8-checks) matters.
+**In short:** 1.86 A + 0.1 A is too close to 2 A, so Rb caps the top of the knob at about 86% duty. A nightlight usually sits at 10–40%, well under budget.
+
+The detail:
+
+- **Theory:** the cap puts the strip alone at 0.86 × 1.856 ≈ 1.60 A.
+- **Simulation:** with vendor transistor models the total is about 1.59 A from a 5.00 V supply (about 79% of the adapter), under the ~1.65 A budget.
+- **Why the strip draws less than theory (~1.51 A):** it sees ~4.76 V, not 5 V. Each BC337 drops ~0.24 V when on, so the ON current is ~1.77 A, not 1.856 A. Base drive and the oscillator add ~0.08 A.
+- **High adapter:** one at the top of its tolerance (5.25 V) pushes the total to ~1.67 A, just over budget.
+- **Part spread:** the duty figures are nominal. Pot tolerance and part spread move the top by a few points, which is why the Total current check in [section 8](#8-checks) matters.
 
 ## 3. How it works
 
-Q1 and Q2 form an astable multivibrator: each one's collector charges a capacitor that turns the other on. The pot sits in the timing resistors, so turning it changes how long Q2 stays off while the total period stays near 1 ms (~1 kHz). The strip is on while Q2 is off, so the pot sets the duty cycle. Q3 buffers Q2's collector through a 47k base resistor, so it barely loads the oscillator, and pulls Q4 on. Q4 puts nearly 5 V on the drive rail, which feeds the four BC337 bases through 180 / 270 Ω. Each BC337 switches one strip segment.
+The signal passes through four stages:
 
-The bottom of the turn is fully off or a faint glow, depending on the parts: the shortest pulse is only ~7 µs, which Q3 and Q4 barely pass. Unplug the adapter to switch off. The pot is linear, so most of the visible change happens in the first third of the turn.
+1. **Oscillator (Q1, Q2):** an astable multivibrator. Each one's collector charges a capacitor that turns the other on. The pot sits in the timing resistors, so turning it changes how long Q2 stays off while the total period stays near 1 ms (~1 kHz). The strip is on while Q2 is off, so the pot sets the duty cycle.
+2. **Buffer (Q3):** buffers Q2's collector through a 47k base resistor, so it barely loads the oscillator, and pulls Q4 on.
+3. **High-side switch (Q4):** puts nearly 5 V on the drive rail, which feeds the four BC337 bases through 180 / 270 Ω.
+4. **Strip drivers (4 × BC337):** each one switches one strip segment.
+
+- The bottom of the turn is fully off or a faint glow, depending on the parts: the shortest pulse is only ~7 µs, which Q3 and Q4 barely pass. Unplug the adapter to switch off.
+- The pot is linear, so most of the visible change happens in the first third of the turn.
 
 ## 4. Circuit
 
@@ -80,9 +102,12 @@ Follow the pin labels on the drawing and your parts' datasheets: pin order varie
 GND (barrel −) = star point: 4 BC337 emitters, Q3 emitter, oscillator GND, bulk capacitor negative
 ```
 
-- Run the emitter ground wires straight back to the barrel jack. The oscillator's 100 µF + 100 nF return to its own GND, which joins the star point on one wire. Run the +5 V and GND feeds as wire, not perfboard tracks: they carry up to about 2 A.
-- Fuse: optional. Most 2 A adapters shut down on a short, but some only cut out well above 2 A. If you have one, put a polyfuse (PTC) with a 2–2.5 A hold current, or a slow-blow (T) fuse of that rating, in the + lead right after the jack — the bulk caps draw inrush on plug-in, which a fast fuse can nuisance-trip on. A PTC's hold current is rated at room temperature and falls as it warms, and the part adds a little series drop. Inside a closed frame a 2 A PTC can trip near the top of the knob, so prefer 2.5 A and check the hold current at the in-frame temperature on its datasheet derating curve. At the top of the knob the board draws about 1.6 A ([section 2](#2-power-budget)); only a fault that leaves the strip fully on reaches about 1.86 A plus base drive (about 1.96 A). A PTC trips at roughly twice its hold current, so it guards against a short, not a mild overload.
-- No diode needed: nothing else powers the board; a wrong-polarity adapter would reverse-bias the electrolytics, so the centre-positive meter check in [Parts](#1-parts) is the only protection.
+- **Grounds.** Run the emitter ground wires straight back to the barrel jack. The oscillator's 100 µF + 100 nF return to its own GND, which joins the star point on one wire. Run the +5 V and GND feeds as wire, not perfboard tracks: they carry up to about 2 A.
+- **Fuse (optional).** Most 2 A adapters shut down on a short, but some only cut out well above 2 A. If you have one, put a polyfuse (PTC) with a 2–2.5 A hold current, or a slow-blow (T) fuse of that rating, in the + lead right after the jack — the bulk caps draw inrush on plug-in, which a fast fuse can nuisance-trip on.
+  - A PTC's hold current is rated at room temperature and falls as it warms, and the part adds a little series drop. Inside a closed frame a 2 A PTC can trip near the top of the knob, so prefer 2.5 A and check the hold current at the in-frame temperature on its datasheet derating curve.
+  - At the top of the knob the board draws about 1.6 A ([section 2](#2-power-budget)); only a fault that leaves the strip fully on reaches about 1.86 A plus base drive (about 1.96 A).
+  - A PTC trips at roughly twice its hold current, so it guards against a short, not a mild overload.
+- **No reverse-polarity diode.** Nothing else powers the board; a wrong-polarity adapter would reverse-bias the electrolytics, so the centre-positive meter check in [Parts](#1-parts) is the only protection.
 
 ### Oscillator
 
@@ -99,7 +124,10 @@ Q1 E, Q2 E ── GND
 ```
 
 - C1 goes from Q1's collector to Q2's base. C2 goes from Q2's collector to Q1's base.
-- Total timing resistance stays about 605 kΩ whatever the knob does, so the period is ~0.92 ms. Q2's off-time is 0.693 × C1 × (Ra + the pot's A-side), which gives about 0.8% duty in theory with the pot at end A (in practice ~0, see above) and about 83% in theory at end B — simulated ~86% (78–86% across the runs in sim/README.md), a few points high because Vbe/Vce thresholds lengthen Q2's off-time and Q3's 47k caps Q2's collector swing at ~4.25 V, shortening Q1's off-time (Rb sets this top).
+- Total timing resistance stays about 605 kΩ whatever the knob does, so the period is ~0.92 ms.
+- Q2's off-time is 0.693 × C1 × (Ra + the pot's A-side). That gives:
+  - pot at end A: about 0.8% duty in theory (in practice ~0, see above);
+  - pot at end B: about 83% in theory, simulated ~86% (78–86% across the runs in sim/README.md). Rb sets this top. The sim reads a few points high because Vbe/Vce thresholds lengthen Q2's off-time and Q3's 47k caps Q2's collector swing at ~4.25 V, shortening Q1's off-time.
 - C1 = C2 can be any matched pair from 1 to 4.7 nF: 1 nF is ~2.4 kHz, 4.7 nF ~500 Hz. Never 100 nF: ~20 Hz flickers.
 - End A is the counter-clockwise end, end B the clockwise end, so clockwise brightens. With the shaft towards you and the legs down, the left leg is usually end A, the middle leg the wiper and the right leg end B. The drawings place the pot's ends where they are wired, not in leg order: wire by the A/B labels.
 - If the knob works backwards, swap the pot's two end legs.
@@ -148,9 +176,14 @@ Each strip channel needs an NPN that saturates at up to 0.54 A from a ~4.9 V dri
 
 Oscillator and driver parts: Q1, Q2, Q3 = 2N3904 (BC337 also works, with less margin on its 5 V VEBO), Q3 always through its 47k base resistor; Q4 = BC327 (2N2907 or S8550 also work, mind the pins).
 
-Maker check on the BC337: onsemi rates it 800 mA, but Philips/NXP rates it 500 mA DC (1 A peak). Either is fine here: at the 86% cap the long sides peak at 0.54 A and average about 0.46 A — the peak is under onsemi's 800 mA and NXP's 1 A peak and the average is under the 500 mA DC rating and onsemi's 800 mA, though with less margin than the IC version.
+Maker check on the BC337: onsemi rates it 800 mA, but Philips/NXP rates it 500 mA DC (1 A peak). Either is fine here. At the 86% cap the long sides:
+
+- peak at 0.54 A — under onsemi's 800 mA and NXP's 1 A peak;
+- average about 0.46 A — under the 500 mA DC rating and onsemi's 800 mA, though with less margin than the IC version.
 
 **Short of transistors?** Use fewer segments. Two long sides only (2 × 0.34 m) need two BC337s, draw about 0.94 A at full (the knob caps below 100% duty), well within the adapter.
+
+<p align="center"><img src="img/photos/to92-transistor.jpg" alt="TO-92 transistor" width="360"><br><sub>TO-92 transistor: 2N3904 shown; the BC337 and BC327 use the same package. Photo: <a href="https://commons.wikimedia.org/wiki/File:2N3904_NPN_Transistor.jpg">WaxPhilosophic</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a></sub></p>
 
 **Pin order varies by maker**, so always check, flat face towards you, legs down:
 - 2N3904: E-B-C
@@ -165,6 +198,8 @@ With a meter on diode test, red lead on one leg and black on each of the others:
 A meter with an hFE socket also works.
 
 ## 6. Light layout
+
+<p align="center"><img src="img/photos/canvas-back.jpg" alt="Back of a stretched canvas" width="360"><br><sub>Back of a stretched canvas: the strips go on the inner faces of these stretcher bars. Photo: <a href="https://commons.wikimedia.org/wiki/File:Stretcher_bars.jpg">JohanahoJ</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a></sub></p>
 
 Inner opening: 36 × 25.8 cm (the tested painting's — measure your own opening and size the segments from it).
 

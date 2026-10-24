@@ -4,6 +4,8 @@ Bench steps 1 and 2 of the [build guide](GUIDE.md#7-build-order), on a breadboar
 
 ## Setup
 
+<p align="center"><img src="img/photos/breadboard.jpg" alt="Solderless breadboard" width="360"><br><sub>Solderless breadboard: the red and blue lines mark the power rails. Photo: <a href="https://commons.wikimedia.org/wiki/File:400_points_breadboard.jpg">oomlout</a>, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC BY-SA 2.0</a></sub></p>
+
 - Barrel jack + to the + rail, barrel jack − to the GND rail.
 - Check the pin order of every transistor first ([Transistors](GUIDE.md#5-transistors)): 2N3904 E-B-C, BC337 and BC327 C-B-E.
 - Stranded wires (barrel pigtail, connector leads) bend in the breadboard holes. Twist them tight, or wrap them round a jumper pin and tape it.
@@ -34,7 +36,13 @@ Bench steps 1 and 2 of the [build guide](GUIDE.md#7-build-order), on a breadboar
 | 100 nF | across + rail and GND rail next to the 100 µF |
 | + rail | 470–1000 µF (≥ 16 V) to GND rail at the jack, stripe (−) to GND |
 
-Pass: the knob dims the LED from off (or a faint glow) to bright, with no flicker. If it works backwards, swap the pot's end legs. If it is stuck on or off, the oscillator is not running: recheck the pin orders and C1/C2. Then unplug and replug about 20 times: it should start every time. If the LED never lights even at full, check adapter polarity and that the 5 V rail is actually ~5 V.
+**Pass:** the knob dims the LED from off (or a faint glow) to bright, with no flicker. Then unplug and replug about 20 times: it should start every time.
+
+**If not:**
+
+- Works backwards: swap the pot's end legs.
+- Stuck on or off: the oscillator is not running. Recheck the pin orders and C1/C2.
+- Never lights, even at full: check adapter polarity and that the 5 V rail is actually ~5 V.
 
 ## Step 2: power stage
 
@@ -54,7 +62,7 @@ Remove the step-1 470 Ω and LED from Q3, then add:
 
 Any 3 or 5 mm LED, about 13 mA for a red LED (white/blue run lower, ~8 mA). It tests the switching and the knob. The BC337 drop at real strip current is checked on the finished light ([Checks](GUIDE.md#8-checks)).
 
-Pass: the LED dims smoothly, and the DC voltage on the DRIVE RAIL tracks the knob: about 0–0.1 V at the bottom, about 4.2 V at the top.
+**Pass:** the LED dims smoothly, and the DC voltage on the DRIVE RAIL tracks the knob: about 0–0.1 V at the bottom, about 4.2 V at the top.
 
 ---
 

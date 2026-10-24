@@ -55,6 +55,18 @@ the BC337 bases directly.
 Pick one and follow only its two pages; either guide works on its
 own, and the IC guide repeats the shared sections.
 
+### How to follow a build
+
+1. Read your version's build guide sections 1–3: parts, power
+   budget, and how it works.
+2. Buy the parts and check the adapter is centre-positive, both in
+   section 1. Check the transistor pin orders in section 5.
+3. Do the breadboard test, steps 1 and 2. No soldering yet.
+4. Follow the build order in section 7, one step at a time.
+5. Run every check in section 8 before leaving the light on
+   unattended.
+6. If something is off, look it up in section 9.
+
 ## Hardware
 
 See the build guide for the full parts table. In short: 5 V COB
@@ -158,6 +170,27 @@ sell any of it, no attribution needed. One exception:
 `sim/vendor.lib` is copied from the GPL-3.0
 [KiCad-Spice-Library](https://github.com/kicad-spice-library/KiCad-Spice-Library)
 and stays under GPL-3.0.
+
+The photos in `docs/img/photos/` are not CC0: each keeps its own
+licence, listed under [Image credits](#image-credits).
+
+## Image credits
+
+The part photos are from [Wikimedia Commons](https://commons.wikimedia.org/),
+resized, and stored in this repository. They show typical parts, not
+this build. The drawings in `docs/img/*.svg` are this project's own.
+
+- `led-strip.jpg` — LED strip: [Andrey Gvrv](https://commons.wikimedia.org/wiki/File:LED_strip_on_reel.jpg), [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/)
+- `barrel-jack.jpg` — Barrel jack: [SparkFun Electronics](https://commons.wikimedia.org/wiki/File:DC_Barrel_Jack_Plug_-_Female_(15584438461).jpg), [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/)
+- `to92-transistor.jpg` — TO-92 transistor: [WaxPhilosophic](https://commons.wikimedia.org/wiki/File:2N3904_NPN_Transistor.jpg), [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)
+- `potentiometer.jpg` — Potentiometer: [Iainf](https://commons.wikimedia.org/wiki/File:Potentiometer.jpg), [CC BY 2.5](https://creativecommons.org/licenses/by/2.5/)
+- `electrolytic-capacitor.jpg` — Electrolytic capacitors: [Brihaspati](https://commons.wikimedia.org/wiki/File:Aluminium_Electrolytic_Capacitors.jpg), [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)
+- `perfboard.jpg` — Prototyping board: [Alexander Jones](https://commons.wikimedia.org/wiki/File:Stripboard.jpg), Public domain
+- `multimeter.jpg` — Multimeter: [André Karwath (Aka)](https://commons.wikimedia.org/wiki/File:Digital_Multimeter_Aka.jpg), [CC BY-SA 2.5](https://creativecommons.org/licenses/by-sa/2.5/)
+- `ne555.jpg` — NE555: [Stefan506](https://commons.wikimedia.org/wiki/File:Signetics_NE555N.JPG), [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/)
+- `1n4148.jpg` — 1N4148 diodes: [Mister rf](https://commons.wikimedia.org/wiki/File:1N4148_IPRS.jpg), [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)
+- `breadboard.jpg` — Solderless breadboard: [oomlout](https://commons.wikimedia.org/wiki/File:400_points_breadboard.jpg), [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0/)
+- `canvas-back.jpg` — Back of a stretched canvas: [JohanahoJ](https://commons.wikimedia.org/wiki/File:Stretcher_bars.jpg), [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)
 
 ---
 
