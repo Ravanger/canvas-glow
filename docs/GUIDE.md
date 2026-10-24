@@ -101,7 +101,7 @@ Q1 E, Q2 E ── GND
 - C1 goes from Q1's collector to Q2's base. C2 goes from Q2's collector to Q1's base.
 - Total timing resistance stays about 605 kΩ whatever the knob does, so the period is ~0.92 ms. Q2's off-time is 0.693 × C1 × (Ra + the pot's A-side), which gives about 0.8% duty in theory with the pot at end A (in practice ~0, see above) and about 83% in theory at end B — simulated ~86% (78–86% across the runs in sim/README.md), a few points high because Vbe/Vce thresholds lengthen Q2's off-time and Q3's 47k caps Q2's collector swing at ~4.25 V, shortening Q1's off-time (Rb sets this top).
 - C1 = C2 can be any matched pair from 1 to 4.7 nF: 1 nF is ~2.4 kHz, 4.7 nF ~500 Hz. Never 100 nF: ~20 Hz flickers.
-- End A is the counter-clockwise end, end B the clockwise end, so clockwise brightens.
+- End A is the counter-clockwise end, end B the clockwise end, so clockwise brightens. With the shaft towards you and the legs down, the left leg is usually end A, the middle leg the wiper and the right leg end B.
 - If the knob works backwards, swap the pot's two end legs.
 
 ### Driver
