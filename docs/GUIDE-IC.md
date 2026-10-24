@@ -27,7 +27,7 @@ Contents: [Parts](#1-parts) · [Power budget](#2-power-budget) · [How it works]
 | 220 Ω resistor | 1 | breadboard tests, LED current limit |
 | 2.2 nF capacitor (marked 222) | 1 | timing, film or C0G ceramic |
 | 100 nF ceramic capacitor | 2 | pin 5 + supply decoupling |
-| Electrolytic 470–1000 µF ≥ 16 V | 1 | at the strip power entry, low-ESR type |
+| Electrolytic 470–1000 µF ≥ 16 V | 1 | at the strip power entry, low-ESR type (a low-ESR series such as Panasonic FR/FM or Nichicon HE) |
 | Electrolytic 10–47 µF ≥ 16 V | 1 | across +5V/GND right at pins 8/1, + lead to +5V |
 | Polyfuse 2–2.5 A | 1 | optional, right after the jack (2–2.5 A = PTC hold current, or slow-blow fuse rating; for a PTC inside a closed frame prefer 2.5 A, see [section 4](#4-circuit)) |
 | Latching switch | 1 | optional real off switch on RESET, see [Troubleshooting](#9-troubleshooting) |
