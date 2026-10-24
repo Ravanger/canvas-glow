@@ -16,7 +16,7 @@ Contents: [Parts](#1-parts) · [Power budget](#2-power-budget) · [How it works]
 | Barrel jack pigtail (+/− wires) | 1 | the power entry on the frame; rated 3 A or more |
 | 5 V COB strip, 320 LEDs/m, 8 W/m, 3000 K (4 m reel) | ~1.2 m | cut only on the printed cut marks; pitch and rated power vary between strips |
 | BC337 NPN | 4 | strip drivers, see [Transistors](#5-transistors) |
-| 2N3904 NPN | 3 | the oscillator and its output buffer (BC337 also works, with less margin: 5 V VEBO against a ~4.2 V reverse base swing; pins differ) |
+| 2N3904 NPN | 3 | the oscillator and its output buffer (BC337 also works, with less margin: 5 V VEBO against a ~4.2 V reverse base swing; a base-emitter junction driven past VEBO slowly loses gain; pins differ) |
 | BC327 PNP | 1 | drives the four BC337 bases |
 | B500K potentiometer | 1 | brightness knob, plus a knob cap |
 | 10 kΩ resistor | 7 | RC1, RC2, Q4 pull-up, 4 base pulldowns |
