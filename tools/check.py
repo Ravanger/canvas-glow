@@ -295,6 +295,7 @@ def main(argv):
     if "--update-numbers" in argv:
         write_snapshot(number_tokens())
     tally = Counter()
+    problems = Counter()
     for name, fn in CHECKS:
         try:
             issues = fn()
@@ -303,6 +304,7 @@ def main(argv):
         issues.sort(key=lambda i: LEVELS.index(i[0]))
         status = issues[0][0] if issues else "PASS"
         tally[status] += 1
+        problems.update(lvl for lvl, _ in issues)
         if len(issues) == 1:
             print(f"{status} {name}: {issues[0][1]}".replace("\n", "\n    "))
         elif not issues:
@@ -311,7 +313,8 @@ def main(argv):
             print(f"{status} {name}: {len(issues)} problems")
             for lvl, msg in issues:
                 print(f"    {lvl}: {msg}".replace("\n", "\n    "))
-    print(f"\nSummary: {tally['PASS']} PASS, {tally['WARN']} WARN, {tally['FAIL']} FAIL")
+    print(f"\nSummary: {tally['PASS']} PASS, {tally['WARN']} WARN, {tally['FAIL']} FAIL "
+          f"(problems: {problems['FAIL']} FAIL, {problems['WARN']} WARN)")
     return 1 if tally["FAIL"] else 0
 
 
