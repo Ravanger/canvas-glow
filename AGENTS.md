@@ -16,8 +16,11 @@ Run the local checks. There is no CI; this is the only safety net.
     python tools/check.py
 
 Every line must be PASS or WARN, and the exit code 0. A FAIL line
-says what is wrong and how to fix it. Fix it; do not edit
-`tools/check.py` or `tools/numbers.snapshot` to make a FAIL go away.
+says what is wrong and how to fix it. Fix the docs, not the check:
+do not edit `tools/check.py` or `tools/numbers.snapshot` to make a
+FAIL go away. If a FAIL comes from a change the maintainer approved
+(a new heading, a changed number), update them deliberately in the
+same pull request and say so in its description.
 
 Enable the pre-commit hook once per clone. It refuses commits on
 `main`, commits touching `docs/reference/`, and commits that fail
