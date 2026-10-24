@@ -190,7 +190,7 @@ The meter checks below read steady or average quantities, which a DC multimeter 
 | Check | How | Pass |
 |---|---|---|
 | Strip current | wire one segment straight to 5 V with the meter (10 A jack) in series | about 1.6 A × length |
-| Duty | multimeter, DC volts on the DRIVE RAIL, knob at bottom and at top | average ≈ duty × 4.9 V: ~0–0.1 V at the bottom, about 4.2 V at full |
+| Duty | multimeter, DC volts on the DRIVE RAIL, knob at bottom and at top, the current meter out of the circuit | average ≈ duty × 4.9 V: ~0–0.1 V at the bottom, about 4.2 V at full |
 | Total current | meter in series with the barrel + wire, everything at full | at most ~1.65 A; if higher, raise Rb to 120k |
 | Heat | 30 min at full | strip, transistors and the board only finger-warm |
 | Reboot | unplug and replug about 20 times, with the knob low, mid and high | comes up at the knob level every time, no blink |
