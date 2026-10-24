@@ -40,10 +40,10 @@ What the checks enforce:
 - `## ` headings in the four docs pages match a frozen list.
 - Each page ends with its exact Previous / Contents / Next line.
 - Every relative link and `#anchor` resolves.
-- `docs/reference/` is byte-identical to the committed copy.
+- `docs/reference/canvas-glow-v5.html` matches its recorded SHA-256 hash.
 - Every SVG parses as XML.
 - No CR line endings.
-- Every number-with-unit in the guides and README matches
+- Every number-with-unit in the guides, README and `sim/README.md` matches
   `tools/numbers.snapshot`. A FAIL here means a number changed:
   see Numbers below.
 - §6 and §11 are identical in both guides. §1, §5, §8 and §10
