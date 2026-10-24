@@ -155,7 +155,7 @@ Maker check on the BC337: onsemi rates it 800 mA, but Philips/NXP rates it 500 m
 **Pin order varies by maker**, so always check, flat face towards you, legs down:
 - 2N3904: E-B-C
 - BC337, BC327: C-B-E
-- P2N2222A: often E-B-C
+- P2N2222A (plastic): often E-B-C; a metal-can 2N2222A has a different layout, check its datasheet
 
 With a meter on diode test, red lead on one leg and black on each of the others:
 - the base is the leg that reads about 0.6–0.7 V to **both** other legs;

@@ -62,7 +62,7 @@ The 8 W/m is the tested strip's rating; cut pitch and rated power vary between s
 
 ## 3. How it works
 
-The 555 has two internal thresholds, 1/3 and 2/3 of the supply. Its output flips high when the timing capacitor falls to 1/3 and low when it rises to 2/3. Two diodes steer the capacitor's charge and discharge through opposite halves of the pot. The wiper goes to pin 7, and a 10 kΩ pull-up holds pin 7 at +5 V while the output is high: charging goes 5 V → 10 kΩ → pin 7 → wiper → upper pot half → D1 → capacitor. While the output is low, the chip pulls pin 7 to ground: discharging goes capacitor → D2 → 100 kΩ → lower pot half → wiper → pin 7. Turning the knob shifts resistance from one path to the other, so the total stays about 610 kΩ and the frequency stays near 0.9 kHz — only the duty changes. Duty = charge resistance (10 kΩ + upper half) ÷ total resistance. The pot ends never touch +5V: that is what keeps the discharge path clean.
+The 555 has two internal thresholds, 1/3 and 2/3 of the supply. Its output flips high when the timing capacitor falls to 1/3 and low when it rises to 2/3. Two diodes steer the capacitor's charge and discharge through opposite sides of the pot: the end-A side (wiper to end A) and the end-B side (wiper to end B). The wiper goes to pin 7, and a 10 kΩ pull-up holds pin 7 at +5 V while the output is high: charging goes 5 V → 10 kΩ → pin 7 → wiper → end-A side → D1 → capacitor. While the output is low, the chip pulls pin 7 to ground: discharging goes capacitor → D2 → 100 kΩ → end-B side → wiper → pin 7. Turning the knob shifts resistance from one path to the other, so the total stays about 610 kΩ and the frequency stays near 0.9 kHz — only the duty changes. Duty = charge resistance (10 kΩ + end-A side) ÷ total resistance. The pot ends never touch +5V: +5 V reaches the timing network only through the 10 kΩ into pin 7, and while the output is low pin 7 takes that current straight to ground, so none of it flows into the capacitor during discharge.
 
 Pin 3 drives the four BC337 bases directly through 100 / 150 Ω. The 555's output swings to about 3.3 V under that load, which is plenty of base drive, and it pulls the bases low when off, so no pulldowns are needed. The bottom of the turn is a faint glow, not off: the 10 kΩ sets a minimum duty of about 2%. Unplug the adapter to switch off (or the RESET switch in Troubleshooting). The pot is linear, so most of the visible change happens in the first third of the turn.
 
@@ -112,7 +112,7 @@ NE555 pinout, DIP-8, notch at the top, pins counted counter-clockwise from the t
 | 7 | DISCH | pot wiper, 10 kΩ pull-up to +5V |
 | 8 | VCC | +5V |
 
-- Total timing resistance stays about 610 kΩ whatever the knob does (10 kΩ pull-up + 500 kΩ pot + 100 kΩ), so the period is ~1.1 ms (~0.9 kHz). The diode drops stretch it past the ideal 0.93 ms but barely change the duty, because charge and discharge stretch by nearly the same factor. Duty is the charge resistance (10 kΩ + upper half) over the total: about 1.6–2% at end A (a faint glow, not off), ≈81–83% at end B (the 100 kΩ sets this top).
+- Total timing resistance stays about 610 kΩ whatever the knob does (10 kΩ pull-up + 500 kΩ pot + 100 kΩ), so the period is ~1.1 ms (~0.9 kHz). The diode drops stretch it past the ideal 0.93 ms but barely change the duty, because charge and discharge stretch by nearly the same factor. Duty is the charge resistance (10 kΩ + end-A side) over the total: about 1.6–2% at end A (a faint glow, not off), ≈81–83% at end B (the 100 kΩ sets this top).
 - The timing capacitor can be 1 to 4.7 nF: 1 nF is ~2 kHz, 4.7 nF ~400 Hz. Never 100 nF: ~20 Hz flickers.
 - The diodes' banded end is the cathode.
 - End A is the counter-clockwise end, end B the clockwise end, so turning clockwise brightens. With the shaft towards you and the legs down, the left leg is usually end A, the middle leg the wiper and the right leg end B. If it runs backwards, swap the two end legs.
@@ -153,7 +153,7 @@ Maker check on the BC337: onsemi rates it 800 mA, but Philips/NXP rates it 500 m
 
 **Pin order varies by maker**, so always check, flat face towards you, legs down:
 - BC337: C-B-E
-- P2N2222A: often E-B-C
+- P2N2222A (plastic): often E-B-C; a metal-can 2N2222A has a different layout, check its datasheet
 
 With a meter on diode test, red lead on one leg and black on each of the others:
 - the base is the leg that reads about 0.6–0.7 V to **both** other legs;
@@ -237,7 +237,7 @@ Print anything near the strip in **PETG**: PLA softens around 55 °C. Models are
 
 ## 12. Relation to the discrete version
 
-Same strip, power entry, light layout, checks and troubleshooting shape as [GUIDE.md](GUIDE.md). The only change is the PWM source: the NE555 and its two steering diodes replace the Q1/Q2 astable, the Q3 buffer and the Q4 high-side switch, and pin 3 drives the BC337 bases directly. The 555 circuit is the standard diode-steered form: wiper to pin 7, 10 kΩ pull-up, pot ends to D1 and (via 100 kΩ) D2. The pot ends never touch +5V, which is what keeps the discharge path clean. Everything downstream of pin 3 is identical except the base resistors (100 / 150 Ω instead of 180 / 270 Ω, because pin 3 sits at ~3.3 V instead of the 4.9 V drive rail) and the dropped base pulldowns (pin 3 pulls the bases low itself).
+Same strip, power entry, light layout, checks and troubleshooting shape as [GUIDE.md](GUIDE.md). The only change is the PWM source: the NE555 and its two steering diodes replace the Q1/Q2 astable, the Q3 buffer and the Q4 high-side switch, and pin 3 drives the BC337 bases directly. The 555 circuit is the standard diode-steered form: wiper to pin 7, 10 kΩ pull-up, pot ends to D1 and (via 100 kΩ) D2. The pot ends never touch +5V: +5 V reaches the timing network only through the 10 kΩ pull-up, which pin 7 grounds during discharge. Everything downstream of pin 3 is identical except the base resistors (100 / 150 Ω instead of 180 / 270 Ω, because pin 3 sits at ~3.3 V instead of the 4.9 V drive rail) and the dropped base pulldowns (pin 3 pulls the bases low itself).
 
 ---
 
