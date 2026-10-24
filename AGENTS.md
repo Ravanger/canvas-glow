@@ -9,6 +9,54 @@ painting. Two dimmer versions, same strip and power: a discrete
 two-transistor PWM oscillator and an NE555 version. The guides in
 `docs/` are the product; the SVGs in `docs/img/` are their drawings.
 
+## Before you start and before you finish
+
+Run the local checks. There is no CI; this is the only safety net.
+
+    python tools/check.py
+
+Every line must be PASS or WARN, and the exit code 0. A FAIL line
+says what is wrong and how to fix it. Fix the docs, not the check:
+do not edit `tools/check.py` or `tools/numbers.snapshot` to make a
+FAIL go away. If a FAIL comes from a change the maintainer approved
+(a new heading, a changed number), update them deliberately in the
+same pull request and say so in its description.
+
+Enable the pre-commit hook once per clone. It refuses commits on
+`main`, commits touching `docs/reference/`, and commits that fail
+the checks:
+
+    git config core.hooksPath .githooks
+
+What the checks enforce:
+
+- `## ` headings in the four docs pages match a frozen list.
+- Each page ends with its exact Previous / Contents / Next line.
+- Every relative link and `#anchor` resolves.
+- `docs/reference/` is byte-identical to the committed copy.
+- Every SVG parses as XML.
+- No CR line endings.
+- Every number-with-unit in the guides and README matches
+  `tools/numbers.snapshot`. A FAIL here means a number changed:
+  see Numbers below.
+- §6 and §11 are identical in both guides. §1, §5, §8 and §10
+  print a WARN when they differ; read it and decide if the other
+  guide needs the same edit.
+
+## Stop and ask the maintainer
+
+Stop and ask instead of guessing when:
+
+- a task would change a frozen design decision (list below);
+- a number looks wrong but you cannot verify it with arithmetic
+  you can show, a simulation in `sim/`, or a datasheet value you
+  can name;
+- a fix seems to need a new page, a renumbered section, or an
+  edit in `docs/reference/`;
+- you cannot see an SVG rendered and the change is more than a
+  label or value;
+- the two guides disagree and you do not know which is right.
+
 ## Frozen design decisions
 
 Do not change these without the maintainer's say-so:
@@ -30,6 +78,15 @@ arithmetic, a simulation, or a bench measurement. Changing one needs
 a re-check against the circuit, not an edit from recall. If a number
 looks wrong, verify it first and say what the check showed.
 
+When you change a number: show the arithmetic (or name the sim
+file or datasheet parameter) in the commit message, update every
+place the same figure appears (both guides, both breadboard pages,
+README, `sim/README.md`), then run
+`python tools/check.py --update-numbers` and check that the
+snapshot diff lists only the numbers you meant to change. A
+spelling change (`5V` → `5 V`) also shows up there; that is
+expected.
+
 ## Docs structure
 
 - Each file in `docs/` is a standalone page. Keep section numbering
@@ -44,9 +101,10 @@ looks wrong, verify it first and say what the check showed.
 - Shared sections (§§1, 5, 6, 10, 11 and the Checks section) must be
   edited in both guides unless the difference is intentional;
   GUIDE-IC §12 lists the intentional ones.
-- After any SVG edit, re-render it and re-check it against the part
-  tables. The four drawings and the tables currently agree on every
-  pin, value, and orientation; keep them that way.
+- After any SVG edit, open it rendered (a browser is enough) and
+  re-check it against the part tables: every pin, value,
+  orientation and connection. The four drawings and the tables
+  currently agree on all of them; keep it that way.
 
 ## Workflow
 
