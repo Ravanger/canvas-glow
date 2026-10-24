@@ -236,7 +236,8 @@
   <path d="M950 685 L990 685" stroke="#d62828" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
   <circle cx="990" cy="685" r="4" fill="#222"/>
   <circle cx="990" cy="62" r="4" fill="#222"/>
-  <text x="24" y="560" text-anchor="start" font-size="12" fill="#333">⏚ = own wire back to the star point at the barrel jack</text>
+  <use href="#gnd" x="34" y="551"/>
+  <text x="50" y="560" text-anchor="start" font-size="12" fill="#333">= own wire back to the star point at the barrel jack</text>
   <text x="24" y="578" text-anchor="start" font-size="12" fill="#333">● = joined · crossing without ● = not joined</text>
   <text x="24" y="596" text-anchor="start" font-size="12" fill="#333">2N3904 pins E-B-C · BC337, BC327 pins C-B-E</text>
   <text x="24" y="614" text-anchor="start" font-size="12" fill="#333">(flat face towards you, legs down: check your datasheet)</text>
