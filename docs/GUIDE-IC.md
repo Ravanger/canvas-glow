@@ -29,7 +29,7 @@ Contents: [Parts](#1-parts) · [Power budget](#2-power-budget) · [How it works]
 | 100 nF ceramic capacitor | 2 | pin 5 + supply decoupling |
 | Electrolytic 470–1000 µF ≥ 16 V | 1 | at the strip power entry, low-ESR type |
 | Electrolytic 10–47 µF ≥ 16 V | 1 | across +5V/GND right at pins 8/1, + lead to +5V |
-| Polyfuse 2–2.5 A | 1 | optional, right after the jack (2–2.5 A = PTC hold current, or slow-blow fuse rating) |
+| Polyfuse 2–2.5 A | 1 | optional, right after the jack (2–2.5 A = PTC hold current, or slow-blow fuse rating; for a PTC inside a closed frame prefer 2.5 A, see [section 4](#4-circuit)) |
 | Latching switch | 1 | optional real off switch on RESET, see [Troubleshooting](#9-troubleshooting) |
 | Perfboard, 22–24 AWG silicone wire, heat-shrink, solder | — | 20–22 AWG for the main 5 V / GND feed |
 | Breadboard, jumper wires | — | bench tests without soldering, see [BREADBOARD-IC.md](BREADBOARD-IC.md) |

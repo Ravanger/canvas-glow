@@ -32,7 +32,7 @@ Contents: [Parts](#1-parts) · [Power budget](#2-power-budget) · [How it works]
 | 100 nF ceramic capacitor | 1 | oscillator supply |
 | Electrolytic 100 µF ≥ 16 V | 1 | oscillator supply |
 | Electrolytic 470–1000 µF ≥ 16 V | 1 | at the strip power entry, low-ESR type |
-| Polyfuse 2–2.5 A | 1 | optional, right after the jack (2–2.5 A = PTC hold current, or slow-blow fuse rating) |
+| Polyfuse 2–2.5 A | 1 | optional, right after the jack (2–2.5 A = PTC hold current, or slow-blow fuse rating; for a PTC inside a closed frame prefer 2.5 A, see [section 4](#4-circuit)) |
 | Perfboard, 22–24 AWG silicone wire, heat-shrink, solder | — | 20–22 AWG for the main 5 V / GND feed |
 | Breadboard, jumper wires | — | bench tests without soldering, see [BREADBOARD.md](BREADBOARD.md) |
 | 3 or 5 mm LED | 1 | for the breadboard tests |
