@@ -104,6 +104,7 @@ def run(text, tag):
     OUT.mkdir(exist_ok=True)
     cir = OUT / f"{tag}.cir"
     data = OUT / f"{tag}.dat"
+    data.unlink(missing_ok=True)
     cir.write_text(text.replace("{data}", data.name), encoding="utf-8", newline="\n")
     log = subprocess.run([NGSPICE, "-b", cir.name], cwd=OUT, capture_output=True, text=True)
     if not data.exists():
