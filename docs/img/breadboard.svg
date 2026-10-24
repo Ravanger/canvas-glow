@@ -110,7 +110,7 @@
   <path d="M732 290 L732 745" stroke="#222" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
   <circle cx="732" cy="745" r="4" fill="#222"/>
   <path d="M732 210 L732 190" stroke="#e07a00" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
-  <rect x="706" y="50" width="90" height="128" rx="6" fill="none" stroke="#2a9d8f" stroke-width="2" stroke-dasharray="6 4"/>
+  <rect x="706" y="50" width="90" height="118" rx="6" fill="none" stroke="#2a9d8f" stroke-width="2" stroke-dasharray="6 4"/>
   <path d="M732 40 L732 62" stroke="#d62828" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
   <circle cx="732" cy="40" r="4" fill="#222"/>
   <rect x="725" y="62" width="14" height="38" fill="#fff" stroke="#222" stroke-width="2"/>
