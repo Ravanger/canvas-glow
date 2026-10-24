@@ -36,6 +36,7 @@ ngspice -b disc_mid.cir > log 2>&1        # ngspice_con on Windows
 python parse_tran.py log --col "v(rail)"
 ```
 
+On Linux and macOS, type `python3` wherever this page says `python`.
 Quote vector names: zsh glob-expands the parentheses.
 
 Without root on Debian/Ubuntu, extract the packages instead of installing
