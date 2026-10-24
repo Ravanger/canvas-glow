@@ -69,7 +69,8 @@ quit
 """
 
 # The 555 is replaced by an ideal PWM source at the duty the 555a sims measured;
-# its pin-3 high level is a Thevenin source fitted to the datasheet VOH figures.
+# its pin-3 high level is a Thevenin source fitted to the datasheet VOH figures,
+# and Fdrv draws the current it sources from vcc, as the real chip does.
 IC = """* IC PWM output stage (GUIDE-IC), recheck: {tag}
 .include {lib}
 Vs src 0 dc {vs}
@@ -78,6 +79,7 @@ Cbulk vcc bulk 1000u
 Resr bulk 0 0.05
 Vpwm pin3o 0 PULSE(0 {voc} 0 50n 50n {ton} {period})
 Rout pin3o out {rout}
+Fdrv vcc 0 Vpwm -1
 Iq vcc 0 {iq}
 Rb1 out b1 100
 Rb2 out b2 100

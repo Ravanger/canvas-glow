@@ -40,7 +40,7 @@ Use a bipolar NE555-class timer for this circuit. Do not substitute a CMOS varia
 
 The datasheet minimum supply is 4.5 V, and the output must source or sink up to 200 mA; the four channels' ~87 mA pin-3 load at full brightness stays inside that.
 
-Tools: multimeter with a 10 A current range, soldering iron.
+Tools: multimeter with a 10 A current range (move the red lead to the 10 A jack for current checks, and back to the V jack afterwards), soldering iron, wire strippers and side cutters. To mount: the strip's own adhesive backing or double-sided tape, and heat-shrink over every joint.
 
 ## 2. Power budget
 
@@ -58,11 +58,11 @@ Note: figures are rounded; exact = length × 1.6 A (long sides 0.544 A, short si
 
 The 8 W/m is the tested strip's rating; cut pitch and rated power vary between strips. Use your strip's rated W/m — current = W/m ÷ 5 V × length — and recompute this section with your actual cut lengths.
 
-1.86 A + 0.1 A is too close to 2 A, so the 100 kΩ in the discharge leg caps the top of the knob at ≈81–83% duty. In theory that puts the strip alone at 0.83 × 1.856 ≈ 1.54 A; simulations with vendor transistor models measure the total at about 1.44–1.48 A from a 5.00 V supply (about 72–74% of the adapter), under the ~1.65 A budget, and ~1.52–1.56 A from an adapter at the top of its tolerance (5.25 V). The strip draws less than theory because it sees ~4.77 V, not 5 V: each BC337 drops ~0.23 V when on, so the ON current is ~1.77 A, not 1.856 A. A nightlight usually sits at 10–40%, well under budget. The duty figures are nominal: pot tolerance and part spread move the top by a few points, which is why the Total current check in [section 8](#8-checks) matters.
+1.86 A + 0.1 A is too close to 2 A, so the 100 kΩ in the discharge leg caps the top of the knob at ≈81–83% duty. In theory that puts the strip alone at 0.83 × 1.856 ≈ 1.54 A; simulations with vendor transistor models measure the total at about 1.50–1.54 A from a 5.00 V supply (about 75–77% of the adapter), under the ~1.65 A budget, and ~1.59–1.63 A from an adapter at the top of its tolerance (5.25 V). The strip draws less than theory because it sees ~4.77 V, not 5 V: each BC337 drops ~0.23 V when on, so the ON current is ~1.77 A, not 1.856 A; the 555's base drive adds ~0.07 A. A nightlight usually sits at 10–40%, well under budget. The duty figures are nominal: pot tolerance and part spread move the top by a few points, which is why the Total current check in [section 8](#8-checks) matters.
 
 ## 3. How it works
 
-The 555 has two internal thresholds, 1/3 and 2/3 of the supply. Its output flips high when the timing capacitor falls to 1/3 and low when it rises to 2/3. Two diodes steer the capacitor's charge and discharge through opposite halves of the pot. The wiper goes to pin 7, and a 10 kΩ pull-up holds pin 7 at +5 V while the output is high: charging goes 5 V → 10 kΩ → pin 7 → wiper → upper pot half → D1 → capacitor. While the output is low, the chip pulls pin 7 to ground: discharging goes capacitor → D2 → 100 kΩ → lower pot half → wiper → pin 7. Turning the knob shifts resistance from one path to the other, so the total stays about 610 kΩ and the frequency stays near 0.9 kHz — only the duty changes. Duty = charge resistance (10 kΩ + upper half) ÷ total resistance. The pot ends never touch +5V: that is what keeps the discharge path clean.
+The 555 has two internal thresholds, 1/3 and 2/3 of the supply. Its output flips high when the timing capacitor falls to 1/3 and low when it rises to 2/3. Two diodes steer the capacitor's charge and discharge through opposite sides of the pot: the end-A side (wiper to end A) and the end-B side (wiper to end B). The wiper goes to pin 7, and a 10 kΩ pull-up holds pin 7 at +5 V while the output is high: charging goes 5 V → 10 kΩ → pin 7 → wiper → end-A side → D1 → capacitor. While the output is low, the chip pulls pin 7 to ground: discharging goes capacitor → D2 → 100 kΩ → end-B side → wiper → pin 7. Turning the knob shifts resistance from one path to the other, so the total stays about 610 kΩ and the frequency stays near 0.9 kHz — only the duty changes. Duty = charge resistance (10 kΩ + end-A side) ÷ total resistance. The pot ends never touch +5V: +5 V reaches the timing network only through the 10 kΩ into pin 7, and while the output is low pin 7 takes that current straight to ground, so none of it flows into the capacitor during discharge.
 
 Pin 3 drives the four BC337 bases directly through 100 / 150 Ω. The 555's output swings to about 3.3 V under that load, which is plenty of base drive, and it pulls the bases low when off, so no pulldowns are needed. The bottom of the turn is a faint glow, not off: the 10 kΩ sets a minimum duty of about 2%. Unplug the adapter to switch off (or the RESET switch in Troubleshooting). The pot is linear, so most of the visible change happens in the first third of the turn.
 
@@ -83,7 +83,7 @@ GND (barrel −) = star point: 4 BC337 emitters, 555 pin 1, bulk capacitor negat
 ```
 
 - Run the emitter ground wires straight back to the barrel jack. The 555's 100 nF + 10–47 µF return to pin 1, which joins the star point on one wire. Run the +5 V and GND feeds as wire, not perfboard tracks: they carry up to about 2 A.
-- Fuse: optional. Most 2 A adapters shut down on a short, but some only cut out well above 2 A. If you have one, put a polyfuse (PTC) with a 2–2.5 A hold current, or a slow-blow (T) fuse of that rating, in the + lead right after the jack — the bulk caps draw inrush on plug-in, which a fast fuse can nuisance-trip on. A PTC's hold current is rated at room temperature and falls as it warms, and the part adds a little series drop. Inside a closed frame a 2 A PTC can trip near the top of the knob, so prefer 2.5 A and check the hold current at the in-frame temperature on its datasheet derating curve. Full on draws about 1.86 A plus base drive (about 1.96 A).
+- Fuse: optional. Most 2 A adapters shut down on a short, but some only cut out well above 2 A. If you have one, put a polyfuse (PTC) with a 2–2.5 A hold current, or a slow-blow (T) fuse of that rating, in the + lead right after the jack — the bulk caps draw inrush on plug-in, which a fast fuse can nuisance-trip on. A PTC's hold current is rated at room temperature and falls as it warms, and the part adds a little series drop. Inside a closed frame a 2 A PTC can trip near the top of the knob, so prefer 2.5 A and check the hold current at the in-frame temperature on its datasheet derating curve. At the top of the knob the board draws about 1.5 A ([section 2](#2-power-budget)); only a fault that leaves the strip fully on reaches about 1.86 A plus base drive (about 1.96 A). A PTC trips at roughly twice its hold current, so it guards against a short, not a mild overload.
 - No diode needed: nothing else powers the board; a wrong-polarity adapter would reverse-bias the electrolytics, so the centre-positive meter check in [Parts](#1-parts) is the only protection.
 
 ### 555 PWM
@@ -112,7 +112,7 @@ NE555 pinout, DIP-8, notch at the top, pins counted counter-clockwise from the t
 | 7 | DISCH | pot wiper, 10 kΩ pull-up to +5V |
 | 8 | VCC | +5V |
 
-- Total timing resistance stays about 610 kΩ whatever the knob does (10 kΩ pull-up + 500 kΩ pot + 100 kΩ), so the period is ~1.1 ms (~0.9 kHz). The diode drops stretch it past the ideal 0.93 ms but barely change the duty, because charge and discharge stretch by nearly the same factor. Duty is the charge resistance (10 kΩ + upper half) over the total: about 1.6–2% at end A (a faint glow, not off), ≈81–83% at end B (the 100 kΩ sets this top).
+- Total timing resistance stays about 610 kΩ whatever the knob does (10 kΩ pull-up + 500 kΩ pot + 100 kΩ), so the period is ~1.1 ms (~0.9 kHz). The diode drops stretch it past the ideal 0.93 ms but barely change the duty, because charge and discharge stretch by nearly the same factor. Duty is the charge resistance (10 kΩ + end-A side) over the total: about 1.6–2% at end A (a faint glow, not off), ≈81–83% at end B (the 100 kΩ sets this top).
 - The timing capacitor can be 1 to 4.7 nF: 1 nF is ~2 kHz, 4.7 nF ~400 Hz. Never 100 nF: ~20 Hz flickers.
 - The diodes' banded end is the cathode.
 - End A is the counter-clockwise end, end B the clockwise end, so turning clockwise brightens. With the shaft towards you and the legs down, the left leg is usually end A, the middle leg the wiper and the right leg end B. If it runs backwards, swap the two end legs.
@@ -153,7 +153,7 @@ Maker check on the BC337: onsemi rates it 800 mA, but Philips/NXP rates it 500 m
 
 **Pin order varies by maker**, so always check, flat face towards you, legs down:
 - BC337: C-B-E
-- P2N2222A: often E-B-C
+- P2N2222A (plastic): often E-B-C; a metal-can 2N2222A has a different layout, check its datasheet
 
 With a meter on diode test, red lead on one leg and black on each of the others:
 - the base is the leg that reads about 0.6–0.7 V to **both** other legs;
@@ -177,8 +177,11 @@ Inner opening: 36 × 25.8 cm (the tested painting's — measure your own opening
 1. **Bench, 555 + LED** ([breadboard](BREADBOARD-IC.md)): the 555 and an LED on the adapter. Check that the knob dims the LED from a faint glow to bright, with no flicker and no dead zone (it must brighten continuously through the whole travel).
 2. **Bench, power stage** ([breadboard](BREADBOARD-IC.md)): one BC337, an LED. Check that the knob dims the LED smoothly.
 3. **Light layout test**: tape segments in place temporarily and try angles and the reflector with the painting upright in a dark room.
-4. **Build the harness**: 555, 4 channels and the power entry on perfboard (tape-insulate the underside), plus the knob. Mount everything on the stretcher bars.
-5. Run every check in section 8 (the two oscilloscope checks are optional).
+4. **Build the board**: 555, 4 channels and the power entry on perfboard (tape-insulate the underside), plus the knob. Leave the strips unconnected.
+5. **First power-up, no strips**: plug in and measure the +5 V rail against GND. It must read about +5 V; a minus sign means the adapter or jack is wired backwards, so unplug at once (the electrolytics are reversed). Then check that the DC voltage on pin 3 follows the knob, with the same readings as the Duty check in section 8. Unplug.
+6. **Wire the strips**: tin each segment's + and − pads and solder a wire to each (the pads are marked + and −). Every segment's + goes to the +5 V rail; each segment's − goes to its own BC337 collector, long sides on the 100 Ω channels, short sides on the 150 Ω channels. Connect one segment, plug in, check it lights and dims with the knob, unplug, then add the next.
+7. **Mount** the board, the strips and the knob on the stretcher bars, wires clear of the canvas ([section 6](#6-light-layout)).
+8. Run every check in section 8 (the two oscilloscope checks are optional).
 
 ## 8. Checks
 
@@ -193,7 +196,7 @@ The meter checks below read steady or average quantities, which a DC multimeter 
 | Heat | 30 min at full | strip, transistors and the board only finger-warm |
 | Reboot | unplug and replug about 20 times, with the knob low, mid and high | comes up at the knob level every time, no blink |
 
-**Optional, needs an oscilloscope: transistor saturation.** Knob at full. Probe a BC337's collector against circuit ground — probe ground clip on the GND rail. The on-state plateau should be a few tenths of a volt at most (Ic ~0.54 A; about 0.1 V in sims of this circuit, real parts often read higher); a plateau near 5 V means the transistor is not switching on.
+**Optional, needs an oscilloscope: transistor saturation.** Knob at full. Probe a BC337's collector against circuit ground — probe ground clip on the GND rail. The on-state plateau should be a few tenths of a volt at most (Ic ~0.54 A; about 0.25 V in sims of this circuit, datasheet maximum 0.7 V at 500 mA); a plateau near 5 V means the transistor is not switching on.
 
 **Optional, needs an oscilloscope: strip voltage.** Two channels both referenced to circuit ground — the strip + rail on one, the far segment's − (the switched collector) on the other, subtracted — or a differential probe. The on-state level should sit just under the 5 V rail — ~4.75 V in sims, the rail minus the BC337's ~0.25 V saturation drop (its datasheet allows up to 0.7 V at 500 mA). Never clip an ordinary grounded scope's ground to the switched collector or a strip terminal: it shorts that node to earth.
 
@@ -201,11 +204,16 @@ The meter checks below read steady or average quantities, which a DC multimeter 
 
 | Symptom | Try |
 |---|---|
+| Nothing lights, even at the top of the knob | measure the +5 V rail at the board: 0 V means the adapter, the jack wiring or a tripped polyfuse; −5 V means reversed polarity, so unplug at once; +5 V means the 555: see the next row |
 | Light stuck fully on or off | the 555 is not oscillating: check the DIP-8 pinout (pins 2 + 6 tied, pin 4 to +5V, pin 5 cap), the wiper goes to pin 7 with the 10 kΩ pull-up and good contact, the diodes are not swapped, the 2.2 nF is on pins 2 + 6 (a floating wiper freezes it fully on or off). If it is frozen fully on, unplug it rather than leave it running: full on draws about 1.86 A plus base drive (about 1.96 A), over the ~1.65 A operating budget |
 | Output flips at random | pin 4 floating: tie it to +5V |
 | Visible flicker | timing cap too big: use 2.2 nF or smaller |
 | Works backwards | swap the two end legs |
 | One segment dark | that BC337's pin order, base resistor, the segment's +/− wires |
+| Adapter cuts out or the polyfuse trips | unplug; look for a short between +5 V and GND (a solder bridge, a strip − wire touching GND) or a light stuck fully on, then run the Total current check in [section 8](#8-checks) |
+| Electrolytic hot, bulging or hissing | unplug now: it is in backwards or the adapter is centre-negative. Replace it even if it still works |
+| One segment much dimmer than the others | that segment's feed wires (too thin, or a poor joint) and its base resistor value |
+| A part gets hot | a BC337: not switching fully on, check its base resistor value and pin order; the 555: pin 3 overloaded, check for a short on pin 3 and that the base resistors are 100 / 150 Ω, not 10 / 15 Ω |
 | All dim | thicker feed wire, check the adapter; check pin 3 reads ~2.7 V DC at full (peak ~3.3 V; a chip at the datasheet minimum reads ~2.3 V DC, 2.75 V peak); see section 8 for how to measure the strip voltage |
 | Max too dim | lower the 100 kΩ to 82 kΩ, only after checking total current |
 | Faint glow at the bottom of the turn | that's the minimum duty (~1.6–2%): unplug the adapter to switch off, or add a RESET switch (below) |
@@ -229,7 +237,7 @@ Print anything near the strip in **PETG**: PLA softens around 55 °C. Models are
 
 ## 12. Relation to the discrete version
 
-Same strip, power entry, light layout, checks and troubleshooting shape as [GUIDE.md](GUIDE.md). The only change is the PWM source: the NE555 and its two steering diodes replace the Q1/Q2 astable, the Q3 buffer and the Q4 high-side switch, and pin 3 drives the BC337 bases directly. The 555 circuit is the standard diode-steered form: wiper to pin 7, 10 kΩ pull-up, pot ends to D1 and (via 100 kΩ) D2. The pot ends never touch +5V, which is what keeps the discharge path clean. Everything downstream of pin 3 is identical except the base resistors (100 / 150 Ω instead of 180 / 270 Ω, because pin 3 sits at ~3.3 V instead of the 4.8 V drive rail) and the dropped base pulldowns (pin 3 pulls the bases low itself).
+Same strip, power entry, light layout, checks and troubleshooting shape as [GUIDE.md](GUIDE.md). The only change is the PWM source: the NE555 and its two steering diodes replace the Q1/Q2 astable, the Q3 buffer and the Q4 high-side switch, and pin 3 drives the BC337 bases directly. The 555 circuit is the standard diode-steered form: wiper to pin 7, 10 kΩ pull-up, pot ends to D1 and (via 100 kΩ) D2. The pot ends never touch +5V: +5 V reaches the timing network only through the 10 kΩ pull-up, which pin 7 grounds during discharge. Everything downstream of pin 3 is identical except the base resistors (100 / 150 Ω instead of 180 / 270 Ω, because pin 3 sits at ~3.3 V instead of the 4.9 V drive rail) and the dropped base pulldowns (pin 3 pulls the bases low itself).
 
 ---
 

@@ -38,7 +38,7 @@ Contents: [Parts](#1-parts) · [Power budget](#2-power-budget) · [How it works]
 | 3 or 5 mm LED | 1 | for the breadboard tests |
 | White foam board or thick white card | 1 | optional back reflector, see [Light layout](#6-light-layout) |
 
-Tools: multimeter with a 10 A current range, soldering iron.
+Tools: multimeter with a 10 A current range (move the red lead to the 10 A jack for current checks, and back to the V jack afterwards), soldering iron, wire strippers and side cutters. To mount: the strip's own adhesive backing or double-sided tape, and heat-shrink over every joint.
 
 ## 2. Power budget
 
@@ -81,7 +81,7 @@ GND (barrel −) = star point: 4 BC337 emitters, Q3 emitter, oscillator GND, bul
 ```
 
 - Run the emitter ground wires straight back to the barrel jack. The oscillator's 100 µF + 100 nF return to its own GND, which joins the star point on one wire. Run the +5 V and GND feeds as wire, not perfboard tracks: they carry up to about 2 A.
-- Fuse: optional. Most 2 A adapters shut down on a short, but some only cut out well above 2 A. If you have one, put a polyfuse (PTC) with a 2–2.5 A hold current, or a slow-blow (T) fuse of that rating, in the + lead right after the jack — the bulk caps draw inrush on plug-in, which a fast fuse can nuisance-trip on. A PTC's hold current is rated at room temperature and falls as it warms, and the part adds a little series drop. Inside a closed frame a 2 A PTC can trip near the top of the knob, so prefer 2.5 A and check the hold current at the in-frame temperature on its datasheet derating curve. Full on draws about 1.86 A plus base drive (about 1.96 A).
+- Fuse: optional. Most 2 A adapters shut down on a short, but some only cut out well above 2 A. If you have one, put a polyfuse (PTC) with a 2–2.5 A hold current, or a slow-blow (T) fuse of that rating, in the + lead right after the jack — the bulk caps draw inrush on plug-in, which a fast fuse can nuisance-trip on. A PTC's hold current is rated at room temperature and falls as it warms, and the part adds a little series drop. Inside a closed frame a 2 A PTC can trip near the top of the knob, so prefer 2.5 A and check the hold current at the in-frame temperature on its datasheet derating curve. At the top of the knob the board draws about 1.6 A ([section 2](#2-power-budget)); only a fault that leaves the strip fully on reaches about 1.86 A plus base drive (about 1.96 A). A PTC trips at roughly twice its hold current, so it guards against a short, not a mild overload.
 - No diode needed: nothing else powers the board; a wrong-polarity adapter would reverse-bias the electrolytics, so the centre-positive meter check in [Parts](#1-parts) is the only protection.
 
 ### Oscillator
@@ -101,7 +101,7 @@ Q1 E, Q2 E ── GND
 - C1 goes from Q1's collector to Q2's base. C2 goes from Q2's collector to Q1's base.
 - Total timing resistance stays about 605 kΩ whatever the knob does, so the period is ~0.92 ms. Q2's off-time is 0.693 × C1 × (Ra + the pot's A-side), which gives about 0.8% duty in theory with the pot at end A (in practice ~0, see above) and about 83% in theory at end B — simulated ~86% (78–86% across the runs in sim/README.md), a few points high because Vbe/Vce thresholds lengthen Q2's off-time and Q3's 47k caps Q2's collector swing at ~4.25 V, shortening Q1's off-time (Rb sets this top).
 - C1 = C2 can be any matched pair from 1 to 4.7 nF: 1 nF is ~2.4 kHz, 4.7 nF ~500 Hz. Never 100 nF: ~20 Hz flickers.
-- End A is the counter-clockwise end, end B the clockwise end, so clockwise brightens. With the shaft towards you and the legs down, the left leg is usually end A, the middle leg the wiper and the right leg end B.
+- End A is the counter-clockwise end, end B the clockwise end, so clockwise brightens. With the shaft towards you and the legs down, the left leg is usually end A, the middle leg the wiper and the right leg end B. The drawings place the pot's ends where they are wired, not in leg order: wire by the A/B labels.
 - If the knob works backwards, swap the pot's two end legs.
 
 ### Driver
@@ -129,11 +129,11 @@ DRIVE RAIL ──[180Ω long / 270Ω short]──┬────── B
 GND ────────────────────────────────────┴──────┴── star point
 ```
 
-The base resistors are 180 / 270 Ω because the drive rail sits at about 4.8 V.
+The base resistors are 180 / 270 Ω because the drive rail sits at about 4.9 V.
 
 ## 5. Transistors
 
-Each strip channel needs an NPN that saturates at up to 0.54 A from a ~4.8 V drive.
+Each strip channel needs an NPN that saturates at up to 0.54 A from a ~4.9 V drive.
 
 | Part | Max current | Use here |
 |---|---|---|
@@ -155,7 +155,7 @@ Maker check on the BC337: onsemi rates it 800 mA, but Philips/NXP rates it 500 m
 **Pin order varies by maker**, so always check, flat face towards you, legs down:
 - 2N3904: E-B-C
 - BC337, BC327: C-B-E
-- P2N2222A: often E-B-C
+- P2N2222A (plastic): often E-B-C; a metal-can 2N2222A has a different layout, check its datasheet
 
 With a meter on diode test, red lead on one leg and black on each of the others:
 - the base is the leg that reads about 0.6–0.7 V to **both** other legs;
@@ -180,8 +180,11 @@ Inner opening: 36 × 25.8 cm (the tested painting's — measure your own opening
 1. **Bench, oscillator + LED** ([breadboard](BREADBOARD.md)): Q1–Q3 and an LED on the adapter. Check that the knob dims the LED from almost off to bright, with no flicker.
 2. **Bench, power stage** ([breadboard](BREADBOARD.md)): Q4, one BC337, an LED. Check that the knob dims the LED smoothly.
 3. **Light layout test**: tape segments in place temporarily and try angles and the reflector with the painting upright in a dark room.
-4. **Build the harness**: oscillator, driver and 4 channels on perfboard (tape-insulate the underside), the power entry and the knob. Mount everything on the stretcher bars.
-5. Run every check in section 8 (the two oscilloscope checks are optional).
+4. **Build the board**: oscillator, driver and 4 channels on perfboard (tape-insulate the underside), the power entry and the knob. Leave the strips unconnected.
+5. **First power-up, no strips**: plug in and measure the +5 V rail against GND. It must read about +5 V; a minus sign means the adapter or jack is wired backwards, so unplug at once (the electrolytics are reversed). Then check that the DC voltage on the DRIVE RAIL follows the knob, with the same readings as the Duty check in section 8. Unplug.
+6. **Wire the strips**: tin each segment's + and − pads and solder a wire to each (the pads are marked + and −). Every segment's + goes to the +5 V rail; each segment's − goes to its own BC337 collector, long sides on the 180 Ω channels, short sides on the 270 Ω channels. Connect one segment, plug in, check it lights and dims with the knob, unplug, then add the next.
+7. **Mount** the board, the strips and the knob on the stretcher bars, wires clear of the canvas ([section 6](#6-light-layout)).
+8. Run every check in section 8 (the two oscilloscope checks are optional).
 
 ## 8. Checks
 
@@ -195,7 +198,7 @@ The meter checks below read steady or average quantities, which a DC multimeter 
 | Heat | 30 min at full | strip, transistors and the board only finger-warm |
 | Reboot | unplug and replug about 20 times, with the knob low, mid and high | comes up at the knob level every time, no blink |
 
-**Optional, needs an oscilloscope: transistor saturation.** Knob at full. Probe a BC337's collector against circuit ground — probe ground clip on the GND rail. The on-state plateau should be a few tenths of a volt at most (Ic ~0.54 A; about 0.1 V in sims of this circuit, real parts often read higher); a plateau near 5 V means the transistor is not switching on.
+**Optional, needs an oscilloscope: transistor saturation.** Knob at full. Probe a BC337's collector against circuit ground — probe ground clip on the GND rail. The on-state plateau should be a few tenths of a volt at most (Ic ~0.54 A; about 0.25 V in sims of this circuit, datasheet maximum 0.7 V at 500 mA); a plateau near 5 V means the transistor is not switching on.
 
 **Optional, needs an oscilloscope: strip voltage.** Two channels both referenced to circuit ground — the strip + rail on one, the far segment's − (the switched collector) on the other, subtracted — or a differential probe. The on-state level should sit just under the 5 V rail — ~4.75 V in sims, the rail minus the BC337's ~0.25 V saturation drop (its datasheet allows up to 0.7 V at 500 mA). Never clip an ordinary grounded scope's ground to the switched collector or a strip terminal: it shorts that node to earth.
 
@@ -203,11 +206,16 @@ The meter checks below read steady or average quantities, which a DC multimeter 
 
 | Symptom | Try |
 |---|---|
+| Nothing lights, even at the top of the knob | measure the +5 V rail at the board: 0 V means the adapter, the jack wiring or a tripped polyfuse; −5 V means reversed polarity, so unplug at once; +5 V means the oscillator or driver: see the next row, and check Q4's pin order and its 1k |
 | Light stuck fully on or off | the oscillator is not running: check the 2N3904 pin order, C1/C2 placement, RC1/RC2, Q3's 47k |
 | Off after plugging in, fine after a replug | the oscillator powered up with Q1 and Q2 both on. Sims start it on every power-up from mid to top, even on a 1 s supply ramp. In the bottom ~10% of the turn Q1 and Q2 do sit both on, which only means off, and turning the knob up releases them. If it happens higher up, replug and recheck C1/C2 and the pot wiring |
 | Visible flicker | C1/C2 too big: use 2.2 nF or smaller |
 | Works backwards | swap the pot's two end legs |
 | One segment dark | that BC337's pin order, base resistor, the segment's +/− wires |
+| Adapter cuts out or the polyfuse trips | unplug; look for a short between +5 V and GND (a solder bridge, a strip − wire touching GND) or a light stuck fully on, then run the Total current check in [section 8](#8-checks) |
+| Electrolytic hot, bulging or hissing | unplug now: it is in backwards or the adapter is centre-negative. Replace it even if it still works |
+| One segment much dimmer than the others | that segment's feed wires (too thin, or a poor joint) and its base resistor value |
+| A part gets hot | a BC337: not switching fully on, check its base resistor value and pin order; a base resistor: wrong value (18 Ω for 180 Ω); Q4: its pin order and the 1k |
 | All dim | thicker feed wire, check the adapter; check Q4 saturates (drive rail ≈4.2 V DC at full, scope peak ≈4.9 V); see section 8 for how to measure the strip voltage |
 | Max too dim | lower Rb to 82k, only after checking total current |
 | Faint glow at the bottom of the turn | expected on some parts: unplug the adapter to switch off |

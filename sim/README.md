@@ -1,9 +1,18 @@
 # SPICE verification of the guide circuits
 
-Simulation scratch for scrutinizing `docs/GUIDE.md` / `docs/GUIDE-IC.md`
-(discrete + NE555 PWM versions). Investigation only — nothing here changes
-the guides. The results below come from these sims plus an independent
-external sim (ngspice 42, behavioral 555) and analytic derivations.
+SPICE checks of the circuits in `docs/GUIDE.md` and `docs/GUIDE-IC.md`.
+The supply-current, saturation and start-up figures the guides quote come
+from the **Recheck** section at the end (`recheck.py`, vendor transistor
+models). The earlier runs above it (generic models, `*.cir` files) are kept
+for the timing and duty results and as history.
+
+## Installing ngspice
+
+- Windows: `scoop bucket add extras`, then `scoop install extras/ngspice`
+  (the binary is `ngspice_con`).
+- Debian/Ubuntu: `sudo apt install ngspice`. macOS: `brew install ngspice`.
+
+Any ngspice from 42 on works; 44.2, 46 and 47 were used.
 
 ## Files
 
@@ -20,29 +29,20 @@ external sim (ngspice 42, behavioral 555) and analytic derivations.
 | `ic_tmpl.cir`, `d_tmpl.cir` | Templates for the above; regenerate with `sed s/__RA__/<val>/g` etc. | ready |
 | `diag_discrete_q2c.cir` | F1 mechanism diagnostic (endB): extra v(q1b)/v(q3b) probes to show the q2c plateau + collapse step; mathematically identical to `disc_endB.cir`; expected values in its header | verified: q2c plateau 4.243 V, step onto q1b −4.17 V |
 
-Run from this directory (`cd sim && $NGSPICE -b disc_mid.cir > log 2>&1`,
-then `python3 parse_tran.py log --col "v(rail)"`). Note: quote vector names —
-zsh glob-expands the parentheses.
-
-## Running ngspice without root
-
-The .debs (Debian/Ubuntu pool packages, cached in `/tmp/opencode/spice/` —
-ephemeral) are extracted, not installed:
+Run the earlier netlists from this directory, then parse the print table:
 
 ```sh
-mkdir -p /tmp/opencode/spice/root
-dpkg -x ngspice0_47+ds-1_amd64.deb        /tmp/opencode/spice/root
-dpkg -x libngspice0_47+ds-1_amd64.deb     /tmp/opencode/spice/root
-export LD_LIBRARY_PATH=/tmp/opencode/spice/root/usr/lib/x86_64-linux-gnu
-NGSPICE=/tmp/opencode/spice/root/usr/bin/ngspice
-
-$NGSPICE -b sanity.cir > sanity.log 2>&1
-python3 parse_tran.py sanity.log --col 1          # v(out)
+ngspice -b disc_mid.cir > log 2>&1        # ngspice_con on Windows
+python parse_tran.py log --col "v(rail)"
 ```
 
-Re-download the .debs with `apt-get download ngspice libngspice0` (or from
-the Debian pool). ngspice 44.2 and 46 were also tested; behavior notes below
-apply to all of them.
+On Linux and macOS, type `python3` wherever this page says `python`.
+Quote vector names: zsh glob-expands the parentheses.
+
+Without root on Debian/Ubuntu, extract the packages instead of installing
+them: `apt-get download ngspice libngspice0`, `dpkg -x` each into a folder,
+point `LD_LIBRARY_PATH` at its `usr/lib/x86_64-linux-gnu` and run its
+`usr/bin/ngspice`.
 
 ## ngspice gotchas learned the hard way
 
@@ -143,19 +143,21 @@ linearized load as above (9.19 Ω / 13.02 Ω per segment at 5 V). In the IC runs
 the 555 is replaced by an ideal PWM source at the duty the 555a runs measured
 (81 %) and at 83 %, with pin 3 as 3.6 V behind 3 Ω (≈3.3 V at the ~90 mA load,
 the datasheet typical) or behind 8.5 Ω (≈3.0 V, toward the datasheet minimum),
-plus 4 mA for the 555 and its timing network.
+plus 4 mA for the 555 and its timing network. The current pin 3 sources is
+drawn from the supply, as in the real chip.
 
 Adapter current at the top of the knob (ngspice 47, 2026-10-24):
 
-| Case | Discrete (85.5 % duty) | IC 81 % | IC 83 % |
+| Case | Discrete (85.5 % duty, as simulated) | IC at 81 % duty (set) | IC at 83 % duty (set) |
 |---|---|---|---|
-| 5.00 V, BC337-25 | 1.588 A | 1.445 A | 1.481 A |
-| 5.00 V, BC337-16 | 1.587 A | 1.443 A | 1.479 A |
-| 5.00 V + 0.1 Ω feed | 1.540 A | 1.400 A | 1.434 A |
-| 5.25 V adapter | 1.669 A | 1.518 A | 1.555 A |
+| 5.00 V, BC337-25 | 1.588 A | 1.507 A | 1.544 A |
+| 5.00 V, BC337-16 | 1.587 A | 1.508 A | 1.545 A |
+| 5.00 V + 0.1 Ω feed | 1.540 A | 1.459 A | 1.495 A |
+| 5.25 V adapter | 1.669 A | 1.585 A | 1.624 A |
 | 4.75 V adapter | 1.506 A | — | — |
 
-The weaker pin-3 drive (8.5 Ω) changes the IC total by under 2 mA: the BC337s
+The IC figures include the base drive pin 3 sources from the supply (~0.07 A).
+The weaker pin-3 drive (8.5 Ω) lowers the IC total by under 10 mA: the BC337s
 stay saturated. BC337 Vce when on is 0.23–0.25 V in every case, so the strip
 sees ~4.76 V from a 5.00 V supply and its ON current is ~1.77 A, not 1.856 A.
 The discrete drive rail sits at 4.93 V when on and averages 4.22 V DC at full.

@@ -30,7 +30,7 @@ jobs:
         env:
           APPROVED: ${{ contains(github.event.pull_request.labels.*.name, 'guardrails-ok') }}
         run: |
-          changed=$(git diff --name-only HEAD^1 HEAD)
+          changed=$(git diff --name-only --no-renames HEAD^1 HEAD)
           echo "$changed"
           frozen=$(echo "$changed" | grep -E '^docs/reference/' || true)
           if [ -n "$frozen" ]; then

@@ -37,7 +37,7 @@ FOOTERS = {
     "docs/BREADBOARD-IC.md": "[← Previous: IC build guide](GUIDE-IC.md) · [Contents](../README.md#documentation)",
 }
 GUIDES = ["docs/GUIDE.md", "docs/GUIDE-IC.md"]
-NUMBER_FILES = ["README.md"] + [p for p in FOOTERS if p.startswith("docs/")]
+NUMBER_FILES = ["README.md", "sim/README.md"] + [p for p in FOOTERS if p.startswith("docs/")]
 SHARED_SAME = ["6. Light layout", "11. Ideas"]
 SHARED_WARN = ["1. Parts", "5. Transistors", "8. Checks", "10. 3D prints (bonus)"]
 

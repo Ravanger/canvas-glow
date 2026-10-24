@@ -7,6 +7,10 @@ Bench steps 1 and 2 of the [build guide](GUIDE.md#7-build-order), on a breadboar
 - Barrel jack + to the + rail, barrel jack − to the GND rail.
 - Check the pin order of every transistor first ([Transistors](GUIDE.md#5-transistors)): 2N3904 E-B-C, BC337 and BC327 C-B-E.
 - Stranded wires (barrel pigtail, connector leads) bend in the breadboard holes. Twist them tight, or wrap them round a jumper pin and tape it.
+- Before fitting anything else, plug in and measure the rails: + rail to GND rail must read about +5 V, not −5 V. Unplug before wiring, and unplug before every change.
+- Long breadboards often split each power rail in the middle (a gap in the printed red or blue line). Bridge the halves with jumpers, or keep everything on one half.
+- Polarity: an electrolytic's stripe marks −; an LED's long leg is +. Pot legs, shaft towards you and legs down: usually end A, wiper, end B.
+- The drawing shows the connections, not a hole-by-hole layout; it places the pot's ends where they are wired, not in leg order, so wire by the A/B labels.
 
 ![Breadboard wiring](img/breadboard.svg)
 
@@ -34,7 +38,7 @@ Pass: the knob dims the LED from off (or a faint glow) to bright, with no flicke
 
 ## Step 2: power stage
 
-Remove the LED from Q3, then add:
+Remove the step-1 470 Ω and LED from Q3, then add:
 
 | From | To |
 |---|---|
@@ -48,9 +52,9 @@ Remove the LED from Q3, then add:
 | BC337 C | LED cathode (short leg, flat side) |
 | + rail | 220 Ω to LED anode (long leg) |
 
-Any 3 or 5 mm LED, about 13 mA for a red LED (white/blue run lower, ~7 mA). It tests the switching and the knob. The BC337 drop at real strip current is checked on the finished light ([Checks](GUIDE.md#8-checks)).
+Any 3 or 5 mm LED, about 13 mA for a red LED (white/blue run lower, ~8 mA). It tests the switching and the knob. The BC337 drop at real strip current is checked on the finished light ([Checks](GUIDE.md#8-checks)).
 
-Pass: the LED dims smoothly, and the DC voltage on the DRIVE RAIL tracks the knob.
+Pass: the LED dims smoothly, and the DC voltage on the DRIVE RAIL tracks the knob: about 0–0.1 V at the bottom, about 4.2 V at the top.
 
 ---
 
