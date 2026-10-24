@@ -2,6 +2,7 @@
 * Source: kicad-spice-library/KiCad-Spice-Library, Models/Transistor/BJT/BJT.lib
 * at commit 9c1e8072e06b71d84af9d14f6d6998f38ea8f829. Copied verbatim except the
 * non-SPICE annotations Vceo / Icrating / mfg, which ngspice does not accept.
+* License: GPL-3.0, as upstream; not covered by the repo's CC0.
 
 .model 2N3904 NPN(IS=1E-14 VAF=100 Bf=300 IKF=0.4 XTB=1.5 BR=4 CJC=4E-12 CJE=8E-12 RB=20 RC=0.1 RE=0.1 TR=250E-9 TF=350E-12 ITF=1 VTF=2 XTF=3)
 .model BC327-25 PNP(IS=1.08E-13 NF=0.99 ISE=2.713E-14 NE=1.4 BF=385.7 IKF=0.3603 VAF=31.29 NR=0.9849 ISC=5.062E-13 NC=1.295 BR=20.57 IKR=0.054 VAR=11.62 RB=1 IRB=1.00E-06 RBM=0.5 RE=0.1415 RC=0.2623 XTB=0 EG=1.11 XTI=3 CJE=5.114E-11 VJE=0.8911 MJE=0.4417 TF=7.359E-10 XTF=1.859 VTF=3.813 ITF=0.4393 PTF=0 CJC=2.656E-11 VJC=0.62 MJC=0.4836 XCJC=0.459 TR=5.00E-08 CJS=0 VJS=0.75 MJS=0.333 FC=0.99)
