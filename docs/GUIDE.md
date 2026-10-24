@@ -204,7 +204,7 @@ The meter checks below read steady or average quantities, which a DC multimeter 
 | Symptom | Try |
 |---|---|
 | Light stuck fully on or off | the oscillator is not running: check the 2N3904 pin order, C1/C2 placement, RC1/RC2, Q3's 47k |
-| Off after plugging in, fine after a replug | the oscillator powered up with Q1 and Q2 both on; rare, replug |
+| Off after plugging in, fine after a replug | the oscillator powered up with Q1 and Q2 both on. Sims start it on every power-up from mid to top, even on a 1 s supply ramp. In the bottom ~10% of the turn Q1 and Q2 do sit both on, which only means off, and turning the knob up releases them. If it happens higher up, replug and recheck C1/C2 and the pot wiring |
 | Visible flicker | C1/C2 too big: use 2.2 nF or smaller |
 | Works backwards | swap the pot's two end legs |
 | One segment dark | that BC337's pin order, base resistor, the segment's +/− wires |
