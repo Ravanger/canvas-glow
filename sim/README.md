@@ -143,19 +143,21 @@ linearized load as above (9.19 Ω / 13.02 Ω per segment at 5 V). In the IC runs
 the 555 is replaced by an ideal PWM source at the duty the 555a runs measured
 (81 %) and at 83 %, with pin 3 as 3.6 V behind 3 Ω (≈3.3 V at the ~90 mA load,
 the datasheet typical) or behind 8.5 Ω (≈3.0 V, toward the datasheet minimum),
-plus 4 mA for the 555 and its timing network.
+plus 4 mA for the 555 and its timing network. The current pin 3 sources is
+drawn from the supply, as in the real chip.
 
 Adapter current at the top of the knob (ngspice 47, 2026-10-24):
 
 | Case | Discrete (85.5 % duty) | IC 81 % | IC 83 % |
 |---|---|---|---|
-| 5.00 V, BC337-25 | 1.588 A | 1.445 A | 1.481 A |
-| 5.00 V, BC337-16 | 1.587 A | 1.443 A | 1.479 A |
-| 5.00 V + 0.1 Ω feed | 1.540 A | 1.400 A | 1.434 A |
-| 5.25 V adapter | 1.669 A | 1.518 A | 1.555 A |
+| 5.00 V, BC337-25 | 1.588 A | 1.507 A | 1.544 A |
+| 5.00 V, BC337-16 | 1.587 A | 1.508 A | 1.545 A |
+| 5.00 V + 0.1 Ω feed | 1.540 A | 1.459 A | 1.495 A |
+| 5.25 V adapter | 1.669 A | 1.585 A | 1.624 A |
 | 4.75 V adapter | 1.506 A | — | — |
 
-The weaker pin-3 drive (8.5 Ω) changes the IC total by under 2 mA: the BC337s
+The IC figures include the base drive pin 3 sources from the supply (~0.07 A).
+The weaker pin-3 drive (8.5 Ω) lowers the IC total by under 10 mA: the BC337s
 stay saturated. BC337 Vce when on is 0.23–0.25 V in every case, so the strip
 sees ~4.76 V from a 5.00 V supply and its ON current is ~1.77 A, not 1.856 A.
 The discrete drive rail sits at 4.93 V when on and averages 4.22 V DC at full.
