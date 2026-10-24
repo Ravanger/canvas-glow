@@ -38,7 +38,7 @@ Contents: [Parts](#1-parts) · [Power budget](#2-power-budget) · [How it works]
 | 3 or 5 mm LED | 1 | for the breadboard tests |
 | White foam board or thick white card | 1 | optional back reflector, see [Light layout](#6-light-layout) |
 
-Tools: multimeter with a 10 A current range, soldering iron.
+Tools: multimeter with a 10 A current range (move the red lead to the 10 A jack for current checks, and back to the V jack afterwards), soldering iron, wire strippers and side cutters. To mount: the strip's own adhesive backing or double-sided tape, and heat-shrink over every joint.
 
 ## 2. Power budget
 
@@ -180,8 +180,11 @@ Inner opening: 36 × 25.8 cm (the tested painting's — measure your own opening
 1. **Bench, oscillator + LED** ([breadboard](BREADBOARD.md)): Q1–Q3 and an LED on the adapter. Check that the knob dims the LED from almost off to bright, with no flicker.
 2. **Bench, power stage** ([breadboard](BREADBOARD.md)): Q4, one BC337, an LED. Check that the knob dims the LED smoothly.
 3. **Light layout test**: tape segments in place temporarily and try angles and the reflector with the painting upright in a dark room.
-4. **Build the harness**: oscillator, driver and 4 channels on perfboard (tape-insulate the underside), the power entry and the knob. Mount everything on the stretcher bars.
-5. Run every check in section 8 (the two oscilloscope checks are optional).
+4. **Build the board**: oscillator, driver and 4 channels on perfboard (tape-insulate the underside), the power entry and the knob. Leave the strips unconnected.
+5. **First power-up, no strips**: plug in and measure the +5 V rail against GND. It must read about +5 V; a minus sign means the adapter or jack is wired backwards, so unplug at once (the electrolytics are reversed). Then check that the DC voltage on the DRIVE RAIL follows the knob, with the same readings as the Duty check in section 8. Unplug.
+6. **Wire the strips**: tin each segment's + and − pads and solder a wire to each (the pads are marked + and −). Every segment's + goes to the +5 V rail; each segment's − goes to its own BC337 collector, long sides on the 180 Ω channels, short sides on the 270 Ω channels. Connect one segment, plug in, check it lights and dims with the knob, unplug, then add the next.
+7. **Mount** the board, the strips and the knob on the stretcher bars, wires clear of the canvas ([section 6](#6-light-layout)).
+8. Run every check in section 8 (the two oscilloscope checks are optional).
 
 ## 8. Checks
 

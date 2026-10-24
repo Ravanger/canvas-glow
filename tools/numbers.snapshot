@@ -74,12 +74,12 @@ docs/GUIDE-IC.md	1.6–2%	1
 docs/GUIDE-IC.md	1.856 A	2
 docs/GUIDE-IC.md	1.86 A	4
 docs/GUIDE-IC.md	1.96 A	2
-docs/GUIDE-IC.md	10 A	2
+docs/GUIDE-IC.md	10 A	3
 docs/GUIDE-IC.md	10 kΩ	11
 docs/GUIDE-IC.md	100 kΩ	8
 docs/GUIDE-IC.md	100 mA	1
 docs/GUIDE-IC.md	100 nF	4
-docs/GUIDE-IC.md	100 Ω	1
+docs/GUIDE-IC.md	100 Ω	2
 docs/GUIDE-IC.md	100%	2
 docs/GUIDE-IC.md	100k	1
 docs/GUIDE-IC.md	100nF	2
@@ -90,7 +90,7 @@ docs/GUIDE-IC.md	10–47 µF	2
 docs/GUIDE-IC.md	10–47µF	1
 docs/GUIDE-IC.md	120 kΩ	1
 docs/GUIDE-IC.md	150 mA	1
-docs/GUIDE-IC.md	150 Ω	5
+docs/GUIDE-IC.md	150 Ω	6
 docs/GUIDE-IC.md	150Ω	1
 docs/GUIDE-IC.md	16 V	2
 docs/GUIDE-IC.md	2 A	7
@@ -118,7 +118,7 @@ docs/GUIDE-IC.md	4.7 nF	2
 docs/GUIDE-IC.md	4.9 V	1
 docs/GUIDE-IC.md	470–1000 µF	1
 docs/GUIDE-IC.md	470–1000µF	1
-docs/GUIDE-IC.md	5 V	13
+docs/GUIDE-IC.md	5 V	16
 docs/GUIDE-IC.md	5 mm	1
 docs/GUIDE-IC.md	5.00 V	1
 docs/GUIDE-IC.md	5.25 V	1
@@ -184,7 +184,7 @@ docs/GUIDE.md	1.60 A	1
 docs/GUIDE.md	1.856 A	2
 docs/GUIDE.md	1.86 A	4
 docs/GUIDE.md	1.96 A	2
-docs/GUIDE.md	10 A	2
+docs/GUIDE.md	10 A	3
 docs/GUIDE.md	10 kΩ	1
 docs/GUIDE.md	100 kΩ	1
 docs/GUIDE.md	100 nF	3
@@ -199,7 +199,7 @@ docs/GUIDE.md	10–40%	1
 docs/GUIDE.md	120k	1
 docs/GUIDE.md	150 mA	1
 docs/GUIDE.md	16 V	2
-docs/GUIDE.md	180 Ω	1
+docs/GUIDE.md	180 Ω	2
 docs/GUIDE.md	180Ω	2
 docs/GUIDE.md	1k	1
 docs/GUIDE.md	2 A	8
@@ -212,7 +212,7 @@ docs/GUIDE.md	20–22 AWG	1
 docs/GUIDE.md	220 Ω	1
 docs/GUIDE.md	22–24 AWG	1
 docs/GUIDE.md	25.8 cm	1
-docs/GUIDE.md	270 Ω	3
+docs/GUIDE.md	270 Ω	4
 docs/GUIDE.md	270Ω	2
 docs/GUIDE.md	2A	1
 docs/GUIDE.md	2–2.5 A	3
@@ -228,7 +228,7 @@ docs/GUIDE.md	470 Ω	1
 docs/GUIDE.md	470–1000 µF	1
 docs/GUIDE.md	470–1000µF	1
 docs/GUIDE.md	47k	6
-docs/GUIDE.md	5 V	15
+docs/GUIDE.md	5 V	18
 docs/GUIDE.md	5 mm	2
 docs/GUIDE.md	5.00 V	1
 docs/GUIDE.md	5.25 V	1
