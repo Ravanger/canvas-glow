@@ -193,7 +193,7 @@ The meter checks below read steady or average quantities, which a DC multimeter 
 | Heat | 30 min at full | strip, transistors and the board only finger-warm |
 | Reboot | unplug and replug about 20 times, with the knob low, mid and high | comes up at the knob level every time, no blink |
 
-**Optional, needs an oscilloscope: transistor saturation.** Knob at full. Probe a BC337's collector against circuit ground — probe ground clip on the GND rail. The on-state plateau should be a few tenths of a volt at most (Ic ~0.54 A; about 0.1 V in sims of this circuit, real parts often read higher); a plateau near 5 V means the transistor is not switching on.
+**Optional, needs an oscilloscope: transistor saturation.** Knob at full. Probe a BC337's collector against circuit ground — probe ground clip on the GND rail. The on-state plateau should be a few tenths of a volt at most (Ic ~0.54 A; about 0.25 V in sims of this circuit, datasheet maximum 0.7 V at 500 mA); a plateau near 5 V means the transistor is not switching on.
 
 **Optional, needs an oscilloscope: strip voltage.** Two channels both referenced to circuit ground — the strip + rail on one, the far segment's − (the switched collector) on the other, subtracted — or a differential probe. The on-state level should sit just under the 5 V rail — ~4.75 V in sims, the rail minus the BC337's ~0.25 V saturation drop (its datasheet allows up to 0.7 V at 500 mA). Never clip an ordinary grounded scope's ground to the switched collector or a strip terminal: it shorts that node to earth.
 
@@ -229,7 +229,7 @@ Print anything near the strip in **PETG**: PLA softens around 55 °C. Models are
 
 ## 12. Relation to the discrete version
 
-Same strip, power entry, light layout, checks and troubleshooting shape as [GUIDE.md](GUIDE.md). The only change is the PWM source: the NE555 and its two steering diodes replace the Q1/Q2 astable, the Q3 buffer and the Q4 high-side switch, and pin 3 drives the BC337 bases directly. The 555 circuit is the standard diode-steered form: wiper to pin 7, 10 kΩ pull-up, pot ends to D1 and (via 100 kΩ) D2. The pot ends never touch +5V, which is what keeps the discharge path clean. Everything downstream of pin 3 is identical except the base resistors (100 / 150 Ω instead of 180 / 270 Ω, because pin 3 sits at ~3.3 V instead of the 4.8 V drive rail) and the dropped base pulldowns (pin 3 pulls the bases low itself).
+Same strip, power entry, light layout, checks and troubleshooting shape as [GUIDE.md](GUIDE.md). The only change is the PWM source: the NE555 and its two steering diodes replace the Q1/Q2 astable, the Q3 buffer and the Q4 high-side switch, and pin 3 drives the BC337 bases directly. The 555 circuit is the standard diode-steered form: wiper to pin 7, 10 kΩ pull-up, pot ends to D1 and (via 100 kΩ) D2. The pot ends never touch +5V, which is what keeps the discharge path clean. Everything downstream of pin 3 is identical except the base resistors (100 / 150 Ω instead of 180 / 270 Ω, because pin 3 sits at ~3.3 V instead of the 4.9 V drive rail) and the dropped base pulldowns (pin 3 pulls the bases low itself).
 
 ---
 
