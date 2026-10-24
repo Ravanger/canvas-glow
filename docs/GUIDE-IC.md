@@ -204,11 +204,16 @@ The meter checks below read steady or average quantities, which a DC multimeter 
 
 | Symptom | Try |
 |---|---|
+| Nothing lights, even at the top of the knob | measure the +5 V rail at the board: 0 V means the adapter, the jack wiring or a tripped polyfuse; −5 V means reversed polarity, so unplug at once; +5 V means the 555: see the next row |
 | Light stuck fully on or off | the 555 is not oscillating: check the DIP-8 pinout (pins 2 + 6 tied, pin 4 to +5V, pin 5 cap), the wiper goes to pin 7 with the 10 kΩ pull-up and good contact, the diodes are not swapped, the 2.2 nF is on pins 2 + 6 (a floating wiper freezes it fully on or off). If it is frozen fully on, unplug it rather than leave it running: full on draws about 1.86 A plus base drive (about 1.96 A), over the ~1.65 A operating budget |
 | Output flips at random | pin 4 floating: tie it to +5V |
 | Visible flicker | timing cap too big: use 2.2 nF or smaller |
 | Works backwards | swap the two end legs |
 | One segment dark | that BC337's pin order, base resistor, the segment's +/− wires |
+| Adapter cuts out or the polyfuse trips | unplug; look for a short between +5 V and GND (a solder bridge, a strip − wire touching GND) or a light stuck fully on, then run the Total current check in [section 8](#8-checks) |
+| Electrolytic hot, bulging or hissing | unplug now: it is in backwards or the adapter is centre-negative. Replace it even if it still works |
+| One segment much dimmer than the others | that segment's feed wires (too thin, or a poor joint) and its base resistor value |
+| A part gets hot | a BC337: not switching fully on, check its base resistor value and pin order; the 555: pin 3 overloaded, check for a short on pin 3 and that the base resistors are 100 / 150 Ω, not 10 / 15 Ω |
 | All dim | thicker feed wire, check the adapter; check pin 3 reads ~2.7 V DC at full (peak ~3.3 V; a chip at the datasheet minimum reads ~2.3 V DC, 2.75 V peak); see section 8 for how to measure the strip voltage |
 | Max too dim | lower the 100 kΩ to 82 kΩ, only after checking total current |
 | Faint glow at the bottom of the turn | that's the minimum duty (~1.6–2%): unplug the adapter to switch off, or add a RESET switch (below) |

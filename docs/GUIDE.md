@@ -206,11 +206,16 @@ The meter checks below read steady or average quantities, which a DC multimeter 
 
 | Symptom | Try |
 |---|---|
+| Nothing lights, even at the top of the knob | measure the +5 V rail at the board: 0 V means the adapter, the jack wiring or a tripped polyfuse; −5 V means reversed polarity, so unplug at once; +5 V means the oscillator or driver: see the next row, and check Q4's pin order and its 1k |
 | Light stuck fully on or off | the oscillator is not running: check the 2N3904 pin order, C1/C2 placement, RC1/RC2, Q3's 47k |
 | Off after plugging in, fine after a replug | the oscillator powered up with Q1 and Q2 both on. Sims start it on every power-up from mid to top, even on a 1 s supply ramp. In the bottom ~10% of the turn Q1 and Q2 do sit both on, which only means off, and turning the knob up releases them. If it happens higher up, replug and recheck C1/C2 and the pot wiring |
 | Visible flicker | C1/C2 too big: use 2.2 nF or smaller |
 | Works backwards | swap the pot's two end legs |
 | One segment dark | that BC337's pin order, base resistor, the segment's +/− wires |
+| Adapter cuts out or the polyfuse trips | unplug; look for a short between +5 V and GND (a solder bridge, a strip − wire touching GND) or a light stuck fully on, then run the Total current check in [section 8](#8-checks) |
+| Electrolytic hot, bulging or hissing | unplug now: it is in backwards or the adapter is centre-negative. Replace it even if it still works |
+| One segment much dimmer than the others | that segment's feed wires (too thin, or a poor joint) and its base resistor value |
+| A part gets hot | a BC337: not switching fully on, check its base resistor value and pin order; a base resistor: wrong value (18 Ω for 180 Ω); Q4: its pin order and the 1k |
 | All dim | thicker feed wire, check the adapter; check Q4 saturates (drive rail ≈4.2 V DC at full, scope peak ≈4.9 V); see section 8 for how to measure the strip voltage |
 | Max too dim | lower Rb to 82k, only after checking total current |
 | Faint glow at the bottom of the turn | expected on some parts: unplug the adapter to switch off |

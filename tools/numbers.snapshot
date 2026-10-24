@@ -50,6 +50,7 @@ docs/BREADBOARD.md	5 V	4
 docs/BREADBOARD.md	5 mm	1
 docs/BREADBOARD.md	~5 V	1
 docs/BREADBOARD.md	~8 mA	1
+docs/GUIDE-IC.md	0 V	1
 docs/GUIDE-IC.md	0.06 V	1
 docs/GUIDE-IC.md	0.1 A	1
 docs/GUIDE-IC.md	0.24 m	1
@@ -91,8 +92,9 @@ docs/GUIDE-IC.md	10–40%	1
 docs/GUIDE-IC.md	10–47 µF	2
 docs/GUIDE-IC.md	10–47µF	1
 docs/GUIDE-IC.md	120 kΩ	1
+docs/GUIDE-IC.md	15 Ω	1
 docs/GUIDE-IC.md	150 mA	1
-docs/GUIDE-IC.md	150 Ω	6
+docs/GUIDE-IC.md	150 Ω	7
 docs/GUIDE-IC.md	150Ω	1
 docs/GUIDE-IC.md	16 V	2
 docs/GUIDE-IC.md	2 A	7
@@ -120,7 +122,7 @@ docs/GUIDE-IC.md	4.7 nF	2
 docs/GUIDE-IC.md	4.9 V	1
 docs/GUIDE-IC.md	470–1000 µF	1
 docs/GUIDE-IC.md	470–1000µF	1
-docs/GUIDE-IC.md	5 V	16
+docs/GUIDE-IC.md	5 V	20
 docs/GUIDE-IC.md	5 mm	1
 docs/GUIDE-IC.md	5.00 V	1
 docs/GUIDE-IC.md	5.25 V	1
@@ -162,6 +164,7 @@ docs/GUIDE-IC.md	~4.77 V	1
 docs/GUIDE-IC.md	~400 Hz	1
 docs/GUIDE-IC.md	~87 mA	2
 docs/GUIDE-IC.md	≈81–83%	3
+docs/GUIDE.md	0 V	1
 docs/GUIDE.md	0.1 A	1
 docs/GUIDE.md	0.24 m	1
 docs/GUIDE.md	0.25 V	1
@@ -201,9 +204,10 @@ docs/GUIDE.md	10–40%	1
 docs/GUIDE.md	120k	1
 docs/GUIDE.md	150 mA	1
 docs/GUIDE.md	16 V	2
-docs/GUIDE.md	180 Ω	2
+docs/GUIDE.md	18 Ω	1
+docs/GUIDE.md	180 Ω	3
 docs/GUIDE.md	180Ω	2
-docs/GUIDE.md	1k	1
+docs/GUIDE.md	1k	3
 docs/GUIDE.md	2 A	8
 docs/GUIDE.md	2.0 A	1
 docs/GUIDE.md	2.2 nF	2
@@ -230,7 +234,7 @@ docs/GUIDE.md	470 Ω	1
 docs/GUIDE.md	470–1000 µF	1
 docs/GUIDE.md	470–1000µF	1
 docs/GUIDE.md	47k	6
-docs/GUIDE.md	5 V	18
+docs/GUIDE.md	5 V	22
 docs/GUIDE.md	5 mm	2
 docs/GUIDE.md	5.00 V	1
 docs/GUIDE.md	5.25 V	1
