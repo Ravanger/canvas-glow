@@ -25,13 +25,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 2
       - name: Refuse edits to frozen or guardrail files
         env:
-          BASE: ${{ github.event.pull_request.base.sha }}
           APPROVED: ${{ contains(github.event.pull_request.labels.*.name, 'guardrails-ok') }}
         run: |
-          changed=$(git diff --name-only "$BASE" HEAD)
+          changed=$(git diff --name-only HEAD^1 HEAD)
           echo "$changed"
           frozen=$(echo "$changed" | grep -E '^docs/reference/' || true)
           if [ -n "$frozen" ]; then
