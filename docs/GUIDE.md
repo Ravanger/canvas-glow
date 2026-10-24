@@ -16,7 +16,7 @@ Contents: [Parts](#1-parts) · [Power budget](#2-power-budget) · [How it works]
 | Barrel jack pigtail (+/− wires) | 1 | the power entry on the frame |
 | 5 V COB strip, 320 LEDs/m, 8 W/m, 3000 K (4 m reel) | ~1.2 m | cut only on the printed cut marks; pitch and rated power vary between strips |
 | BC337 NPN | 4 | strip drivers, see [Transistors](#5-transistors) |
-| 2N3904 NPN | 3 | the oscillator and its output buffer (BC337 also works, pins differ) |
+| 2N3904 NPN | 3 | the oscillator and its output buffer (BC337 also works, with less margin: 5 V VEBO against a ~4.2 V reverse base swing; pins differ) |
 | BC327 PNP | 1 | drives the four BC337 bases |
 | B500K potentiometer | 1 | brightness knob, plus a knob cap |
 | 10 kΩ resistor | 7 | RC1, RC2, Q4 pull-up, 4 base pulldowns |
@@ -146,7 +146,7 @@ Each strip channel needs an NPN that saturates at up to 0.54 A from a ~4.8 V dri
 | 2N7000 | 200 mA | no for the strip, too small |
 | JFETs (J201, 2N38xx, 2N54xx...) | mA range | no |
 
-Oscillator and driver parts: Q1, Q2, Q3 = 2N3904 (BC337 also works), Q3 always through its 47k base resistor; Q4 = BC327 (2N2907 or S8550 also work, mind the pins).
+Oscillator and driver parts: Q1, Q2, Q3 = 2N3904 (BC337 also works, with less margin on its 5 V VEBO), Q3 always through its 47k base resistor; Q4 = BC327 (2N2907 or S8550 also work, mind the pins).
 
 Maker check on the BC337: onsemi rates it 800 mA, but Philips/NXP rates it 500 mA DC (1 A peak). Either is fine here: at the 86% cap the long sides peak at 0.54 A and average about 0.46 A — the peak is under onsemi's 800 mA and NXP's 1 A peak and the average is under the 500 mA DC rating and onsemi's 800 mA, though with less margin than the IC version.
 
