@@ -28,7 +28,7 @@ Contents: [Parts](#1-parts) · [Power budget](#2-power-budget) · [How it works]
 | 270 Ω resistor | 2 | BC337 base, short sides |
 | 470 Ω resistor | 1 | breadboard test Step 1, LED current limit |
 | 220 Ω resistor | 1 | breadboard test Step 2, LED current limit |
-| 2.2 nF capacitor (marked 222) | 2 | C1, C2: a matched pair, film or C0G ceramic |
+| 2.2 nF capacitor (marked 222) | 2 | C1, C2: a matched pair (same value, type and tolerance; no need to measure them), film or C0G ceramic |
 | 100 nF ceramic capacitor | 1 | oscillator supply |
 | Electrolytic 100 µF ≥ 16 V | 1 | oscillator supply |
 | Electrolytic 470–1000 µF ≥ 16 V | 1 | at the strip power entry, low-ESR type (a low-ESR series such as Panasonic FR/FM or Nichicon HE) |
